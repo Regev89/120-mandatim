@@ -1,0 +1,2269 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta property="og:title" content="120 מנדטים"><meta property="og:description" content="חלקו 120 מנדטים, שבצו לגושים והרכיבו ממשלה"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui;background:#faf9f7}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>120 מנדטים</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Heebo:wght@400;500;700&display=swap">
+<style>
+  :root {
+    /* קרטון התכלת של תא ההצבעה והמגש */
+    --booth: #12759f;
+    --tray: #2ba7d9;
+    --tray-wall: #0f6c98;
+    --tray-shade: rgba(4, 45, 70, .38);
+    /* כחול הקלפי */
+    --kalpi-panel-a: #1f5f9c;
+    --kalpi-panel-b: #15426f;
+    --kalpi-front: #3d8ee0;
+    --kalpi-top: #6fb0f0;
+    --kalpi-slot: #0b2a4a;
+    /* נייר */
+    --paper: #fcfbf7;
+    --paper-edge: #dedad0;
+    --ink: #14161a;
+    --ink-soft: #565d6b;
+    --accent: #f2c230;
+    --accent-ink: #3a2c00;
+    --good: #7be0a8;
+    --bad: #ff9a94;
+    --bad-on-paper: #c4423d;
+    --out: #d8342c;
+    --kalpi-over: #d9837e; --kalpi-over-top: #ecaba6; --kalpi-over-level: #f7dcd9;
+    --text: #ffffff;
+    --muted: #d5ebf7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --booth: #0a3a52; --tray: #176a8f; --tray-wall: #072f44; --tray-shade: rgba(0, 0, 0, .5);
+      --kalpi-panel-a: #143f69; --kalpi-panel-b: #0c2a48; --kalpi-front: #2c6fb5; --kalpi-top: #4f8fd0;
+      --paper: #f1eee5; --paper-edge: #c9c4b6; --muted: #b9d3e2;
+    }
+  }
+  :root[data-theme="dark"] {
+    --booth: #0a3a52; --tray: #176a8f; --tray-wall: #072f44; --tray-shade: rgba(0, 0, 0, .5);
+    --kalpi-panel-a: #143f69; --kalpi-panel-b: #0c2a48; --kalpi-front: #2c6fb5; --kalpi-top: #4f8fd0;
+    --paper: #f1eee5; --paper-edge: #c9c4b6; --muted: #b9d3e2;
+  }
+
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--booth);
+    color: var(--text);
+    font-family: "Heebo", "Segoe UI", Arial, sans-serif;
+    direction: rtl;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 32px; }
+
+  /* לוח עליון בכחול הקלפי */
+  .panel {
+    background: linear-gradient(180deg, var(--kalpi-panel-a), var(--kalpi-panel-b));
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  h1 { font: 900 26px/1.1 "Frank Ruhl Libre", "David", serif; margin: 0; text-wrap: balance; }
+  h1 small { display: block; font: 400 13px/1.4 "Heebo", sans-serif; color: var(--muted); margin-top: 4px; }
+  .reset { background: transparent; color: var(--muted); border: 1px solid var(--muted); border-radius: 6px; padding: 6px 12px; font: 500 13px "Heebo", sans-serif; cursor: pointer; white-space: nowrap; }
+  .reset:hover, .reset:focus-visible { color: var(--text); border-color: var(--text); outline: none; }
+  .ttl-wrap { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
+  .reset.how { width: 32px; height: 32px; padding: 0; font: 900 15px/30px "Frank Ruhl Libre", serif; border-radius: 50%; flex: 0 0 auto; margin-top: 1px; }
+  .how-body { text-align: center; }
+  .how-step { font: 700 12px "Heebo", sans-serif; color: var(--ink-soft); letter-spacing: .04em; }
+  .how-body h2 { font: 900 24px/1.2 "Frank Ruhl Libre", serif; margin: 4px 0 10px; }
+  .how-body p { font-size: 15px; line-height: 1.6; margin: 0 0 6px; text-wrap: balance; }
+
+  .tally { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+  .kalpi { flex: 0 0 auto; width: 104px; height: auto; overflow: visible; }
+  .kalpi .front { fill: var(--kalpi-front); }
+  .kalpi .top { fill: var(--kalpi-top); }
+  .kalpi .slot { fill: var(--kalpi-slot); }
+  .kalpi .ballot { fill: var(--paper); stroke: var(--paper-edge); }
+  .kalpi .level { fill: var(--paper); opacity: .92; transform-box: fill-box; transform-origin: bottom; transform: scaleY(0); transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+  .kalpi .count { font: 900 26px "Frank Ruhl Libre", serif; fill: #fff; stroke: var(--kalpi-slot); stroke-width: 4px; paint-order: stroke; font-variant-numeric: tabular-nums; }
+  .kalpi .of { font: 700 10px "Heebo", sans-serif; fill: #fff; stroke: var(--kalpi-slot); stroke-width: 3px; paint-order: stroke; }
+  .kalpi .front, .kalpi .top, .kalpi .level { transition: fill .3s, transform .45s cubic-bezier(.2,.8,.2,1); }
+  .kalpi.over .front { fill: var(--kalpi-over); }
+  .kalpi.over .top { fill: var(--kalpi-over-top); }
+  .kalpi.over .level { fill: var(--kalpi-over-level); }
+  .kalpi.bump { animation: bump .35s; }
+  @keyframes bump { 40% { transform: translateY(3px) scale(1.03, .97); } }
+
+  .stats { flex: 1; min-width: 0; }
+  .left-line { display: flex; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums; }
+  .left-line strong { font: 900 40px/1 "Frank Ruhl Libre", serif; }
+  .left-line span { color: var(--muted); font-size: 14px; }
+  .left-line.over strong, .left-line.over span { color: var(--bad); }
+  .left-line.done strong { color: var(--good); }
+  .rule { font-size: 12px; line-height: 1.45; color: var(--muted); margin-top: 6px; }
+
+  /* סרגל הסינון */
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 10px; }
+  .filters .flab { font: 700 13px "Heebo", sans-serif; color: var(--muted); }
+  .fbtn { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.3); color: #fff; border-radius: 16px; padding: 6px 12px 6px 10px; font: 500 13px "Heebo", sans-serif; cursor: pointer; }
+  .fbtn .ico { width: 16px; height: 16px; }
+  .fbtn:hover, .fbtn:focus-visible { border-color: #fff; outline: none; }
+  .fbtn.on { background: var(--paper); color: var(--ink); border-color: var(--paper); font-weight: 700; }
+  .fclear { background: transparent; border: 1px dashed var(--muted); color: var(--muted); border-radius: 15px; padding: 6px 11px; font: 500 12px "Heebo", sans-serif; cursor: pointer; }
+  .fclear:hover { color: #fff; border-color: #fff; }
+  .fslider { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.3); border-radius: 16px; padding: 5px 12px 5px 10px; color: #fff; font: 500 13px "Heebo", sans-serif; }
+  .fslider.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .fslider .ico { width: 16px; height: 16px; flex: 0 0 auto; }
+  .fslider .fs-lab b { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .fslider input[type=range] { width: 108px; accent-color: #c2559b; cursor: pointer; }
+  .fcount { font-size: 12px; color: var(--muted); }
+  .cell.off { opacity: .17; filter: grayscale(1); pointer-events: none; }
+  .tray-split { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; margin: 10px 2px 6px; color: var(--muted); font: 500 12px "Heebo", sans-serif; }
+  .tray-split::before, .tray-split::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.28); }
+  .tray-split span { flex: 0 0 auto; text-wrap: balance; text-align: center; }
+
+  /* מגש הפתקים */
+  .board {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px;
+    background: var(--tray-wall); padding: 4px; border-radius: 4px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.3);
+  }
+  .cell {
+    container-type: inline-size;
+    position: relative; aspect-ratio: 4 / 5;
+    background: var(--tray); border: 0; padding: 7%; margin: 0;
+    box-shadow: inset 0 3px 7px var(--tray-shade), inset 0 -1px 0 rgba(255,255,255,.18);
+    cursor: pointer; font: inherit; color: inherit;
+    display: flex;
+  }
+  .cell:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; z-index: 2; }
+  .slip {
+    flex: 1; min-width: 0;
+    background: var(--paper); color: var(--ink);
+    border: 1px solid var(--paper-edge); border-radius: 1px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.2), 1px 3px 5px rgba(0,0,0,.28);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 4cqw; text-align: center; overflow: hidden;
+    transform: rotate(var(--r, 0deg)) translate(var(--x, 0), var(--y, 0));
+    transition: transform .15s;
+  }
+  .cell:hover .slip { transform: translateY(-3px) scale(1.04); }
+  .slip .letters { font: 900 30cqw/1 "Frank Ruhl Libre", "David", serif; }
+  .slip .letters.l3 { font-size: 24cqw; }
+  /* השם הקצר בגודל קריא. הכינוי המלא עבר לריחוף, הוא היה קטן מדי כדי לשרת מישהו */
+  .slip .name { font: 700 12.5cqw/1.2 "Heebo", sans-serif; color: #3c434f; margin-top: 4cqw; max-width: 100%; overflow-wrap: anywhere; letter-spacing: -.01em; }
+  .slip .lead { font: 500 10cqw/1.15 "Heebo", sans-serif; color: var(--ink-soft); margin-top: 1.5cqw; max-width: 100%; overflow-wrap: anywhere; }
+  .slip .name .full { display: none; }
+  .cell.has .slip { box-shadow: 0 0 0 2px var(--accent), 1px 3px 5px rgba(0,0,0,.28); }
+  .cell.has .name { color: var(--ink); }
+  .seats {
+    position: absolute; top: 2px; left: 2px; z-index: 1;
+    min-width: 24px; height: 24px; padding-inline: 6px; border-radius: 12px;
+    background: var(--accent); color: var(--accent-ink);
+    font: 700 13px/24px "Heebo", sans-serif; font-variant-numeric: tabular-nums;
+    box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  }
+  .seats.out { background: var(--out); color: #fff; font-size: 14px; }
+  .cell.is-out .slip { opacity: .55; filter: grayscale(1); }
+  .cell.empty { align-items: center; justify-content: center; }
+  .cell.empty .plus { font: 400 30cqw/1 "Heebo", sans-serif; color: #fff; opacity: .45; }
+  .cell.empty:hover .plus { opacity: .9; }
+
+  /* פתק עף לקלפי */
+  .fly { position: fixed; z-index: 50; background: var(--paper); border: 1px solid var(--paper-edge); box-shadow: 0 4px 10px rgba(0,0,0,.3); pointer-events: none; display: flex; align-items: center; justify-content: center; font: 900 20px "Frank Ruhl Libre", serif; color: var(--ink); }
+
+  /* חלונית הזנה */
+  dialog { border: 0; border-radius: 4px; padding: 0; width: min(92vw, 360px); background: var(--paper); color: var(--ink); direction: rtl; box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+  dialog::backdrop { background: rgba(6, 40, 60, .6); }
+  .dlg { padding: 20px 18px 16px; }
+  .dlg .who { text-align: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed var(--paper-edge); }
+  .dlg .who b { display: block; font: 900 56px/1 "Frank Ruhl Libre", serif; }
+  .dlg .who span { display: block; font-size: 13px; line-height: 1.35; color: var(--ink-soft); margin-top: 8px; text-wrap: balance; }
+  .dlg label { display: block; font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+  .stepper { display: flex; align-items: stretch; gap: 8px; }
+  .stepper button { width: 48px; font: 700 22px "Heebo", sans-serif; border: 1px solid var(--paper-edge); background: #fff; border-radius: 8px; cursor: pointer; color: var(--ink); }
+  .stepper input { flex: 1; text-align: center; font: 700 30px "Heebo", sans-serif; font-variant-numeric: tabular-nums; border: 2px solid var(--paper-edge); border-radius: 8px; padding: 6px; color: var(--ink); background: #fff; min-width: 0; }
+  .stepper input:focus { outline: none; border-color: var(--kalpi-front); }
+  .hint { font-size: 12px; color: var(--ink-soft); margin-top: 8px; min-height: 1.2em; }
+  .hint.bad { color: var(--bad-on-paper); }
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  .actions button { flex: 1; padding: 10px; border-radius: 8px; font: 700 15px "Heebo", sans-serif; cursor: pointer; border: 1px solid var(--paper-edge); background: #fff; color: var(--ink); }
+  .actions .save { background: var(--kalpi-panel-a); border-color: var(--kalpi-panel-a); color: #fff; }
+  .actions .zero { flex: 0 0 auto; color: var(--bad-on-paper); }
+  .edit-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .edit-fields input { font: 500 15px "Heebo", sans-serif; padding: 8px; border: 1px solid var(--paper-edge); border-radius: 8px; background: #fff; color: var(--ink); min-width: 0; }
+  .edit-fields input:focus { outline: none; border-color: var(--kalpi-front); }
+
+  /* כפתורי הכותרת */
+  .head-actions { display: flex; flex-direction: column; gap: 8px; align-items: stretch; flex: 0 0 auto; }
+  .gov { background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent); border-radius: 6px; padding: 8px 12px; font: 700 13px "Heebo", sans-serif; cursor: pointer; white-space: nowrap; }
+  .gov:hover:not(:disabled), .gov:focus-visible { filter: brightness(1.08); outline: 2px solid #fff; outline-offset: 1px; }
+  .gov:disabled { background: transparent; color: var(--muted); border: 1px dashed var(--muted); opacity: .6; cursor: not-allowed; }
+
+  /* מסך אישור ונעילה */
+  #confirmDlg { width: min(94vw, 640px); }
+  .confirm { padding: 20px 18px 16px; }
+  .confirm h2 { font: 900 24px/1.15 "Frank Ruhl Libre", serif; margin: 0; text-wrap: balance; }
+  .confirm .sub { font-size: 13px; color: var(--ink-soft); margin: 4px 0 14px; }
+  .roster { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; max-height: 58vh; overflow-y: auto; padding: 4px 2px; }
+  .mk { position: relative; background: #fff; border: 1px solid var(--paper-edge); border-radius: 8px; padding: 10px 6px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: #dfe7ee; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; border: 2px solid var(--kalpi-front); }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .avatar svg { width: 84%; height: 84%; }
+  .sil { fill: #9fb1c2; }
+  .sil.m { fill: #74c4ef; }
+  .sil.f { fill: #f2a0c2; }
+  .sil.u { fill: #9fb1c2; }
+  .mk .head-name { font: 700 13px/1.2 "Heebo", sans-serif; overflow-wrap: anywhere; }
+  .mk .list-name { font-size: 11px; line-height: 1.2; color: var(--ink-soft); overflow-wrap: anywhere; }
+  .mk .n { position: absolute; top: 4px; left: 4px; min-width: 26px; height: 26px; padding-inline: 6px; border-radius: 13px; background: var(--accent); color: var(--accent-ink); font: 700 14px/26px "Heebo", sans-serif; font-variant-numeric: tabular-nums; }
+
+  /* מפת הגושים */
+  .bv-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .bv-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  /* חצי עיגול: גוש א' מתמלא מימין באדום, גוש ב' משמאל בכחול, מתנדנדים באפור באמצע */
+  .gauge { display: block; width: 100%; max-width: 420px; height: auto; margin: 14px auto 0; overflow: visible; }
+  .gauge path { fill: none; stroke-width: 30; stroke-linecap: butt; transition: stroke-dasharray .35s, stroke-dashoffset .35s; }
+  .gauge .g-track { stroke: rgba(255,255,255,.13); }
+  .gauge .g-a { stroke: var(--bloc-a); }
+  .gauge .g-b { stroke: var(--bloc-b); }
+  .gauge .g-s { stroke: var(--bloc-s); }
+  .gauge .g-61 { stroke: #fff; stroke-width: 2; stroke-dasharray: 4 3; }
+  .gauge text { font-family: "Heebo", sans-serif; fill: #fff; }
+  .gauge .g-num { font: 900 30px "Frank Ruhl Libre", serif; font-variant-numeric: tabular-nums; }
+  .gauge .g-num.a { fill: var(--bloc-a-text); }
+  .gauge .g-num.b { fill: var(--bloc-b-text); }
+  .gauge .g-name { font-size: 11px; font-weight: 700; }
+  .gauge .g-mid { font-size: 11px; fill: var(--muted); }
+  .gauge .g-midnum { font: 900 20px "Frank Ruhl Libre", serif; fill: var(--bloc-s); }
+  .gauge .g-61t { font-size: 11px; font-weight: 700; }
+  .verdict { margin-top: 8px; font: 700 15px "Heebo", sans-serif; text-align: center; }
+  .verdict.yes { color: var(--good); }
+
+
+  :root { --bloc-a: #e5443d; --bloc-b: #3f9bf5; --bloc-s: #c4ccd3; --bloc-a-text: #ff8d87; --bloc-b-text: #8cc6ff; }
+  .zones { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .zones { grid-template-columns: 1fr 1fr 1fr; } .zone.pool { grid-column: 1 / -1; } }
+  .zone { background: var(--tray); border: 3px solid var(--tray-wall); border-radius: 6px; padding: 10px; box-shadow: inset 0 3px 7px var(--tray-shade); }
+  .zone.a { border-top: 7px solid var(--bloc-a); }
+  .zone.b { border-top: 7px solid var(--bloc-b); }
+  .zone.s { border-top: 7px solid var(--bloc-s); }
+  .zone.over { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .zone.win { box-shadow: inset 0 3px 7px var(--tray-shade), 0 0 0 3px var(--good); }
+  .zone-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .zone-head h3 { margin: 0; font: 900 20px/1.1 "Frank Ruhl Libre", serif; }
+  .zone-head input { width: 100%; min-width: 0; background: transparent; border: 0; border-bottom: 1px dashed rgba(255,255,255,.6); color: #fff; font: 900 20px/1.2 "Frank Ruhl Libre", serif; padding: 2px 0; }
+  .zone-head input:focus { outline: none; border-bottom: 2px solid var(--accent); }
+  .zone-sum { font: 900 28px/1 "Frank Ruhl Libre", serif; font-variant-numeric: tabular-nums; flex: 0 0 auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; min-height: 62px; align-content: flex-start; padding-top: 7px; }
+  .chips:empty::after { content: attr(data-empty); font-size: 12px; color: var(--muted); align-self: center; }
+  .chip { position: relative; min-width: 128px; min-height: 50px; background: var(--paper); color: var(--ink); border: 1px solid var(--paper-edge); border-radius: 2px; padding: 8px 12px; display: flex; align-items: center; justify-content: center; text-align: center; box-shadow: 0 1px 0 rgba(0,0,0,.2), 1px 3px 5px rgba(0,0,0,.28); cursor: grab; user-select: none; -webkit-user-select: none; touch-action: none; transform: rotate(var(--cr, 0deg)); }
+  .chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .chip .cn { font: 700 16px/1.25 "Heebo", sans-serif; color: var(--ink); overflow-wrap: anywhere; }
+  .chip .cs { position: absolute; top: -7px; left: -7px; min-width: 24px; height: 24px; padding-inline: 6px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font: 700 13px/24px "Heebo", sans-serif; font-variant-numeric: tabular-nums; box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+  .chip.dragging { opacity: .3; }
+  .ghost { position: fixed; z-index: 60; pointer-events: none; margin: 0; transform: rotate(-4deg) scale(1.08); box-shadow: 0 10px 20px rgba(0,0,0,.4); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seatbar i { transition: none; }
+    .slip, .kalpi .level { transition: none; }
+    .kalpi.bump { animation: none; }
+  }
+</style>
+
+<div class="wrap">
+ <div id="boardView">
+  <div class="panel">
+    <header>
+      <div class="ttl-wrap"><h1>120 מנדטים<small>בחרו פתק והזינו מנדטים</small></h1>
+        <button class="reset how" type="button" data-how="board" aria-label="איך זה עובד">?</button></div>
+      <div class="head-actions">
+        <button class="reset" id="resetAll" type="button">איפוס</button>
+        <button class="gov" id="govBtn" type="button" disabled title="זמין כשכל 120 המנדטים בקלפי">למפת הגושים</button>
+      </div>
+    </header>
+
+    <div class="tally">
+      <svg class="kalpi" id="kalpi" viewBox="0 0 120 112" role="img" aria-label="קלפי שמתמלאת לפי מספר המנדטים שחולקו">
+        <defs><clipPath id="frontClip"><rect x="8" y="42" width="104" height="66" rx="2"/></clipPath></defs>
+        <polygon class="top" points="8,42 112,42 100,26 20,26"/>
+        <rect class="slot" id="slot" x="40" y="32" width="40" height="5" rx="2.5"/>
+        <rect class="ballot" x="49" y="2" width="22" height="32" transform="rotate(-7 60 34)"/>
+        <rect class="front" x="8" y="42" width="104" height="66" rx="2"/>
+        <g clip-path="url(#frontClip)"><rect class="level" id="level" x="8" y="42" width="104" height="66"/></g>
+        <text class="count" id="used" x="60" y="82" text-anchor="middle">0</text>
+        <text class="of" x="60" y="98" text-anchor="middle">מתוך 120</text>
+      </svg>
+      <div class="stats">
+        <div class="left-line" id="leftLine"><strong id="left">120</strong><span id="leftLabel">נותרו לחלוקה</span></div>
+        <div class="rule">אחוז החסימה 3.25%: רשימה שעוברת מקבלת לפחות 4 מנדטים. פחות מזה, היא בחוץ עם 0.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="board" id="board" role="list"></div>
+ </div>
+
+ <div id="blocsView" hidden>
+  <div class="panel">
+    <div class="bv-top">
+      <div class="ttl-wrap"><h1>מפת הגושים<small>גררו רשימות לגושים. 61 מרכיב ממשלה.</small></h1>
+        <button class="reset how" type="button" data-how="blocs" aria-label="איך זה עובד">?</button></div>
+      <div class="head-actions">
+        <button class="reset" id="backToBoard" type="button">חזרה לקלפי</button>
+        <button class="gov" id="toGov" type="button" disabled title="זמין כשלגוש אחד יש 61 מנדטים">להרכבת הממשלה</button>
+      </div>
+    </div>
+    <div class="bv-actions">
+      <button class="gov" id="dice" type="button">🎲 הגרל שמות לגושים</button>
+      <button class="reset" id="clearBlocs" type="button">נקה שיבוץ</button>
+    </div>
+    <svg class="gauge" viewBox="0 0 260 150" role="img" aria-label="חצי עיגול של 120 מנדטים: גוש א' מימין, גוש ב' משמאל, מתנדנדים באמצע">
+      <path class="g-track" d="M230 135 A100 100 0 0 0 30 135" pathLength="120"/>
+      <path class="g-a" id="segA" d="M230 135 A100 100 0 0 0 30 135" pathLength="120" stroke-dasharray="0 120"/>
+      <path class="g-s" id="segS" d="M230 135 A100 100 0 0 0 30 135" pathLength="120" stroke-dasharray="0 120"/>
+      <path class="g-b" id="segB" d="M230 135 A100 100 0 0 0 30 135" pathLength="120" stroke-dasharray="0 120"/>
+      <line class="g-61" x1="130" y1="14" x2="130" y2="56"/>
+      <text class="g-61t" x="130" y="9" text-anchor="middle">61</text>
+      <text class="g-num a" id="gNumA" x="183" y="122" text-anchor="middle">0</text>
+      <text class="g-name" id="gNameA" x="183" y="138" text-anchor="middle"></text>
+      <text class="g-num b" id="gNumB" x="77" y="122" text-anchor="middle">0</text>
+      <text class="g-name" id="gNameB" x="77" y="138" text-anchor="middle"></text>
+      <text class="g-midnum" id="gNumS" x="130" y="76" text-anchor="middle">0</text>
+      <text class="g-mid" id="gNameS" x="130" y="90" text-anchor="middle">מתנדנדים</text>
+    </svg>
+    <div class="verdict" id="verdict" aria-live="polite"></div>
+  </div>
+
+  <div class="zones">
+    <section class="zone pool" data-zone="pool">
+      <div class="zone-head"><h3>טרם שובצו</h3><div class="zone-sum" id="sumPool">0</div></div>
+      <div class="chips" id="chipsPool" data-empty="כל הרשימות שובצו"></div>
+    </section>
+    <section class="zone a" data-zone="a">
+      <div class="zone-head"><input id="nameA" maxlength="20" aria-label="שם גוש א'" autocomplete="off"><div class="zone-sum" id="sumA">0</div></div>
+      <div class="chips" id="chipsA" data-empty="גררו לכאן"></div>
+    </section>
+    <section class="zone s" data-zone="s">
+      <div class="zone-head"><input id="nameS" maxlength="20" aria-label="שם גוש המתנדנדים" autocomplete="off"><div class="zone-sum" id="sumS">0</div></div>
+      <div class="chips" id="chipsS" data-empty="גררו לכאן"></div>
+    </section>
+    <section class="zone b" data-zone="b">
+      <div class="zone-head"><input id="nameB" maxlength="20" aria-label="שם גוש ב'" autocomplete="off"><div class="zone-sum" id="sumB">0</div></div>
+      <div class="chips" id="chipsB" data-empty="גררו לכאן"></div>
+    </section>
+  </div>
+
+ </div>
+</div>
+
+ <div id="govView" class="wrap" hidden>
+  <div class="gov-stage">
+    <div class="bv-top">
+      <div class="ttl-wrap"><h1><span class="gold-text">הרכבת הממשלה</span><small>בוחרים מי מרכיב ומחלקים תיקים.</small></h1>
+        <button class="reset how" type="button" data-how="gov" aria-label="איך זה עובד">?</button></div>
+      <div class="head-actions">
+        <button class="reset" id="backToBlocs" type="button">חזרה לגושים</button>
+        <button class="reset" id="govReset" type="button">התחל מחדש</button>
+      </div>
+    </div>
+
+    <div class="gov-bloc" id="govBloc"></div>
+
+    <section class="step" id="step1">
+      <h2>1. מי מרכיב את הממשלה?</h2>
+      <div class="step-sub">בחרו רשימה. העומד בראשה יהיה ראש הממשלה.</div>
+      <div class="pm-grid" id="pmGrid"></div>
+      <div class="pm-banner" id="pmBanner" hidden></div>
+    </section>
+
+
+    <section class="step locked" id="step3">
+      <h2>2. חלוקת התיקים</h2>
+      <div class="lock-note" id="lock3">נפתח אחרי שבוחרים מי מרכיב את הממשלה</div>
+      <div class="step-in">
+        <div class="folio-progress" id="folioProgress"></div>
+        <div class="folio-grid" id="folioGrid"></div>
+        <button type="button" class="add-folio" id="addFolio" disabled>+ הוספת תיק</button>
+        <div class="finish-bar">
+          <div class="finish-txt" id="finishTxt"></div>
+          <button class="gov" id="finishBtn" type="button" disabled>סיים והצג את הממשלה</button>
+        </div>
+      </div>
+    </section>
+  </div>
+ </div>
+
+<dialog id="howDlg" aria-labelledby="howTitle">
+  <div class="dlg how-body">
+    <div class="how-step" id="howStep"></div>
+    <h2 id="howTitle"></h2>
+    <p id="howText"></p>
+    <div class="actions"><button type="button" class="save" id="howOk">הבנתי</button></div>
+  </div>
+</dialog>
+
+<dialog id="resetDlg" aria-labelledby="resetTitle">
+  <div class="dlg">
+    <h2 id="resetTitle" style="font:900 22px/1.2 'Frank Ruhl Libre',serif;margin:0 0 6px">לאפס את כל המנדטים?</h2>
+    <p style="font-size:14px;line-height:1.5;color:var(--ink-soft);margin:0 0 4px">כל 120 המנדטים יחזרו לקלפי, וגם הגושים והממשלה יימחקו.</p>
+    <div class="actions">
+      <button type="button" id="resetNo">ביטול</button>
+      <button type="button" class="save" id="resetYes" style="background:var(--out);border-color:var(--out);color:#fff">איפוס</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="confirmDlg">
+  <div class="confirm">
+    <h2>זו הכנסת שבחרתם?</h2>
+    <div class="sub" id="confirmSub"></div>
+    <div class="roster" id="roster"></div>
+    <div class="actions">
+      <button type="button" id="confirmEdit">עריכה</button>
+      <button type="button" class="save" id="confirmOk">אישור</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlg">
+  <form class="dlg" method="dialog" id="form">
+    <div class="who" id="who"><b id="dLetters"></b><span id="dName"></span></div>
+    <div class="edit-fields" id="editFields" hidden>
+      <input id="fName" placeholder="שם הרשימה" maxlength="24" autocomplete="off">
+      <input id="fLetters" placeholder="אותיות הפתק" maxlength="3" autocomplete="off">
+    </div>
+    <label for="seatsInput">מנדטים</label>
+    <div class="stepper">
+      <button type="button" id="minus" aria-label="פחות">-</button>
+      <input id="seatsInput" type="number" inputmode="numeric" min="0" max="120" step="1" value="0">
+      <button type="button" id="plus" aria-label="יותר">+</button>
+    </div>
+    <div class="hint" id="hint"></div>
+    <div class="actions">
+      <button type="button" class="zero" id="zero">לא עוברת</button>
+      <button type="button" id="cancel">ביטול</button>
+      <button type="submit" class="save" id="save">לקלפי</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const TOTAL = 120;
+  const MIN_SEATS = 4;          // אחוז חסימה 3.25% מתוך 120
+  const COLS = 6, ROWS = 7;     // 38 רשימות ו-4 תאים פנויים
+  const SLOTS = COLS * ROWS;
+  const MAJOR_SLOTS = COLS * 3;   // שלוש השורות הראשונות: הרשימות שבמרוץ
+  const KEY = 'mandates-v4', OLD_KEY = 'mandates-v3';
+
+  // 38 הרשימות לכנסת ה-26 לפי המכון הישראלי לדמוקרטיה, בסדר שבו הן מופיעות שם.
+  // n: שם קצר, l: אותיות, f: כינוי הרשימה המלא כפי שמודפס בתחתית הפתק (כשידוע).
+  const DEFAULT = [
+    { n: 'ישר!', l: 'דרך', f: 'ישר! עם איזנקוט לראשות הממשלה' },
+    { n: 'הליכוד', l: 'מחל', f: 'הליכוד בהנהגת בנימין נתניהו' },
+    { n: 'ביחד', l: 'רק', f: 'ביחד בראשות נפתלי בנט' },
+    { n: 'הדמוקרטים', l: 'אמת', f: 'הדמוקרטים בראשות יאיר גולן' },
+    { n: 'יהדות התורה', l: 'ג', f: 'יהדות התורה והשבת אגודת ישראל - דגל התורה' },
+    { n: 'ישראל ביתנו', l: 'ל', f: 'ישראל ביתנו בראשות אביגדור ליברמן' },
+    { n: 'ש"ס', l: 'שס', f: 'התאחדות הספרדים שומרי התורה תנועתו של מרן עובדיה יוסף' },
+    { n: 'הרשימה המשותפת', l: 'ודם', f: 'הרשימה המשותפת חד"ש, תע"ל, בל"ד' },
+    { n: 'עוצמה יהודית', l: 'ב', f: 'עוצמה יהודית בראשות בן גביר' },
+    { n: 'הציונות הדתית', l: 'ט', f: 'הציונות הדתית בראשות בצלאל סמוטריץ׳ וזהות בראשות משה פייגלין' },
+    { n: 'רע"מ', l: 'עם', f: 'רע"ם - הרשימה הערבית המאוחדת' },
+    { n: 'המילואימניקים', l: 'די', f: 'המילואימניקים והכלכלית בראשות יועז הנדל וירון זליכה' },
+    { n: 'עמך ישראל', l: 'ך', f: 'עמך ישראל בראשות עופר וינטר' },
+    { n: 'כחול לבן', l: 'כן', f: 'כחול לבן בראשות בני גנץ' },
+    { n: 'נעם לישראל', l: 'ני', f: 'נעם לישראל למען עתיד הילדים בראשות אבי מעוז' },
+    { n: 'הציבור החרדי', l: 'זך', f: 'הציבור החרדי בראשות מוטי לייטנר' },
+    { n: '', l: '' },
+    { n: '', l: '' },
+    { n: 'אורות השחר', l: 'בקר', f: 'אורות השחר בראשות ניסים לוק' },
+    { n: 'אני ואתה', l: 'פה', f: 'אני ואתה - מפלגת העם הישראלית' },
+    { n: 'בטח', l: 'ז', f: 'בטח - ביטחון חברתי בראשות סמיון גרפמן' },
+    { n: 'ביחד נצליח', l: 'בד', f: 'ביחד נצליח - רשימה משותפת ערבית יהודית בראשות אבי שקד' },
+    { n: 'ביטחון אישי', l: 'נץ', f: 'ביטחון אישי' },
+    { n: 'ברית עולם', l: 'זץ', f: 'ברית עולם לגאולת ישראל' },
+    { n: 'גן עדן', l: 'ה', f: 'גן עדן בראשות ישוע ישראל בן דוד' },
+    { n: 'הפיראטים', l: 'צף', f: 'הפיראטים - צפים לטוב' },
+    { n: 'הקהל', l: 'רץ', f: 'הקהל - מפלגה כלל-חרדית בראשות הרב שלמה אלבוים' },
+    { n: 'השותפות לכולם', l: 'ד', f: 'השותפות לכולם' },
+    { n: 'התיקון', l: 'נקי', f: 'התיקון לשיטת הבחירות והממשל' },
+    { n: 'ישראל תחילה', l: 'י', f: 'ישראל תחילה בראשות שרן השכל' },
+    { n: 'הגוש התנ"כי', l: 'יק', f: 'גה"ת - גוש התנ"כי' },
+    { n: 'שמע', l: 'נף', f: 'שמע - בראשות נפתלי גולדמן' },
+    { n: 'תקומה', l: 'ק', f: 'תקומה' },
+    { n: 'משפט צדק', l: 'קץ', f: 'משפט צדק' },
+    { n: 'סדר חדש', l: 'קך', f: 'סדר חדש לכינון חוקה, להפרדת רשויות ולבחירות ישירות' },
+    { n: 'צבע שחור', l: 'נר', f: 'צבע שחור - מגן עולם התורה' },
+    { n: 'צומת בית ישראל', l: 'בי', f: 'צומת בית ישראל' },
+    { n: 'קול הנשים', l: 'קה', f: 'קול הנשים' },
+    { n: 'שרשר', l: 'צדק', f: 'שרשר לאהבה ואחדות העם' },
+    { n: 'תנועת אחי', l: 'צבי', f: 'תנועת אחי, תנועתו של הרב יורם אברג\'ל' },
+    { n: '', l: '' },
+    { n: '', l: '' },
+  ];
+  while (DEFAULT.length < SLOTS) DEFAULT.push({ n: '', l: '' });
+
+  // ראש הרשימה לפי שם קצר. img: כתובת תמונה (data URI או קובץ שפורסם עם הדף). בלי תמונה מוצגת צללית.
+  const HEADS = {
+    'ישר!': { h: 'גדי איזנקוט' },
+    'הליכוד': { h: 'בנימין נתניהו' },
+    'ביחד': { h: 'נפתלי בנט' },
+    'הדמוקרטים': { h: 'יאיר גולן' },
+    'ישראל ביתנו': { h: 'אביגדור ליברמן' },
+    'ש"ס': { h: 'אריה דרעי' },
+    'עוצמה יהודית': { h: 'איתמר בן גביר' },
+    'הציונות הדתית': { h: 'בצלאל סמוטריץ\'' },
+    'רע"מ': { h: 'מנסור עבאס' },
+    'עמך ישראל': { h: 'עופר וינטר' },
+    'כחול לבן': { h: 'בני גנץ' },
+    'גן עדן': { h: 'ישוע בן דוד' },
+    'שמע': { h: 'נפתלי גולדמן' },
+  };
+
+  let slots = load();
+  function load() {
+    const fresh = DEFAULT.map(p => ({ ...p, seats: 0 }));
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY));
+      if (Array.isArray(s) && s.length === SLOTS) {
+        const cleaned = s.filter(p => !p.blank);          // פתק לבן אינו רשימה, יורד גם משמירות ישנות
+        while (cleaned.length < SLOTS) cleaned.push({ n: '', l: '' });
+        const cat = {};
+        DEFAULT.forEach(d => { if (d.n) cat[d.n] = d; });
+        cleaned.forEach(p => {                            // האותיות והכינוי הם נתון רשמי, לא של המשתמש
+          const d = p.n && cat[p.n];
+          if (d) { p.l = d.l; if (d.f) p.f = d.f; else delete p.f; }
+        });
+        return cleaned;
+      }
+      const old = JSON.parse(localStorage.getItem(OLD_KEY));   // הסדר השתנה, מעבירים לפי שם
+      if (Array.isArray(old)) {
+        const byName = {};
+        old.forEach(o => { if (o && o.n) byName[o.n] = o; });
+        fresh.forEach(p => {
+          const o = p.n && byName[p.n];
+          if (o) { p.seats = o.seats || 0; p.out = !!o.out; }
+        });
+        const extras = old.filter(o => o && o.n && !o.blank && !fresh.some(p => p.n === o.n));
+        fresh.forEach(p => {
+          if (!p.n && extras.length) {
+            const o = extras.shift();
+            p.n = o.n; p.l = o.l; p.seats = o.seats || 0; p.out = !!o.out;
+          }
+        });
+        try { localStorage.removeItem('mandates-gov-v1'); } catch (e) {}   // המיקומים היו לפי אינדקס
+      }
+    } catch (e) {}
+    return fresh;
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(slots)); } catch (e) {} }
+
+  const board = document.getElementById('board');
+  const usedEl = document.getElementById('used');
+  const leftEl = document.getElementById('left');
+  const leftLine = document.getElementById('leftLine');
+  const levelEl = document.getElementById('level');
+  const kalpi = document.getElementById('kalpi');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function used() { return slots.reduce((a, p) => a + (p.seats || 0), 0); }
+  function isEmpty(p) { return !p.n; }
+
+  // הטיה קבועה לכל תא, כדי שהפתקים לא יקפצו בכל רינדור
+  function tilt(i) {
+    return {
+      r: (((i * 37) % 7) - 3) * 0.55,
+      x: (((i * 53) % 5) - 2) * 0.5,
+      y: (((i * 29) % 5) - 2) * 0.5,
+    };
+  }
+
+  function render() {
+    board.innerHTML = '';
+    slots.forEach((p, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'listitem');
+      const empty = isEmpty(p);
+      b.className = 'cell' + (empty ? ' empty' : '') + (p.seats ? ' has' : '') + (p.out ? ' is-out' : '');
+      if (!empty && typeof passesFilters === 'function' && !passesFilters(p)) b.className += ' off';
+      b.setAttribute('aria-label', empty ? 'תא ריק, לחצו להוספת רשימה' : p.n + (p.seats ? ', ' + p.seats + ' מנדטים' : p.out ? ', לא עוברת את אחוז החסימה' : ''));
+      if (!empty) b.title = p.f || p.n;
+      if (empty) {
+        b.innerHTML = '<span class="plus">+</span>';
+      } else {
+        const t = tilt(i);
+        const letters = esc(p.l);
+        const l3 = [...p.l].length >= 3 ? ' l3' : '';
+        const lead = (headOf(p) || {}).h;
+        const name =
+          '<div class="name"><span class="short">' + esc(p.n) + '</span></div>' +
+          (lead ? '<div class="lead">' + esc(lead) + '</div>' : '');
+        b.innerHTML =
+          '<div class="slip" style="--r:' + t.r + 'deg;--x:' + t.x + 'px;--y:' + t.y + 'px">' +
+          '<div class="letters' + l3 + '">' + letters + '</div>' + name +
+          (typeof slipIcons === 'function' ? slipIcons(p) : '') + '</div>' +
+          (p.seats ? '<div class="seats">' + p.seats + '</div>' : p.out ? '<div class="seats out">✕</div>' : '');
+      }
+      b.addEventListener('click', () => empty ? open(i) : openParty(i, 'board'));
+      if (i === MAJOR_SLOTS) {
+        const sp = document.createElement('div');
+        sp.className = 'tray-split';
+        sp.innerHTML = '<span>רשימות קטנות, לא צפויות לעבור את אחוז החסימה</span>';
+        board.appendChild(sp);
+      }
+      board.appendChild(b);
+    });
+    const u = used(), l = TOTAL - u;
+    usedEl.textContent = u;
+    leftEl.textContent = Math.abs(l);
+    document.getElementById('leftLabel').textContent = l === -1 ? 'מנדט עודף, צריך להוריד' : l < 0 ? 'מנדטים עודפים, צריך להוריד' : 'נותרו לחלוקה';
+    kalpi.classList.toggle('over', l < 0);
+    leftLine.className = 'left-line' + (l < 0 ? ' over' : l === 0 ? ' done' : '');
+    levelEl.style.transform = 'scaleY(' + Math.min(1, u / TOTAL) + ')';
+    document.getElementById('govBtn').disabled = u !== TOTAL;
+    const fc = document.getElementById('fCount');
+    if (fc && typeof filtersOn === 'function') {
+      const shown = slots.filter(x => x.n && passesFilters(x)).length;
+      const all = slots.filter(x => x.n).length;
+      fc.textContent = filtersOn() ? shown + ' מתוך ' + all + ' רשימות' : '';
+    }
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+  // פתק עף מהתא אל חריץ הקלפי
+  function flyToKalpi(i, letters) {
+    if (reduceMotion || !document.body.animate) return;
+    const cell = board.children[i];
+    const slot = document.getElementById('slot');
+    if (!cell || !slot) return;
+    const from = cell.getBoundingClientRect(), to = slot.getBoundingClientRect();
+    const w = from.width * 0.7, h = from.height * 0.7;
+    const el = document.createElement('div');
+    el.className = 'fly';
+    el.textContent = letters;
+    el.style.cssText = 'left:' + (from.left + (from.width - w) / 2) + 'px;top:' + (from.top + (from.height - h) / 2) + 'px;width:' + w + 'px;height:' + h + 'px';
+    document.body.appendChild(el);
+    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+    const dy = to.top - (from.top + from.height / 2) - h * 0.1;
+    el.animate([
+      { transform: 'translate(0,0) rotate(0deg) scale(1)', opacity: 1 },
+      { transform: 'translate(' + dx * 0.6 + 'px,' + (dy * 0.9 - 40) + 'px) rotate(-10deg) scale(.6)', opacity: 1, offset: .65 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(-7deg) scale(.22, .1)', opacity: .2 },
+    ], { duration: 650, easing: 'cubic-bezier(.3,.1,.3,1)' }).onfinish = () => {
+      el.remove();
+      kalpi.classList.remove('bump'); void kalpi.getBoundingClientRect(); kalpi.classList.add('bump');
+    };
+  }
+
+  // חלונית
+  const dlg = document.getElementById('dlg');
+  const input = document.getElementById('seatsInput');
+  const hint = document.getElementById('hint');
+  const editFields = document.getElementById('editFields');
+  const fName = document.getElementById('fName');
+  const fLetters = document.getElementById('fLetters');
+  const who = document.getElementById('who');
+  let cur = -1;
+
+  function open(i) {
+    cur = i;
+    const p = slots[i];
+    const empty = isEmpty(p);
+    editFields.hidden = !empty;
+    who.hidden = empty;
+    document.getElementById('dLetters').textContent = p.l;
+    document.getElementById('dName').textContent = p.f || p.n;
+    fName.value = p.n || ''; fLetters.value = p.l || '';
+    input.value = p.seats || 0;
+    updateHint();
+    dlg.showModal();
+    (empty ? fName : input).focus();
+    if (!empty) input.select();
+  }
+  function maxAllowed() { return TOTAL - used() + (slots[cur].seats || 0); }
+  function val() { return Math.floor(Number(input.value) || 0); }
+  function updateHint() {
+    const v = val();
+    const m = maxAllowed();
+    if (v > 0 && v < MIN_SEATS) { hint.textContent = 'מתחת לאחוז החסימה: או 0 או לפחות ' + MIN_SEATS; hint.className = 'hint bad'; }
+    else if (v > m) { hint.textContent = 'חריגה של ' + (v - m) + ' מעל 120. אפשר לשמור, אבל אי אפשר להרכיב ממשלה עד שמתקנים'; hint.className = 'hint bad'; }
+    else if (m <= 0) { hint.textContent = 'הקלפי כבר מלאה, כל מנדט כאן הוא חריגה'; hint.className = 'hint'; }
+    else { hint.textContent = '0, או ' + MIN_SEATS + ' ומעלה. נותרו ' + m + ' לחלוקה'; hint.className = 'hint'; }
+  }
+  input.addEventListener('input', updateHint);
+  input.addEventListener('focus', function () { setTimeout(function () { input.select(); }, 0); });
+  input.addEventListener('click', function () { input.select(); });
+  document.getElementById('plus').addEventListener('click', () => {
+    const v = val();
+    input.value = v < MIN_SEATS ? MIN_SEATS : Math.min(TOTAL, v + 1);
+    updateHint();
+  });
+  document.getElementById('minus').addEventListener('click', () => {
+    const v = val();
+    input.value = v <= MIN_SEATS ? 0 : v - 1;
+    updateHint();
+  });
+  document.getElementById('cancel').addEventListener('click', () => dlg.close());
+  document.getElementById('zero').addEventListener('click', () => { input.value = 0; commit(true); });
+  document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); commit(false); });
+
+  function commit(markOut) {
+    const p = slots[cur];
+    if (!editFields.hidden) {
+      const n = fName.value.trim(), l = fLetters.value.trim();
+      if (!n) { fName.focus(); return; }
+      p.n = n; p.l = l || n.slice(0, 2);
+    }
+    const v = Math.max(0, Math.min(TOTAL, val()));   // מותר לחרוג מ-120 בסך הכול, הקלפי תיצבע באדום
+    if (v > 0 && v < MIN_SEATS) { updateHint(); input.focus(); return; }   // אחוז חסימה
+    const grew = v > (p.seats || 0);
+    p.seats = v;
+    p.out = markOut && v === 0;   // X אדום רק בלחיצה על "לא עוברת"
+    save(); dlg.close(); render();
+    if (grew) flyToKalpi(cur, p.l);
+  }
+
+  // הסבר קצר בכניסה הראשונה לכל שלב, ו-? שפותח אותו שוב
+  const HOW = {
+    board: ['שלב 1 מתוך 3', '120 מנדטים', 'לחצו על פתק והזינו כמה מנדטים הרשימה מקבלת. יש 120 לחלוקה, ורשימה שעוברת את אחוז החסימה מקבלת לפחות 4. כשהקלפי מלאה, ממשיכים למפת הגושים.'],
+    blocs: ['שלב 2 מתוך 3', 'מפת הגושים', 'גררו כל רשימה לגוש א\', לגוש ב\' או למתנדנדים. גוש שמגיע ל-61 מנדטים מרכיב את הממשלה.'],
+    gov: ['שלב 3 מתוך 3', 'הרכבת הממשלה', 'בחרו מי מרכיב את הממשלה, ואז שבצו לפחות חמישה שרים לתיקים. בסוף תקבלו תמונה לשיתוף.'],
+  };
+  const howDlg = document.getElementById('howDlg');
+  function showHow(stage) {
+    const h = HOW[stage]; if (!h) return;
+    document.getElementById('howStep').textContent = h[0];
+    document.getElementById('howTitle').textContent = h[1];
+    document.getElementById('howText').textContent = h[2];
+    if (!howDlg.open) howDlg.showModal();
+  }
+  function howSeen() { try { return JSON.parse(localStorage.getItem('mandates-how') || '{}'); } catch (e) { return {}; } }
+  function maybeHow(stage) {
+    const seen = howSeen();
+    if (seen[stage]) return;
+    seen[stage] = 1;
+    try { localStorage.setItem('mandates-how', JSON.stringify(seen)); } catch (e) {}
+    showHow(stage);
+  }
+  document.getElementById('howOk').addEventListener('click', () => howDlg.close());
+  howDlg.addEventListener('click', e => { if (e.target === howDlg) howDlg.close(); });
+  document.querySelectorAll('.how').forEach(b => b.addEventListener('click', () => showHow(b.dataset.how)));
+
+  const resetDlg = document.getElementById('resetDlg');
+  document.getElementById('resetAll').addEventListener('click', () => resetDlg.showModal());
+  document.getElementById('resetNo').addEventListener('click', () => resetDlg.close());
+  resetDlg.addEventListener('click', e => { if (e.target === resetDlg) resetDlg.close(); });
+  document.getElementById('resetYes').addEventListener('click', () => {
+    resetDlg.close();
+    slots.forEach(p => { p.seats = 0; p.out = false; });
+    gov.where = {}; gov.locked = false; gov.stage = 'blocs'; gov.pm = null; gov.coal = []; gov.min = {}; gov.seeded = false; saveGov();
+    save(); render();
+  });
+
+  /* ---------- הרכבת הממשלה ---------- */
+  const GOV_KEY = 'mandates-gov-v1';
+  const DEFAULT_NAMES = ["גוש א'", "גוש ב'", 'מתנדנדים'];
+  const PAIRS = [
+    ['ימין', 'שמאל'],
+    ['אמוני', 'ליברלי'],
+  ];
+  var gov = loadGov();
+  function loadGov() {
+    try {
+      const g = JSON.parse(localStorage.getItem(GOV_KEY));
+      if (g && typeof g === 'object' && g.where && Array.isArray(g.names)) {
+        if (g.names.length < 3) g.names[2] = DEFAULT_NAMES[2];
+        return g;
+      }
+    } catch (e) {}
+    return { locked: false, where: {}, names: DEFAULT_NAMES.slice() };
+  }
+  function saveGov() { try { localStorage.setItem(GOV_KEY, JSON.stringify(gov)); } catch (e) {} }
+
+  // צלליות ברירת מחדל: תכלת לגבר, ורוד לאישה, אפור כשהמגדר לא ידוע לנו
+  const SIL = {
+    m: '<svg class="sil m" viewBox="0 0 64 72" aria-hidden="true"><circle cx="32" cy="25" r="13"/><path d="M4 72c0-15 12-24 28-24s28 9 28 24z"/></svg>',
+    f: '<svg class="sil f" viewBox="0 0 64 72" aria-hidden="true"><path d="M15 27a17 17 0 0134 0v13c0 5-3 8-7 7l-1-13a9 9 0 00-18 0l-1 13c-4 1-7-2-7-7z"/><circle cx="32" cy="27" r="12"/><path d="M6 72c0-14 12-23 26-23s26 9 26 23z"/></svg>',
+    u: '<svg class="sil u" viewBox="0 0 64 72" aria-hidden="true"><circle cx="32" cy="25" r="13"/><path d="M4 72c0-15 12-24 28-24s28 9 28 24z"/></svg>'
+  };
+  // שמות פרטיים חד-משמעיים, להשלמת מגדר למי שאין עליו ערך בוויקיפדיה
+  const FIRST_F = new Set(['שירה','ענבר','דבורה','יפה','ליאן','ג\'וסלין','טלי','טליק','מיכל','ברוריה','אורלי','אסתי','אלוירה','יעל','פאתן','מהא','נהאיה','רעות','ללי','פנינה','יהודית','מוריה','ליאורה','יסכה','זיוה','אנדראה','מרים','נעמה','אפרת','מירב','מירי','גילה','יוליה','לימור','אורית','עינת','עליזה','נטעלי','פלר','קרן','אימאן','סומיה','נאוה','אמילי','אתי','יסמין','תאיר','אושרת','רחל','שרה','אסתר','חנה','לאה','רבקה','נועה','תמר','עדנה','סיגל','איריס','רונית','שלומית','נורית','דנה','מאיה','הילה','יפעת','ורד','סמדר']);
+  const FIRST_M = new Set(['רועי','ישראל','אליסף','ניר','רון','אלון','אלי','אלישע','דוד','ארז','שלמה','יצחק','משה','אמיר','ג\'רמי','עמרי','אליקים','יוסי','בכר','אחמד','חסן','הייתם','איאס','ג\'סאן','חנמאל','צחי','איתיאל','איתמר','ארקדי','חביב','יואב','ערן','רונן','שמעון','אליהו','אילון','אלקנה','איתן','מוטי','אשר','מרדכי','נפתלי','יאיר','גדי','בנימין','אריה','אביגדור','בני','יועז','עופר','מנסור','וליד','יעקב','אברהם','שמואל','יהודה','מאיר','חיים','צבי','אהרון','ברוך','מנחם','נתן','עמוס','גלעד','עידו','אורי','עמית','יניב','אסף','תומר','נדב','גיא','אייל','ליאור','רם','עוז','בועז','זאב','מתן','חילי','שאול','אלעזר','כמיל','ישי','אוהד','עמיחי','יונתן','מופיד','אלמוג']);
+  function genderOf(name) {
+    if (GENDER[name]) return GENDER[name];
+    const first = String(name || '').trim().split(' ')[0];
+    if (FIRST_F.has(first)) return 'f';
+    if (FIRST_M.has(first)) return 'm';
+    return '';
+  }
+  function silFor(name) { return SIL[genderOf(name) || 'u']; }
+  function faceHTML(name, lazy) {
+    const src = PHOTO[name];
+    return src ? '<img src="' + esc(src) + '" alt=""' + (lazy ? ' loading="lazy"' : '') + '>' : silFor(name);
+  }
+  const SILHOUETTE = SIL.u;
+  function elected() {
+    return slots.map((p, i) => ({ p, i })).filter(x => x.p.seats > 0).sort((a, b) => b.p.seats - a.p.seats || a.i - b.i);
+  }
+  function headOf(p) { return HEADS[p.n] || {}; }
+  function rosterHTML(list, withZone) {
+    return list.map(({ p, i }) => {
+      const hd = headOf(p);
+      const z = withZone ? zoneOf(i) : 'pool';
+      return '<div class="mk' + (z !== 'pool' ? ' z' + z : '') + '"><div class="n">' + p.seats + '</div>' +
+        '<div class="avatar">' + faceHTML(hd.h || '', true) + '</div>' +
+        '<div class="head-name">' + esc(hd.h || 'ראש הרשימה') + '</div>' +
+        '<div class="list-name">' + esc(p.n) + (p.l ? ' · ' + esc(p.l) : '') + '</div></div>';
+    }).join('');
+  }
+
+  // מסך אישור ונעילה
+  const confirmDlg = document.getElementById('confirmDlg');
+  document.getElementById('govBtn').addEventListener('click', () => {
+    if (used() !== TOTAL) return;
+    const list = elected();
+    document.getElementById('confirmSub').textContent = list.length + ' רשימות עברו את אחוז החסימה, 120 מנדטים. אחרי האישור החלוקה ננעלת ועוברים לגושים.';
+    document.getElementById('roster').innerHTML = rosterHTML(list, false);
+    confirmDlg.showModal();
+  });
+  document.getElementById('confirmEdit').addEventListener('click', () => confirmDlg.close());
+  document.getElementById('confirmOk').addEventListener('click', () => {
+    gov.locked = true; seedBlocs(); saveGov(); confirmDlg.close(); showView();
+    window.scrollTo(0, 0);
+  });
+  document.getElementById('backToBoard').addEventListener('click', () => { gov.locked = false; gov.stage = 'blocs'; saveGov(); showView(); });
+
+  // מפת הגושים
+  const ZONES = { pool: 'chipsPool', a: 'chipsA', s: 'chipsS', b: 'chipsB' };
+  const nameA = document.getElementById('nameA'), nameB = document.getElementById('nameB'), nameS = document.getElementById('nameS');
+
+  function showView() {
+    const locked = gov.locked && used() === TOTAL;
+    const stage3 = locked && gov.stage === 'gov' && !!winningBloc();
+    const blocs = locked && !stage3;
+    document.getElementById('boardView').hidden = locked;
+    document.getElementById('blocsView').hidden = !blocs;
+    document.getElementById('govView').hidden = !stage3;
+    if (stage3 && typeof renderGov === 'function') renderGov();
+    if (typeof maybeHow === 'function') maybeHow(stage3 ? 'gov' : blocs ? 'blocs' : 'board');
+    if (blocs) { nameA.value = gov.names[0]; nameB.value = gov.names[1]; nameS.value = gov.names[2]; renderBlocs(); }
+  }
+  function allPlaced() { return elected().every(({ i }) => zoneOf(i) !== 'pool'); }
+  function winningBloc() {   // רק גוש עם 61 יכול להרכיב ממשלה
+    const sum = { pool: 0, a: 0, s: 0, b: 0 };
+    elected().forEach(({ p, i }) => sum[zoneOf(i)] += p.seats);
+    return sum.a >= 61 ? 'a' : sum.b >= 61 ? 'b' : null;
+  }
+  function blocName(z) { return z === 'a' ? (gov.names[0] || DEFAULT_NAMES[0]) : (gov.names[1] || DEFAULT_NAMES[1]); }
+  function seedBlocs() {          // שיבוץ פתיחה, פעם אחת בלבד
+    if (gov.seeded) return;
+    gov.seeded = true;
+    const put = (name, z) => {
+      const i = slots.findIndex(p => p.n === name && p.seats > 0);
+      if (i >= 0 && !gov.where[i]) gov.where[i] = z;
+    };
+    put('הליכוד', 'a');
+    put('ישר!', 'b');
+    saveGov();
+  }
+  function zoneOf(i) { const z = gov.where[i]; return z === 'a' || z === 'b' || z === 's' ? z : 'pool'; }
+
+  function renderBlocs() {
+    Object.values(ZONES).forEach(id => document.getElementById(id).innerHTML = '');
+    elected().forEach(({ p, i }) => {
+      const c = document.createElement('div');
+      c.className = 'chip'; c.tabIndex = 0; c.dataset.i = i;
+      c.setAttribute('role', 'button');
+      c.setAttribute('aria-label', p.n + ', ' + p.seats + ' מנדטים. Enter פותח פרטים, חצים ימינה ושמאלה מעבירים בין הגושים');
+      c.style.setProperty('--cr', ((((i * 37) % 7) - 3) * 0.5) + 'deg');
+      c.innerHTML = '<span class="cn">' + esc(p.n) + '</span><span class="cs">' + p.seats + '</span>';
+      c.addEventListener('pointerdown', e => startDrag(e, c, i));
+      c.addEventListener('keydown', e => keyMove(e, i));
+      document.getElementById(ZONES[zoneOf(i)]).appendChild(c);
+    });
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const sum = { pool: 0, a: 0, s: 0, b: 0 };
+    elected().forEach(({ p, i }) => sum[zoneOf(i)] += p.seats);
+    document.getElementById('sumPool').textContent = sum.pool;
+    document.getElementById('sumA').textContent = sum.a;
+    document.getElementById('sumS').textContent = sum.s;
+    document.getElementById('sumB').textContent = sum.b;
+    // הקשת באורך 120: א' מתחיל מימין, ב' נגמר משמאל, והמתנדנדים ממורכזים ברווח שביניהם
+    const gap = TOTAL - sum.a - sum.b;
+    const sStart = sum.a + (gap - sum.s) / 2;
+    const segA = document.getElementById('segA'), segS = document.getElementById('segS'), segB = document.getElementById('segB');
+    segA.style.strokeDasharray = sum.a + ' ' + TOTAL;
+    segS.style.strokeDasharray = sum.s + ' ' + TOTAL; segS.style.strokeDashoffset = -sStart;
+    segB.style.strokeDasharray = sum.b + ' ' + TOTAL; segB.style.strokeDashoffset = -(TOTAL - sum.b);
+    document.getElementById('gNumA').textContent = sum.a;
+    document.getElementById('gNumB').textContent = sum.b;
+    document.getElementById('gNumS').textContent = sum.s;
+    document.getElementById('gNameA').textContent = gov.names[0] || DEFAULT_NAMES[0];
+    document.getElementById('gNameB').textContent = gov.names[1] || DEFAULT_NAMES[1];
+    document.getElementById('gNameS').textContent = gov.names[2] || DEFAULT_NAMES[2];
+    const win = sum.a >= 61 ? 'a' : sum.b >= 61 ? 'b' : null;
+    const tg = document.getElementById('toGov');
+    tg.disabled = !win;
+    tg.title = win ? 'מרכיבים ממשלה מתוך ' + (win === 'a' ? gov.names[0] : gov.names[1])
+                   : 'זמין כשלגוש אחד יש 61 מנדטים';
+    const za = document.querySelector('.zone.a'), zb = document.querySelector('.zone.b');
+    za.classList.toggle('win', sum.a >= 61); zb.classList.toggle('win', sum.b >= 61);
+    const v = document.getElementById('verdict');
+    const nA = gov.names[0] || DEFAULT_NAMES[0], nB = gov.names[1] || DEFAULT_NAMES[1], nS = gov.names[2] || DEFAULT_NAMES[2];
+    if (sum.a >= 61) { v.textContent = 'יש ממשלה: ' + nA + ' עם ' + sum.a + ' מנדטים'; v.className = 'verdict yes'; }
+    else if (sum.b >= 61) { v.textContent = 'יש ממשלה: ' + nB + ' עם ' + sum.b + ' מנדטים'; v.className = 'verdict yes'; }
+    else if (sum.pool === 0 && sum.a === 60 && sum.b === 60) { v.textContent = 'תיקו 60:60. הולכים לבחירות חוזרות?'; v.className = 'verdict'; }
+    else if (sum.pool === 0) { v.textContent = 'אין 61 לאף גוש. ' + nS + ' (' + sum.s + ') מכריעים'; v.className = 'verdict'; }
+    else { v.textContent = nA + ' ' + sum.a + ' · ' + nS + ' ' + sum.s + ' · ' + nB + ' ' + sum.b; v.className = 'verdict'; }
+  }
+
+  function place(i, zone) {
+    if (zone === 'pool') delete gov.where[i]; else gov.where[i] = zone;
+    saveGov(); renderBlocs();
+  }
+
+  // מקלדת: במסך A מימין ו-B משמאל
+  function keyMove(e, i) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openParty(i, 'blocs'); return; }
+    const order = ['a', 's', 'b'];
+    const z = zoneOf(i);
+    let next = null;
+    if (e.key === 'ArrowRight') next = z === 'pool' ? 'a' : order[Math.max(0, order.indexOf(z) - 1)];
+    else if (e.key === 'ArrowLeft') next = z === 'pool' ? 'b' : order[Math.min(2, order.indexOf(z) + 1)];
+    else if (e.key === 'ArrowDown' && z === 'pool') next = 's';
+    else if (e.key === 'ArrowUp' || e.key === 'Backspace' || e.key === 'Delete') next = 'pool';
+    if (!next || next === z) return;
+    e.preventDefault();
+    place(i, next);
+    const el = document.querySelector('.chip[data-i="' + i + '"]');
+    if (el) el.focus();
+  }
+
+  // גרירה עם pointer events: עובד בעכבר ובמגע
+  function startDrag(e, chip, i) {
+    if (e.button !== undefined && e.button > 0) return;
+    const sx = e.clientX, sy = e.clientY;
+    const r = chip.getBoundingClientRect();
+    const ox = sx - r.left, oy = sy - r.top;
+    let ghost = null, overZone = null;
+    try { chip.setPointerCapture(e.pointerId); } catch (err) {}
+
+    function move(ev) {
+      if (!ghost) {
+        if (Math.hypot(ev.clientX - sx, ev.clientY - sy) < 5) return;
+        ghost = chip.cloneNode(true);
+        ghost.classList.add('ghost');
+        ghost.style.width = r.width + 'px';
+        document.body.appendChild(ghost);
+        chip.classList.add('dragging');
+      }
+      ghost.style.left = (ev.clientX - ox) + 'px';
+      ghost.style.top = (ev.clientY - oy) + 'px';
+      const under = document.elementFromPoint(ev.clientX, ev.clientY);
+      const z = under && under.closest ? under.closest('.zone') : null;
+      if (z !== overZone) { if (overZone) overZone.classList.remove('over'); if (z) z.classList.add('over'); overZone = z; }
+      if (ev.clientY < 70) window.scrollBy(0, -14);
+      else if (ev.clientY > window.innerHeight - 70) window.scrollBy(0, 14);
+    }
+    function end(ev) {
+      chip.removeEventListener('pointermove', move);
+      chip.removeEventListener('pointerup', end);
+      chip.removeEventListener('pointercancel', end);
+      if (overZone) overZone.classList.remove('over');
+      chip.classList.remove('dragging');
+      if (ghost) {
+        ghost.remove();
+        if (ev.type === 'pointerup' && overZone) place(i, overZone.dataset.zone);
+      } else if (ev.type === 'pointerup') {
+        openParty(i, 'blocs');   // לחיצה בלי גרירה פותחת את פאנל המפלגה
+      }
+    }
+    chip.addEventListener('pointermove', move);
+    chip.addEventListener('pointerup', end);
+    chip.addEventListener('pointercancel', end);
+  }
+
+  nameA.addEventListener('input', () => { gov.names[0] = nameA.value.trim(); saveGov(); updateSummary(); });
+  nameB.addEventListener('input', () => { gov.names[1] = nameB.value.trim(); saveGov(); updateSummary(); });
+  nameS.addEventListener('input', () => { gov.names[2] = nameS.value.trim(); saveGov(); updateSummary(); });
+  document.getElementById('toGov').addEventListener('click', () => {
+    if (!winningBloc()) return;
+    gov.stage = 'gov'; saveGov(); showView(); window.scrollTo(0, 0);
+  });
+  document.getElementById('backToBlocs').addEventListener('click', () => { gov.stage = 'blocs'; saveGov(); showView(); });
+  document.getElementById('dice').addEventListener('click', () => {
+    let pair, guard = 0;
+    do { pair = PAIRS[Math.floor(Math.random() * PAIRS.length)]; }
+    while (++guard < 20 && pair[0] === gov.names[0] && pair[1] === gov.names[1]);
+    gov.names = [pair[0], pair[1], gov.names[2] || DEFAULT_NAMES[2]]; nameA.value = pair[0]; nameB.value = pair[1];
+    saveGov(); updateSummary();
+  });
+  document.getElementById('clearBlocs').addEventListener('click', () => { gov.where = {}; saveGov(); renderBlocs(); });
+
+  render();
+</script>
+<!--PANEL-START-->
+<style>
+  /* אייקונים על הפתקים */
+  .ico-row { display: flex; justify-content: center; gap: 4cqw; margin-top: 5cqw; }
+  .ico { display: inline-flex; width: 13cqw; height: 13cqw; }
+  .ico svg { width: 100%; height: 100%; }
+  .ico.ok { color: #2e9e6b; } .ico.no { color: #d8342c; }
+  .ico.zion { color: #1f5f9c; } .ico.nonzion { color: #8b94a0; }
+  .ico.lib { color: #2f86e0; } .ico.con { color: #d8342c; }
+  .ico.fem { color: #c2559b; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 12px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend .ico { width: 15px; height: 15px; background: var(--paper); border-radius: 3px; padding: 1px; }
+
+  /* פאנל המפלגה */
+  #partyDlg { width: min(96vw, 560px); max-height: 92vh; border-radius: 6px; overflow: hidden; }
+  #partyDlg[open] { display: flex; flex-direction: column; }
+  .sheet-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px dashed var(--paper-edge); flex: 0 0 auto; }
+  .sheet-head .x { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--paper-edge); background: #fff; color: var(--ink); font: 700 18px/1 "Heebo", sans-serif; cursor: pointer; }
+  .sheet-head .x:hover, .sheet-head .x:focus-visible { border-color: var(--kalpi-front); outline: none; }
+  .sheet-head .ltr { font: 900 44px/1 "Frank Ruhl Libre", serif; flex: 0 0 auto; }
+  .sheet-head .ttl { flex: 1; min-width: 0; }
+  .sheet-head .ttl b { display: block; font: 700 16px/1.25 "Heebo", sans-serif; text-wrap: balance; }
+  .sheet-head .ttl span { display: block; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+  .sheet-head .avatar { flex: 0 0 auto; width: 48px; height: 48px; }
+  .sheet-body { flex: 1 1 auto; overflow-y: auto; padding: 14px 16px 18px; display: grid; gap: 16px; align-content: start; }
+  .sheet-body h3 { font: 900 17px/1.2 "Frank Ruhl Libre", serif; margin: 0 0 8px; }
+  .sheet-body li { font-size: 14px; line-height: 1.5; }
+  .sheet-body ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; }
+  .sheet-body .note { font-size: 12px; color: var(--ink-soft); margin: 8px 0 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; border: 1px solid var(--paper-edge); background: #fff; border-radius: 12px; padding: 3px 10px 3px 8px; }
+  .tag .ico { width: 14px; height: 14px; }
+  .top-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .top-actions button, .top-actions a { font: 700 14px "Heebo", sans-serif; text-decoration: none; border: 1px solid var(--kalpi-panel-a); background: #fff; color: var(--kalpi-panel-a); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  .top-actions button:hover, .top-actions a:hover { background: #eef4fb; }
+  .top-actions .noplat { font: 700 14px "Heebo", sans-serif; color: var(--bad-on-paper); padding: 8px 4px; }
+  .cand-list { margin: 0; padding: 4px 12px; list-style: none; background: #fff; border: 1px solid var(--paper-edge); border-radius: 8px; font-size: 14px; line-height: 1.35; }
+  .cand-list li { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid #efece3; }
+  .cand-list li:last-child { border-bottom: 0; }
+  .cand-face { flex: 0 0 38px; width: 38px; height: 44px; border-radius: 3px; background: #e7edf2; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .cand-face img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .cand-face svg { width: 86%; height: 86%; }
+  .cand-list li > span { flex: 0 0 22px; color: var(--ink-soft); font-variant-numeric: tabular-nums; text-align: left; }
+  .cand-list li.in .cn-name { font-weight: 700; }
+  .cand-list .cn-age { display: inline-block; margin-inline-start: 7px; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .cand-list .cn-age::before { content: 'בן/בת '; }
+  .cand-list .army { display: block; font-size: 12.5px; color: #3d5a2a; margin-top: 2px; }
+  .cand-list .army.none { color: #9a9a92; }
+  .cand-list .army.low { color: #8a6d1d; }
+  .cand-list .army a { color: inherit; opacity: .75; margin-inline-start: 6px; font-size: 11px; }
+  .army-note { font-size: 12px; color: var(--ink-soft); margin: 0; }
+  .seat-box { background: #fff; border: 1px solid var(--paper-edge); border-radius: 8px; padding: 12px; }
+  .seat-box label { display: block; font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+  .seat-box .actions { margin-top: 10px; }
+  .seat-box .locked { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+  .partner-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .partner-chips span { font-size: 14px; font-weight: 500; background: #fff; border: 1px solid var(--paper-edge); border-radius: 4px; padding: 4px 10px; }
+  .partner-chips span b { font-family: "Frank Ruhl Libre", serif; font-weight: 900; margin-inline-end: 6px; }
+  .zone-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .zone-btns button { flex: 1 1 0; min-width: 84px; padding: 9px 6px; border-radius: 8px; font: 700 14px "Heebo", sans-serif; cursor: pointer; border: 2px solid var(--paper-edge); background: #fff; color: var(--ink); }
+  .zone-btns button.za { border-color: var(--bloc-a); } .zone-btns button.zb { border-color: var(--bloc-b); } .zone-btns button.zs { border-color: #9aa5ae; }
+  .zone-btns button.on.za { background: var(--bloc-a); color: #fff; } .zone-btns button.on.zb { background: var(--bloc-b); color: #fff; } .zone-btns button.on.zs { background: #9aa5ae; color: #fff; }
+
+  /* ---------- דף הרכבת הממשלה: כחול לילה וזהב, כמו אולפן בחירות ---------- */
+  .gov-stage {
+    --navy: #0a1a44; --navy-deep: #060f2b; --gold-a: #f0d27a; --gold-b: #a9772a; --plate: #ffffff; --plate-ink: #0a1a44;
+    color: #fff; border-radius: 12px; padding: 18px 16px 22px;
+    background:
+      radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.7) 50%, transparent 51%),
+      radial-gradient(1px 1px at 34% 8%, rgba(255,255,255,.5) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 58% 14%, rgba(255,255,255,.6) 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 6%, rgba(255,255,255,.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 90% 22%, rgba(255,255,255,.6) 50%, transparent 51%),
+      radial-gradient(120% 80% at 50% 0%, #15307a 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+  .gov-stage h1 small { color: #b9c6e6; }
+  .gov-stage .reset { color: #d8e0f5; border-color: #8fa0cc; }
+  .gov-stage h2 { font: 900 20px/1.2 "Frank Ruhl Libre", serif; margin: 22px 0 4px; padding-bottom: 6px; border-bottom: 2px solid transparent; border-image: linear-gradient(90deg, transparent, #4f8dff, transparent) 1; }
+  .gov-stage .step-sub { font-size: 13px; color: #b9c6e6; margin: 6px 0 12px; }
+  .gold-text { background: linear-gradient(180deg, var(--gold-a), var(--gold-b)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .pm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)); gap: 10px; }
+  .pm-card { position: relative; background: rgba(255,255,255,.06); border: 1px solid #33488a; border-radius: 6px; padding: 10px 6px 0; color: #fff; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; overflow: hidden; }
+  .pm-card:hover, .pm-card:focus-visible { border-color: var(--gold-a); outline: none; }
+  .pm-card .portrait { width: 62px; height: 72px; }
+  .pm-card .plate { align-self: stretch; margin-inline: -6px; }
+  .pm-card .n { position: absolute; top: 4px; left: 4px; min-width: 24px; height: 24px; padding-inline: 5px; border-radius: 12px; background: linear-gradient(180deg, var(--gold-a), var(--gold-b)); color: #2b1d00; font: 700 13px/24px "Heebo", sans-serif; }
+  .pm-card.on { border: 2px solid var(--gold-a); box-shadow: 0 0 0 3px rgba(240,210,122,.25); }
+  .portrait { background: linear-gradient(180deg, #2a4fae, #16307a); border: 1px solid #8fa0cc; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+  .portrait svg { width: 86%; height: 86%; fill: #9fb4e6; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+  .plate { background: var(--plate); color: var(--plate-ink); font: 700 12px/1.2 "Heebo", sans-serif; padding: 5px 4px; text-align: center; overflow-wrap: anywhere; }
+  .plate small { display: block; font-weight: 500; font-size: 10.5px; color: #4a5a86; }
+
+  .pm-banner { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 12px; border: 1px solid var(--gold-b); border-radius: 8px; background: rgba(240,210,122,.08); }
+  .pm-banner .portrait { width: 70px; height: 84px; flex: 0 0 auto; }
+  .pm-banner .who { flex: 1; min-width: 0; }
+  .pm-banner .who small { display: block; font-size: 12px; color: #b9c6e6; }
+  .pm-banner .who b { display: block; font: 900 24px/1.15 "Frank Ruhl Libre", serif; }
+  .pm-banner .who span { font-size: 13px; color: #d8e0f5; }
+
+  .coal-meter { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  .coal-meter strong { font: 900 34px/1 "Frank Ruhl Libre", serif; }
+  .coal-meter .st { font: 700 14px "Heebo", sans-serif; color: #ffb3ad; }
+  .coal-meter .st.yes { color: #7be0a8; }
+  .coal-bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,.12); position: relative; margin-bottom: 14px; }
+  .coal-bar i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--gold-b), var(--gold-a)); transition: width .3s; max-width: 100%; }
+  .coal-bar::after { content: "61"; position: absolute; top: -5px; bottom: -5px; right: 50.8%; border-right: 2px dashed #fff; font: 700 10px "Heebo", sans-serif; padding-right: 4px; line-height: 34px; }
+  .coal-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .coal-chip { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.06); color: #fff; border: 1px solid #33488a; border-radius: 6px; padding: 6px 10px; font: inherit; cursor: pointer; border-bottom-width: 4px; }
+  .coal-chip.za { border-bottom-color: var(--bloc-a); } .coal-chip.zb { border-bottom-color: var(--bloc-b); } .coal-chip.zs { border-bottom-color: #9aa5ae; }
+  .coal-chip b { font: 900 20px/1 "Frank Ruhl Libre", serif; }
+  .coal-chip .cn { font-size: 12px; line-height: 1.2; text-align: right; }
+  .coal-chip .cn small { display: block; color: #b9c6e6; font-size: 11px; }
+  .coal-chip .cs { min-width: 22px; height: 22px; border-radius: 11px; padding-inline: 5px; background: rgba(255,255,255,.16); font: 700 12px/22px "Heebo", sans-serif; }
+  .coal-chip.on { background: linear-gradient(180deg, var(--gold-a), var(--gold-b)); color: #2b1d00; border-color: var(--gold-a); }
+  .coal-chip.on .cn small { color: #4d3a0c; } .coal-chip.on .cs { background: rgba(0,0,0,.18); }
+  .coal-chip:disabled { cursor: default; }
+  .coal-chip:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+  .folio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+  .folio { display: flex; align-items: stretch; gap: 0; background: linear-gradient(180deg, #102a6e, #0a1a44); border: 1px solid #33488a; border-radius: 4px; padding: 10px; color: #fff; font: inherit; cursor: pointer; text-align: center; min-height: 128px; }
+  .folio:hover:not(:disabled), .folio:focus-visible { border-color: var(--gold-a); outline: none; }
+  .folio:disabled { opacity: .45; cursor: not-allowed; }
+  .folio .person { flex: 0 0 92px; display: flex; flex-direction: column; }
+  .folio .person .portrait { flex: 1; min-height: 78px; }
+  .folio .person.vacant .portrait { background: transparent; border: 1px dashed #6f83bd; align-items: center; font-size: 12px; color: #b9c6e6; padding: 4px; }
+  .folio .case { flex: 1; min-width: 0; position: relative; display: flex; align-items: center; justify-content: center; margin-inline-start: -6px; }
+  .folio .case svg { width: 100%; max-width: 150px; height: auto; display: block; filter: drop-shadow(0 3px 5px rgba(0,0,0,.4)); }
+  .folio .case span { position: absolute; left: 8%; right: 8%; top: 63%; transform: translateY(-40%); font: 700 17px/1.05 "Heebo", sans-serif; color: #fff; text-shadow: 0 1px 2px rgba(80,50,0,.6); text-wrap: balance; }
+  .folio-progress { font-size: 13px; color: #b9c6e6; margin: 6px 0 12px; }
+  .folio .must { position: absolute; top: 6px; right: 6px; font: 700 10px "Heebo", sans-serif; background: var(--gold-a); color: #2b1d00; border-radius: 3px; padding: 1px 5px; }
+  .folio { position: relative; }
+  .folio.is-must:not(.done) { border-color: var(--gold-b); }
+
+  /* נעילת שלבים */
+  .step.locked .step-in { display: none; }
+  .step.locked h2 { opacity: .5; }
+  .lock-note { font-size: 13px; color: #b9c6e6; background: rgba(255,255,255,.05); border: 1px dashed #4a5e9c; border-radius: 6px; padding: 10px 12px; margin-top: 8px; }
+  .step:not(.locked) .lock-note { display: none; }
+
+  .finish-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #33488a; }
+  .finish-txt { flex: 1; min-width: 180px; font-size: 13px; color: #b9c6e6; }
+  #finishBtn { font-size: 15px; padding: 11px 20px; }
+  #finishBtn:disabled { background: transparent; color: #8fa0cc; border: 1px dashed #8fa0cc; }
+
+  /* מסך השיתוף */
+  #shareDlg { width: min(94vw, 500px); max-height: 94vh; background: var(--paper); }
+  #shareDlg[open] { display: flex; flex-direction: column; }
+  .share-body { padding: 14px; overflow-y: auto; }
+  .share-img { width: 100%; border-radius: 8px; display: block; box-shadow: 0 6px 18px rgba(0,0,0,.25); background: #0a1a44; }
+  .share-actions { display: flex; justify-content: center; gap: 14px; margin-top: 14px; }
+  .ico-btn { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--paper-edge); background: #fff; color: var(--kalpi-panel-a); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+  .ico-btn svg { width: 26px; height: 26px; stroke: currentColor; fill: currentColor; }
+  .ico-btn svg [fill="none"] { fill: none; }
+  .ico-btn:hover, .ico-btn:focus-visible { border-color: var(--kalpi-front); outline: none; transform: translateY(-1px); }
+  .ico-btn.prime { background: var(--kalpi-panel-a); border-color: var(--kalpi-panel-a); color: #fff; }
+  .share-said { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+  .share-apps { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .app-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 20px; color: #fff; text-decoration: none; font: 700 13px "Heebo", sans-serif; }
+  .app-btn svg { width: 18px; height: 18px; fill: currentColor; }
+  .app-btn.wa { background: #25D366; } .app-btn.tg { background: #229ED9; } .app-btn.fb { background: #1877F2; }
+  .app-btn:hover, .app-btn:focus-visible { filter: brightness(1.08); outline: none; }
+  .share-tip { text-align: center; font-size: 12px; line-height: 1.5; color: var(--ink-soft); margin: 8px 0 0; }
+
+  .add-folio { display: block; width: 100%; margin-top: 12px; padding: 14px; border-radius: 6px; border: 2px dashed #6f83bd; background: rgba(255,255,255,.04); color: #d8e0f5; font: 700 15px "Heebo", sans-serif; cursor: pointer; }
+  .add-folio:hover:not(:disabled), .add-folio:focus-visible { border-color: var(--gold-a); color: #fff; outline: none; }
+  .add-folio:disabled { opacity: .4; cursor: not-allowed; }
+  .af-new { display: flex; gap: 8px; }
+  .af-new input { flex: 1; min-width: 0; font: 500 15px "Heebo", sans-serif; padding: 9px 10px; border: 1px solid var(--paper-edge); border-radius: 8px; background: #fff; color: var(--ink); }
+  .af-new input:focus { outline: none; border-color: var(--kalpi-front); }
+  .af-new button { flex: 0 0 auto; padding: 9px 18px; border-radius: 8px; border: 1px solid var(--kalpi-panel-a); font: 700 15px "Heebo", sans-serif; cursor: pointer; }
+  #addDlg, #assignDlg { width: min(94vw, 440px); max-height: 90vh; }
+  #addDlg[open] { display: flex; flex-direction: column; }
+  #assignDlg[open] { display: flex; flex-direction: column; }
+  .assign { padding: 18px 16px 14px; overflow-y: auto; }
+  .assign h2 { font: 900 22px/1.15 "Frank Ruhl Libre", serif; margin: 0 0 2px; }
+  .assign .sub { font-size: 13px; color: var(--ink-soft); margin-bottom: 12px; }
+  .assign h3 { font: 700 13px "Heebo", sans-serif; color: var(--ink-soft); margin: 14px 0 6px; }
+  .pick-party { display: flex; flex-wrap: wrap; gap: 6px; }
+  .slipbtn { display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--paper-edge); border-radius: 2px; padding: 9px 11px 9px 9px; cursor: pointer; box-shadow: 1px 2px 4px rgba(0,0,0,.18); }
+  .slipbtn .sb-name { font: 700 14px/1.2 "Heebo", sans-serif; color: var(--ink); max-width: 128px; overflow-wrap: anywhere; }
+  .slipbtn .sb-seats { min-width: 22px; height: 22px; padding-inline: 5px; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font: 700 12px/22px "Heebo", sans-serif; text-align: center; font-variant-numeric: tabular-nums; }
+  .slipbtn.on { outline: 2px solid var(--kalpi-panel-a); outline-offset: 1px; }
+  .pick-member { display: grid; gap: 4px; }
+  .pick-member button { display: flex; gap: 8px; align-items: baseline; text-align: right; background: #fff; border: 1px solid var(--paper-edge); border-radius: 6px; padding: 8px 10px; font: 500 14px "Heebo", sans-serif; color: var(--ink); cursor: pointer; }
+  .pick-member button span { flex: 0 0 22px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .pick-member button small { margin-inline-start: auto; color: var(--ink-soft); font-size: 12px; }
+  .pick-member button:hover:not(:disabled) { border-color: var(--kalpi-front); }
+  .pick-member button.on { border: 2px solid #a9772a; background: #fbf3dc; }
+  .pick-member button:disabled { opacity: .5; cursor: not-allowed; }
+  @media (prefers-reduced-motion: reduce) { .coal-bar i { transition: none; } }
+</style>
+
+<dialog id="partyDlg" aria-labelledby="pdName">
+  <div class="sheet-head">
+    <button type="button" class="x" id="pdClose" aria-label="חזור">✕</button>
+    <div class="ltr" id="pdLetters"></div>
+    <div class="ttl"><b id="pdName"></b><span id="pdHead"></span></div>
+    <div class="avatar" id="pdAvatar"></div>
+  </div>
+  <div class="sheet-body">
+    <div class="tags" id="pdTags"></div>
+    <div class="top-actions" id="pdTop"></div>
+    <ol class="cand-list" id="pdCands" hidden></ol>
+    <p class="army-note" id="pdCandsNote" hidden>דרגה צבאית ותפקיד בכיר, ממקורות פומביים: ויקיפדיה העברית ואתר הכנסת. "לא נמצא מידע" אומר בדיוק את זה, ולא שהאדם לא שירת. ריחוף על השורה מראה את פרטי השירות המלאים.</p>
+    <form class="seat-box" id="pdFoot" method="dialog">
+      <div id="pdSeatsMode">
+        <label for="pdSeats">כמה מנדטים לרשימה הזו?</label>
+        <div class="stepper">
+          <button type="button" id="pdMinus" aria-label="פחות">-</button>
+          <input id="pdSeats" type="number" inputmode="numeric" min="0" max="120" step="1" value="0">
+          <button type="button" id="pdPlus" aria-label="יותר">+</button>
+        </div>
+        <div class="hint" id="pdHint"></div>
+        <div class="actions">
+          <button type="button" class="zero" id="pdZero">לא עוברת</button>
+          <button type="submit" class="save" id="pdSave">לקלפי</button>
+        </div>
+      </div>
+      <div id="pdBlocMode" hidden>
+        <div class="locked" id="pdLocked"></div>
+        <div class="zone-btns">
+          <button type="button" class="za" data-z="a" id="pdZa"></button>
+          <button type="button" class="zs" data-z="s" id="pdZs"></button>
+          <button type="button" class="zb" data-z="b" id="pdZb"></button>
+        </div>
+      </div>
+    </form>
+    <div id="pdRest"></div>
+  </div>
+</dialog>
+
+<dialog id="addDlg" aria-labelledby="afTitle">
+  <div class="assign">
+    <h2 id="afTitle">הוספת תיק</h2>
+    <div class="sub">בחרו מהרשימה, או כתבו תיק משלכם.</div>
+    <h3>תיקים מוכרים</h3>
+    <div class="pick-member" id="afList"></div>
+    <h3>תיק חדש</h3>
+    <form class="af-new" id="afForm" method="dialog">
+      <input id="afName" maxlength="24" placeholder="למשל: התיירות" autocomplete="off">
+      <button type="submit" class="save">הוסף</button>
+    </form>
+    <div class="hint" id="afHint"></div>
+    <div class="actions">
+      <button type="button" id="afClose">סגור</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="assignDlg" aria-labelledby="asTitle">
+  <div class="assign">
+    <h2 id="asTitle"></h2>
+    <div class="sub">קודם בוחרים רשימה מהקואליציה, ואז חבר כנסת מתוכה.</div>
+    <h3>1. איזו רשימה מקבלת את התיק?</h3>
+    <div class="pick-party" id="asParties"></div>
+    <h3 id="asMembersTitle" hidden>2. מי השר או השרה?</h3>
+    <div class="pick-member" id="asMembers"></div>
+    <div class="actions">
+      <button type="button" class="zero" id="asDrop" hidden>מחק תיק</button>
+      <button type="button" class="zero" id="asClear">פנה את התיק</button>
+      <button type="button" id="asClose">סגור</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="shareDlg" aria-label="הממשלה שהרכבתם">
+  <div class="share-body">
+    <img class="share-img" id="shareImg" alt="תמונת הממשלה שהרכבתם">
+    <div class="share-actions">
+      <button type="button" class="ico-btn prime" id="shShare" title="שיתוף לאפליקציות" aria-label="שיתוף לאפליקציות">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4" stroke-width="2" fill="none"/></svg>
+      </button>
+      <button type="button" class="ico-btn" id="shClose" title="חזרה לעריכה" aria-label="חזרה לעריכה">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M12 5l7 7-7 7" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="ico-btn" id="shSave" title="שמירת התמונה" aria-label="שמירת התמונה">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11M7.5 9.5L12 14l4.5-4.5M4 17v2a1 1 0 001 1h14a1 1 0 001-1v-2" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="ico-btn" id="shCopy" title="העתקת הקישור" aria-label="העתקת הקישור">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 8.5l-7 7a3.2 3.2 0 01-4.5-4.5l8-8a4.5 4.5 0 016.4 6.4l-8.2 8.2a6 6 0 01-8.5-8.5l7.3-7.3" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="share-apps">
+      <a class="app-btn wa" id="shWa" target="_blank" rel="noopener" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.8 12 12 0 004.6 4c.6.3 1.1.4 1.5.5a3.6 3.6 0 001.6 0 2.7 2.7 0 001.8-1.3 2.2 2.2 0 00.1-1.2c0-.2-.2-.2-.4-.3z"/></svg><span>וואטסאפ</span></a>
+      <a class="app-btn tg" id="shTg" target="_blank" rel="noopener" aria-label="טלגרם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.6L18.7 19.5c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8L18 6.8c.4-.3-.1-.5-.6-.2L6.5 13.4 1.8 12c-1-.3-1-1 .2-1.5L20.6 3.3c.9-.3 1.6.2 1.3 1.3z"/></svg><span>טלגרם</span></a>
+      <a class="app-btn fb" id="shFb" target="_blank" rel="noopener" aria-label="פייסבוק"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.3c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.4H7.4V14h2.8v8z"/></svg><span>פייסבוק</span></a>
+    </div>
+    <div class="share-said" id="shareSaid" hidden></div>
+  </div>
+</dialog>
+
+<script>
+  /* ---------- מאגר הנתונים על הרשימות ----------
+     מקורות: המכון הישראלי לדמוקרטיה (רשימות, מצעים, קובצי מועמדים), ויקיפדיה (מועמדים).
+     link: מצע שהמכון לדמוקרטיה מקשר אליו. בלי link הרשימה מסומנת "אין מצע".
+     z: ציונית (true) או לא (false: מפלגות ערביות וחרדיות). bloc: 'lib' ליברלים, 'con' שמרנים. חסר = לא ידוע לי. */
+  const IDI_MEDIA = 'https://www.idi.org.il/media/';
+  const PD = {
+    'ישר!': { z: true, bloc: 'lib', link: 'https://yasharwitheisenkot.com/agenda_point/', pdf: '32324/ישר.pdf',
+      partners: ['ביחד', 'ישראל ביתנו', 'כחול לבן'],
+      points: ['ישראל יהודית ודמוקרטית ברוח מגילת העצמאות, וקידום חוקה.', 'חיזוק הביטחון הלאומי והסכמי שלום אזוריים מתוך עוצמה.', 'חוק "שירות לכל": שירות צבאי או לאומי לכל אזרח.', 'חינוך ממלכתי, טיפוח הפריפריה וצמצום פערים.'],
+      cands: ['גדי איזנקוט', 'יורם כהן', 'אורית פרקש-הכהן', 'עדי אלטשולר', 'מתן כהנא', 'חילי טרופר', 'שאול מרידור', 'תאיר איפרגן', 'אושרת גני גונן', 'שירה שפירא', 'ענבר הרוש גיטי', 'אלעזר שטרן', 'כמיל אבו רוקון', 'דבורה שריפיאן בכר', 'אלקס ריף', 'ענבר יחזקאלי בליליוס', 'רועי פולקמן', 'ישראל זרי', 'טל אוחנה', 'אליסף פרץ', 'יפה טבג\'ה', 'ניר חג\'בי', 'רון ברקאי', 'שי אנדראה פישר', 'ליאן פולק', 'רועי כהן', 'זיו רוזן', 'ג\'וסלין באש', 'אלון פוטרמן', 'טלי מולנר'] },
+    'הליכוד': { z: true, bloc: 'con', pdf: '32314/הליכוד.pdf',
+      partners: ['ש"ס', 'יהדות התורה', 'עוצמה יהודית'],
+      points: ['ימין לאומי-ליברלי: ביטחון, התיישבות והתנגדות למדינה פלסטינית.', 'כלכלת שוק חופשי.', 'קידום שינויים במערכת המשפט.'],
+      cands: ['בנימין נתניהו', 'אלי כהן', 'אמיר אוחנה', 'יריב לוין', 'מירי רגב', 'ישראל כ"ץ', 'גדעון סער', 'אופיר כץ', 'טליק גואילי', 'יואב קיש', 'יעקב ברדוגו', 'מיקי זוהר', 'אלמוג כהן', 'עמיחי שיקלי', 'אלישע מדן', 'דוד פטר', 'משה סעדה', 'חיים כץ', 'דודי אמסלם', 'אתי עטייה', 'בועז ביסמוט', 'דוד ביטן', 'שלמה קרעי', 'ניר ברקת', 'גילה גמליאל', 'אלי גולדשמידט', 'ארז תדמור', 'שלמה יוסף לרנר', 'יצחק בונצל', 'משה בנימין פרץ'] },
+    'ביחד': { z: true, bloc: 'lib', link: 'https://be-yahad.org.il/plans/', pdf: '32309/ביחד.pdf',
+      partners: ['ישר!', 'ישראל ביתנו', 'הדמוקרטים'],
+      points: ['ממשלת אחדות ציונית רחבה.', 'גיוס ושוויון בנטל.', 'ועדת חקירה ממלכתית ל-7 באוקטובר.', 'שמירה על עצמאות מערכת המשפט.'],
+      cands: ['נפתלי בנט', 'יאיר לפיד', 'קרן טרנר', 'מירב בן ארי', 'לירן אבישר בן-חורין', 'נעם תיבון', 'מיכל הירש נגרי', 'איתן גינזבורג', 'מירב כהן', 'יונתן שלו', 'ברוריה נעים ארמן', 'רם בן ברק', 'אמיר סטרוגו', 'נאור שירי', 'ניסן זאבי', 'ולדימיר בליאק', 'אורלי אלידן-הראל', 'יוראי להב-הרצנו', 'שחר ורון', 'יסמין פרידמן', 'אסתי איילון קובו', 'נטע אטיאס מויאל', 'ג\'רמי סלטן', 'משה טור-פז'] },
+    'הדמוקרטים': { z: true, bloc: 'lib', link: 'https://yes.democrats.org.il/', pdf: '32313/הדמוקרטים.pdf',
+      partners: ['ביחד', 'ישר!'],
+      points: ['שמאל ציוני: הגנה על הדמוקרטיה ועל מערכת המשפט.', 'הסדר מדיני והיפרדות מהפלסטינים.', 'מדינת רווחה, זכויות עובדים ושוויון.', 'הפרדת דת ומדינה.'],
+      cands: ['יאיר גולן', 'נעמה לזימי', 'גלעד קריב', 'אפרת רייטן', 'יאיא פינק', 'גבי לסקי', 'עמרי רונן', 'מיכל רוזין', 'משה רדמן', 'סומיה בשיר', 'נמרוד שפר', 'מורן זר קצנשטיין', 'אבי דבוש', 'אמילי מואטי', 'תומר אביטל', 'נאוה רוזיליו', 'רם שפע', 'עלי סלאלחה', 'רתם סיון', 'ערן עציון'] },
+    'יהדות התורה': { z: false, bloc: 'con', pdf: '32323/יהדות-התורה.pdf',
+      partners: ['ש"ס', 'הליכוד'],
+      points: ['ייצוג הציבור החרדי האשכנזי.', 'שמירת מעמד לומדי התורה והתנגדות לגיוס חובה לבני ישיבות.', 'שמירת הסטטוס קוו בענייני דת ומדינה.'],
+      cands: ['יעקב אשר', 'יצחק גולדקנופף', 'יצחק פינדרוס', 'מאיר פרוש', 'משה עזריאל רוזנטל', 'אליקים שטארק', 'יהודה וייספיש', 'יעקב טסלר', 'דוד זלץ', 'דוד אוחנה', 'משה רוט', 'אליהו ברוכי'] },
+    'ישראל ביתנו': { z: true, bloc: 'lib', link: 'https://beytenu.org.il/party-platform/', pdf: '32325/ישראל-ביתנו.pdf',
+      partners: ['ביחד', 'ישר!'],
+      points: ['ימין ביטחוני חילוני.', 'גיוס לכולם, כולל חרדים.', 'נישואים אזרחיים והפרדת דת ממדינה.', 'כלכלה ליברלית.'],
+      cands: ['אביגדור ליברמן', 'רפי בן שטרית', 'טליה לנקרי', 'עודד פורר', 'יוליה מלינובסקי', 'שרון שרעבי', 'חמד עמאר', 'יבגני סובה', 'אלוירה קוליחמן', 'דן אילוז', 'לילי בן עמי', 'יעל בנבנישתי'] },
+    'ש"ס': { z: false, bloc: 'con', pdf: '32339/שס.pdf',
+      partners: ['הליכוד', 'יהדות התורה'],
+      points: ['ייצוג הציבור החרדי-ספרדי והמסורתי.', 'סיוע לשכבות החלשות ולפריפריה.', 'שמירת עולם התורה והצביון היהודי של המדינה.'],
+      cands: ['אריה דרעי', 'ינון אזולאי', 'מיכאל מלכיאלי', 'יואב בן-צור', 'חיים ביטון', 'דרור עמוס', 'משה אבוטבול', 'אוריאל בוסו', 'יוסי טייב', 'יונתן מישרקי', 'יוסי אילנתנוב', 'ארז מלול', 'סימיון מושיאשוילי'] },
+    'הרשימה המשותפת': { z: false, bloc: 'lib', pdf: '32320/הרשימה-המשותפת.pdf',
+      partners: ['רע"מ'],
+      points: ['ייצוג האזרחים הערבים ושותפות ערבית-יהודית.', 'סיום הכיבוש והקמת מדינה פלסטינית.', 'שוויון אזרחי ומאבק בפשיעה בחברה הערבית.'],
+      cands: ['יוסף ג\'בארין', 'אחמד טיבי', 'סאמי אבו שחאדה', 'פאתן ג\'טאס', 'בכר עואודה', 'עופר כסיף', 'יוסף עטאונה', 'מהא כרכבי-סבאח', 'אחמד דראושה', 'נהאיה ושאחי', 'חסן נצאצרה', 'הייתם זחאלקה', 'איאס נאטור', 'ג\'סאן עבדאללה', 'אורלי נוי'] },
+    'עוצמה יהודית': { z: true, bloc: 'con', pdf: '32332/עוצמה-יהודית.pdf',
+      partners: ['הליכוד', 'הציונות הדתית', 'נעם לישראל'],
+      points: ['ימין קיצוני לאומי.', 'יד קשה בביטחון הפנים ועונש מוות למחבלים.', 'ריבונות והרחבת ההתיישבות.'],
+      cands: ['איתמר בן גביר', 'טלי גוטליב', 'יצחק וסרלאוף', 'עמיחי אליהו', 'לימור סון הר-מלך', 'יצחק קרויזר', 'חנמאל דורפמן', 'צחי יצחק אליהו', 'יוסי גולדנברגר', 'איתיאל ניימן', 'דוד מנחם בבלי', 'ישי פליישר'] },
+    'הציונות הדתית': { z: true, bloc: 'con', link: 'https://zionutdatit.org.il/', pdf: '32318/הציונות-הדתית.pdf',
+      partners: ['הליכוד', 'עוצמה יהודית', 'נעם לישראל'],
+      points: ['ימין דתי-לאומי.', 'ריבונות ביהודה ושומרון והרחבת ההתיישבות.', 'שינויים במערכת המשפט וכלכלת שוק חופשי.'],
+      cands: ['בצלאל סמוטריץ\'', 'משה פייגלין', 'אורית סטרוק', 'שמחה רוטמן', 'צביקה מור', 'איתמר איתם', 'צבי סוכות', 'יצחק זאגא', 'רעות בן חיים', 'עומר פציניאש ולדמן', 'ארקדי מוטר', 'אוהד טל'] },
+    'רע"מ': { z: false, bloc: 'con', pdf: '32337/רעמ.pdf',
+      partners: ['הדמוקרטים', 'ביחד'],
+      points: ['ייצוג החברה הערבית בגישה פרגמטית של השתלבות בקואליציה.', 'תקציבים, מאבק בפשיעה ותכנון ביישובים הערביים.', 'שמרנות דתית בנושאי חברה.'],
+      cands: ['מנסור עבאס', 'יואב סגלוביץ', 'וליד טאהא', 'ואליד אלהואשלה', 'אימאן ח\'טיב-יאסין', 'יאסר חוג\'יראת'] },
+    'המילואימניקים': { z: true, bloc: 'lib', link: 'https://www.themiluimnikim.org.il/platform/', pdf: '32315/המילואימניקים-והכלכלית.pdf',
+      partners: ['ביחד', 'ישר!', 'ישראל ביתנו'],
+      points: ['ייצוג משרתי המילואים ושוויון בנטל.', 'ימין ממלכתי.', 'רפורמות כלכליות ומאבק ביוקר המחיה.'],
+      cands: ['יועז הנדל', 'ירון זליכה', 'עינת וילף', 'חביב ווליבוביץ', 'יואב שלמה אדומי', 'אופיר שי לנגמן'] },
+    'עמך ישראל': { z: true, bloc: 'con', pdf: '32333/עמך-ישראל.pdf',
+      partners: ['הציונות הדתית', 'הליכוד'],
+      cands: ['עופר וינטר', 'יוסף חדאד', 'נטעלי שם טוב', 'ערן בן ארי', 'פלר חסן-נחום', 'ללי דרעי', 'רונן בודנרו', 'דוד נחום בן ציון', 'אביב עזרא', 'אלי ג\'ינו'] },
+    'כחול לבן': { z: true, bloc: 'lib', link: 'https://kachollavan.org.il/', pdf: '32327/כחול-לבן.pdf',
+      partners: ['ישר!', 'ביחד'],
+      points: ['מרכז ממלכתי: אחדות, הסכמות רחבות וממשלת אחדות.', 'ביטחון ושירות לכולם.'],
+      cands: ['בני גנץ', 'פנינה תמנו-שטה', 'עליזה בלוך', 'רועי קונקול', 'רותם אבידר צאליק', 'אלון שוסטר', 'מופיד מרעי', 'יהודית אוליאל מלכה', 'אריאל בזיז', 'מוריה רודל-סילפן'] },
+    'נעם לישראל': { z: true, bloc: 'con', pdf: '32330/נעם.pdf',
+      partners: ['עוצמה יהודית', 'הציונות הדתית', 'הליכוד'],
+      points: ['מפלגה חרד"לית: חיזוק הזהות היהודית במערכת החינוך ובמרחב הציבורי.'],
+      cands: ['אבי מעוז', 'שמעון טובול', 'אליהו ליבמן', 'ליאורה אלון', 'יסכה חיימוב', 'ישראל יאיר אביטן', 'אליהו אוזן', 'אילון מאיר', 'אלקנה באבד', 'איתן וינברג'] },
+    'הציבור החרדי': { z: false, bloc: 'con', link: 'https://hatzibur-haharedi.org/', pdf: '32317/הציבור-החרדי.pdf',
+      cands: ['מוטי ליטנר', 'אשר פרדי', 'מרים נחמה יפה', 'זיוה רנית גלאנץ', 'מרדכי רובינשטיין', 'יצחק אדלרשטיין'] },
+    'צבע שחור': { z: false, bloc: 'con', pdf: '32334/צבע-שחור.pdf' },
+    'הקהל': { z: false, bloc: 'con', pdf: '32319/הקהל.pdf' },
+    'אורות השחר': { link: 'https://orothashachar.org.il/platform/', pdf: '32304/אורות-השחר.pdf' },
+    'אני ואתה': { pdf: '32305/אני-ואתה.pdf' },
+    'בטח': { pdf: '32306/בטח.pdf' },
+    'ביחד נצליח': { pdf: '32308/ביחד-נצליח.pdf' },
+    'ביטחון אישי': { pdf: '32307/בטחון-אישי.pdf' },
+    'ברית עולם': { link: 'https://brit-olam.net/', pdf: '32310/ברית-עולם.pdf' },
+    'גן עדן': { link: 'https://www.ganeden.org.il/platform', pdf: '32311/גן-עדן.pdf' },
+    'הפיראטים': { link: 'https://piratim.org/wiki/matza/', pdf: '32316/הפיראטים.pdf' },
+    'השותפות לכולם': { pdf: '32321/השותפות-לכולם.pdf' },
+    'התיקון': { pdf: '32322/התיקון.pdf' },
+    'ישראל תחילה': { link: 'https://israelfirst.co.il/work-plan/', pdf: '32326/ישראל-תחילה.pdf' },
+    'הגוש התנ"כי': { pdf: '32312/הגוש-התנכי.pdf' },
+    'שמע': { link: 'https://eomzone.com/', pdf: '32338/שמע.pdf' },
+    'תקומה': { pdf: '32328/מפלגת-תקומה.pdf' },
+    'משפט צדק': { pdf: '32329/משפט-צדק.pdf' },
+    'סדר חדש': { pdf: '32331/סדר-חדש.pdf' },
+    'צומת בית ישראל': { z: true, pdf: '32335/צומת-בית-ישראל.pdf' },
+    'קול הנשים': { pdf: '32336/קול-הנשים.pdf' },
+    'שרשר': { pdf: '32340/שרשר.pdf' },
+    'תנועת אחי': { pdf: '32341/תנועת-אחי.pdf' },
+  };
+  Object.assign(HEADS, {
+    'יהדות התורה': { h: 'יעקב אשר' }, 'הרשימה המשותפת': { h: 'יוסף ג\'בארין' }, 'המילואימניקים': { h: 'יועז הנדל' },
+    'נעם לישראל': { h: 'אבי מעוז' }, 'הציבור החרדי': { h: 'מוטי ליטנר' },
+    'ישראל תחילה': { h: 'שרן השכל' },
+    'ביחד נצליח': { h: 'אבי שקד' },
+    'בטח': { h: 'סמיון גרפמן' },
+    'אורות השחר': { h: 'ניסים לוק' },
+    'הקהל': { h: 'הרב שלמה אלבוים' },
+  });
+
+  // שירות צבאי של המועמדים: {רשימה: {שם: {s: תיאור, u: מקור, c: רמת ביטחון}}}. נבנה ממחקר, לא מניחוש.
+  // תמונות מוויקיפדיה העברית, מפורסמות יחד עם הדף כי דפדפן לא טוען תמונות מאתר חיצוני
+  /*PHOTO-DATA*/const PHOTO = {"אחמד טיבי":"img/9a9dbfa48b.png","יואב סגלוביץ":"img/4d50698ab9.jpg","יוסף ג'בארין":"img/b28738800b.png","יוסף עטאונה":"img/504f273895.jpg","עופר כסיף":"img/a815744c52.png","מנסור עבאס":"img/0a560df249.jpg","וליד טאהא":"img/6fd9c59261.jpg","סאמי אבו שחאדה":"img/df82430a83.png","אימאן ח'טיב-יאסין":"img/48500caef8.jpg","יאסר חוג'יראת":"img/e1ef04f949.jpg","ואליד אלהואשלה":"img/a7e0eadbc5.jpg","יאיר לפיד":"img/53fd3aaa46.jpg","נעם תיבון":"img/8156cc7786.jpg","נפתלי בנט":"img/332d016c18.jpg","עופר וינטר":"img/62bed89b4c.png","מירב כהן":"img/6aa47bb672.jpg","מירב בן ארי":"img/c0b3c92c87.jpg","קרן טרנר":"img/5f2de4c4f8.jpg","איתן גינזבורג":"img/fb76c04380.jpg","יוסף חדאד":"img/192445ff84.jpg","פלר חסן-נחום":"img/80ff9ae482.jpg","לירן אבישר בן-חורין":"img/21a4143e67.jpg","נטעלי שם טוב":"img/e5853e347e.jpg","בני גנץ":"img/6396e1ace0.jpg","אלון שוסטר":"img/2e744de36b.jpg","משה טור-פז":"img/19778ce1f0.jpg","עליזה בלוך":"img/cdeb7e4d8f.jpg","רם בן ברק":"img/a8fa4e1278.jpg","יוראי להב-הרצנו":"img/959615c24b.jpg","ולדימיר בליאק":"img/b159e63911.jpg","יסמין פרידמן":"img/ebd92771c4.jpg","נאור שירי":"img/8086dd647f.jpg","יונתן שלו":"img/e4c9a3f227.jpg","ניסן זאבי":"img/4a1bf4faa7.jpg","אפרת רייטן":"img/3d9a248693.jpg","יאיר גולן":"img/b1590f358c.jpg","נמרוד שפר":"img/7895f45d22.jpg","גלעד קריב":"img/53450fd8bd.png","מיכל רוזין":"img/feaf9e12f0.jpg","מופיד מרעי":"img/3691d7fd0d.jpg","גבי לסקי":"img/3dc68295b4.jpg","אבי דבוש":"img/d6d79ecaeb.jpg","תומר אביטל":"img/19fbea0ced.jpg","אמילי מואטי":"img/f05d4d5b94.jpg","רם שפע":"img/b7306cf98c.jpg","עלי סלאלחה":"img/e1b111457b.jpg","יאיא פינק":"img/f7e9d65b92.jpg","נעמה לזימי":"img/cc239a23df.jpg","מורן זר קצנשטיין":"img/16d255b351.jpg","נאוה רוזיליו":"img/08e2362212.jpg","סומיה בשיר":"img/1c922bbb69.jpg","אריה דרעי":"img/34f11a9eb4.jpg","אביגדור ליברמן":"img/2b72c426d0.jpg","ירון זליכה":"img/69cc588508.jpg","עינת וילף":"img/7aa3065332.jpg","חמד עמאר":"img/b8a2b2938d.jpg","יועז הנדל":"img/0ea5a374e7.jpg","לילי בן עמי":"img/34b9ea5201.jpg","רפי בן שטרית":"img/7a8304a393.jpg","עודד פורר":"img/d8d7c24e32.jpg","יוליה מלינובסקי":"img/cf3f99bb97.jpg","ינון אזולאי":"img/f5fd66faeb.jpg","יבגני סובה":"img/faa49ebea0.jpg","דן אילוז":"img/605555a3b5.jpg","ערן עציון":"img/cf0f109c6c.jpg","מאיר פרוש":"img/ab6a20a950.jpg","משה אבוטבול":"img/4432b6ee9f.jpg","יעקב אשר":"img/346074dc5b.jpg","יצחק פינדרוס":"img/ad295a53a3.jpg","יואב בן-צור":"img/24a332269c.jpg","מיכאל מלכיאלי":"img/ccaa4702f8.jpg","חיים ביטון":"img/ad8914e5ec.jpg","יעקב טסלר":"img/dc8c756a97.jpg","אוריאל בוסו":"img/a3f73713a6.jpg","יוסי טייב":"img/c599cab2ae.jpg","יצחק גולדקנופף":"img/b6adb88b58.jpg","יונתן מישרקי":"img/c3696cc1af.jpg","ארז מלול":"img/dd83e84570.jpg","סימיון מושיאשוילי":"img/dd82ddbb39.jpg","מירי רגב":"img/224e7c17b7.jpg","בנימין נתניהו":"img/95fe295fc8.jpg","גדעון סער":"img/e90e25b478.jpg","יריב לוין":"img/d6f191d0d8.jpg","מיקי זוהר":"img/7210584ef8.jpg","יואב קיש":"img/1e403cf140.jpg","אמיר אוחנה":"img/7a1c490d33.jpg","יעקב ברדוגו":"img/08e206f92c.jpg","אופיר כץ":"img/fb9de02677.jpg","אליהו ברוכי":"img/0f48a31ad1.jpg","משה רוט":"img/0c2fe1bba9.jpg","עמיחי שיקלי":"img/61b705a2c1.jpg","משה סעדה":"img/09ea66445b.jpg","גילה גמליאל":"img/946c53a7ae.jpg","חיים כץ":"img/90ea0b4bca.jpg","משה פייגלין":"img/828b7bc6b7.jpg","אלי גולדשמידט":"img/3377d3a29b.jpg","ניר ברקת":"img/6ef532e28f.jpg","אורית סטרוק":"img/62e01523bb.jpg","בועז ביסמוט":"img/71418ce8c0.jpg","דוד ביטן":"img/8b7c315c55.jpg","בצלאל סמוטריץ'":"img/b8b3a1866b.jpg","דודי אמסלם":"img/f74f20d3c6.jpg","אתי עטייה":"img/f3c338cfc5.png","שלמה קרעי":"img/2149664a7d.jpg","שמחה רוטמן":"img/680f5ffbc7.jpg","צבי סוכות":"img/895f0eb628.jpg","צביקה מור":"img/1b16708405.jpg","איתמר בן גביר":"img/3f8b803320.jpg","ישי פליישר":"img/712a5a723e.jpg","אליהו ליבמן":"img/cfa6d0be1b.jpg","עמיחי אליהו":"img/0c391c0456.jpg","יצחק וסרלאוף":"img/b0d501ed58.jpg","טלי גוטליב":"img/f80471e10a.jpg","אבי מעוז":"img/9b7c5cc852.jpg","לימור סון הר-מלך":"img/224af112b6.jpg","אוהד טל":"img/708f8039a1.jpg","יצחק קרויזר":"img/e873ee14d0.jpg","אלעזר שטרן":"img/eb15a80165.jpg","גדי איזנקוט":"img/79bb514ac6.jpg","יורם כהן":"img/97b5e38c59.jpg","חילי טרופר":"img/a74ebaef2d.jpg","עדי אלטשולר":"img/959d8ebb8f.jpg","אורית פרקש-הכהן":"img/b42cc23a94.jpg","כמיל אבו רוקון":"img/8519671450.jpg","שאול מרידור":"img/b93ef31e45.jpg","אושרת גני גונן":"img/9054adcd0f.jpg","מתן כהנא":"img/bf2fef34e2.jpg","תאיר איפרגן":"img/6e4914a558.jpg"};
+  const GENDER = {"אחמד טיבי":"m","יואב סגלוביץ":"m","יוסף ג'בארין":"m","יוסף עטאונה":"m","עופר כסיף":"m","מנסור עבאס":"m","וליד טאהא":"m","סאמי אבו שחאדה":"m","אימאן ח'טיב-יאסין":"f","יאסר חוג'יראת":"m","ואליד אלהואשלה":"m","יאיר לפיד":"m","נעם תיבון":"m","נפתלי בנט":"m","עופר וינטר":"m","מירב כהן":"f","מירב בן ארי":"f","קרן טרנר":"f","איתן גינזבורג":"m","יוסף חדאד":"m","פלר חסן-נחום":"f","לירן אבישר בן-חורין":"f","נטעלי שם טוב":"f","אורלי נוי":"f","בני גנץ":"m","אלון שוסטר":"m","משה טור-פז":"m","עליזה בלוך":"f","רם בן ברק":"m","יוראי להב-הרצנו":"m","ולדימיר בליאק":"m","יסמין פרידמן":"f","נאור שירי":"m","יונתן שלו":"m","ניסן זאבי":"m","אפרת רייטן":"f","יאיר גולן":"m","נמרוד שפר":"m","גלעד קריב":"m","מיכל רוזין":"f","מופיד מרעי":"m","גבי לסקי":"f","אבי דבוש":"m","תומר אביטל":"m","אמילי מואטי":"f","רם שפע":"m","עלי סלאלחה":"m","יאיא פינק":"m","נעמה לזימי":"f","מורן זר קצנשטיין":"f","נאוה רוזיליו":"f","סומיה בשיר":"f","אריה דרעי":"m","אביגדור ליברמן":"m","ירון זליכה":"m","עינת וילף":"f","חמד עמאר":"m","יועז הנדל":"m","לילי בן עמי":"f","רפי בן שטרית":"m","עודד פורר":"m","יוליה מלינובסקי":"f","ינון אזולאי":"m","יבגני סובה":"m","דן אילוז":"m","טליה לנקרי":"f","ערן עציון":"m","מאיר פרוש":"m","משה אבוטבול":"m","יעקב אשר":"m","יצחק פינדרוס":"m","יואב בן-צור":"m","מיכאל מלכיאלי":"m","חיים ביטון":"m","יעקב טסלר":"m","אוריאל בוסו":"m","יוסי טייב":"m","יצחק גולדקנופף":"m","יונתן מישרקי":"m","ארז מלול":"m","סימיון מושיאשוילי":"m","יהודה וייספיש":"m","מירי רגב":"f","בנימין נתניהו":"m","גדעון סער":"m","יריב לוין":"m","מיקי זוהר":"m","יואב קיש":"m","אמיר אוחנה":"m","יעקב ברדוגו":"m","אופיר כץ":"m","אליהו ברוכי":"m","משה רוט":"m","עמיחי שיקלי":"m","משה סעדה":"m","מרים נחמה יפה":"f","גילה גמליאל":"f","חיים כץ":"m","משה פייגלין":"m","אלי גולדשמידט":"m","ניר ברקת":"m","אורית סטרוק":"f","בועז ביסמוט":"m","דוד ביטן":"m","בצלאל סמוטריץ'":"m","דודי אמסלם":"m","אתי עטייה":"f","שלמה קרעי":"m","שמחה רוטמן":"m","צבי סוכות":"m","צביקה מור":"m","איתמר בן גביר":"m","ישי פליישר":"m","אליהו ליבמן":"m","עמיחי אליהו":"m","יצחק וסרלאוף":"m","טלי גוטליב":"f","אבי מעוז":"m","לימור סון הר-מלך":"f","אוהד טל":"m","יצחק קרויזר":"m","אלעזר שטרן":"m","גדי איזנקוט":"m","יורם כהן":"m","חילי טרופר":"m","עדי אלטשולר":"f","אורית פרקש-הכהן":"f","כמיל אבו רוקון":"m","שאול מרידור":"m","אושרת גני גונן":"f","מתן כהנא":"m","תאיר איפרגן":"f"};/*PHOTO-END*/
+
+  // תאריכי לידה מוויקינתונים (P569), כדי שהגיל יהיה עובדה ולא הערכה
+  /*BORN-DATA*/const BORN = {"אחמד טיבי":"1958-12-19","יואב סגלוביץ":"1959-04-23","יוסף ג'בארין":"1972-02-23","יוסף עטאונה":"1966-10-26","עופר כסיף":"1964-12-25","מנסור עבאס":"1974-04-22","וליד טאהא":"1968-09-07","סאמי אבו שחאדה":"1975-12-19","אימאן ח'טיב-יאסין":"1964-10-23","יאסר חוג'יראת":"1965-12-19","ואליד אלהואשלה":"1981-10-11","בני גנץ":"1959-06-09","יאיר לפיד":"1963-11-05","נעם תיבון":"1962-03-04","נפתלי בנט":"1972-03-25","עופר וינטר":"1971-02-03","מירב כהן":"1983-08-26","מירב בן ארי":"1975-11-13","קרן טרנר":"1979-05-03","איתן גינזבורג":"1977-01-25","יוסף חדאד":"1985-09-03","פלר חסן-נחום":"1973-00-00","לירן אבישר בן-חורין":"1976-08-30","נטעלי שם טוב":"1983-06-29","אורלי נוי":"1970-06-10","אפרת רייטן":"1972-05-15","יאיר גולן":"1962-05-14","אלון שוסטר":"1957-03-02","נמרוד שפר":"1961-01-01","גלעד קריב":"1973-11-30","מיכל רוזין":"1969-06-25","משה טור-פז":"1972-04-29","עליזה בלוך":"1967-10-13","מופיד מרעי":"1959-05-15","רם בן ברק":"1958-04-01","גבי לסקי":"1967-03-18","אבי דבוש":"1976-00-00","תומר אביטל":"1982-12-02","אמילי מואטי":"1980-06-27","רם שפע":"1985-02-15","עלי סלאלחה":"1952-04-12","יוראי להב-הרצנו":"1988-08-05","ולדימיר בליאק":"1973-08-16","יסמין פרידמן":"1973-06-12","נאור שירי":"1985-05-01","יונתן שלו":"2002-10-12","ניסן זאבי":"1983-04-23","אריה דרעי":"1959-02-17","אביגדור ליברמן":"1958-07-05","ירון זליכה":"1970-07-20","עינת וילף":"1970-12-11","חמד עמאר":"1964-11-05","יועז הנדל":"1975-05-22","לילי בן עמי":"1979-00-00","רפי בן שטרית":"1966-01-02","עודד פורר":"1977-05-30","יוליה מלינובסקי":"1975-09-05","ינון אזולאי":"1979-07-10","יאיא פינק":"1984-06-14","יבגני סובה":"1980-08-29","נעמה לזימי":"1986-01-11","דן אילוז":"1986-02-21","מורן זר קצנשטיין":"1982-08-13","טליה לנקרי":"1970-00-00","נאוה רוזיליו":"1986-06-17","ערן עציון":"1966-11-20","סומיה בשיר":"1974-06-23","מאיר פרוש":"1955-06-11","משה אבוטבול":"1965-07-14","יעקב אשר":"1965-07-02","יצחק פינדרוס":"1971-07-20","יואב בן-צור":"1958-06-11","מיכאל מלכיאלי":"1982-10-07","חיים ביטון":"1978-01-17","יעקב טסלר":"1973-06-26","אוריאל בוסו":"1973-09-13","יוסי טייב":"1981-02-15","יצחק גולדקנופף":"1950-10-30","יונתן מישרקי":"1984-08-17","ארז מלול":"1973-11-22","סימיון מושיאשוילי":"1977-03-06","יהודה וייספיש":"1985-00-00","גילה גמליאל":"1974-02-24","חיים כץ":"1947-12-21","משה פייגלין":"1962-07-31","מירי רגב":"1965-05-26","בנימין נתניהו":"1949-10-21","גדעון סער":"1966-12-09","אלי גולדשמידט":"1953-10-17","ניר ברקת":"1959-10-19","יריב לוין":"1969-06-22","מיקי זוהר":"1980-03-28","יואב קיש":"1968-12-06","אמיר אוחנה":"1976-03-15","יעקב ברדוגו":"1965-03-23","אופיר כץ":"1980-05-19","אליהו ברוכי":"1976-01-22","משה רוט":"1964-02-13","עמיחי שיקלי":"1981-09-12","משה סעדה":"1972-09-14","מרים נחמה יפה":"1976-01-01","אורית סטרוק":"1960-03-15","איתמר בן גביר":"1976-05-06","בועז ביסמוט":"1964-11-25","ישי פליישר":"1976-00-00","דוד ביטן":"1960-04-08","בצלאל סמוטריץ'":"1981-02-27","דודי אמסלם":"1960-08-11","אליהו ליבמן":"1970-00-00","עמיחי אליהו":"1979-04-24","אתי עטייה":"1960-02-12","שלמה קרעי":"1982-04-06","יצחק וסרלאוף":"1992-00-00","שמחה רוטמן":"1980-08-13","צבי סוכות":"1990-10-03","צביקה מור":"1976-09-15","אלעזר שטרן":"1956-08-25","גדי איזנקוט":"1960-05-19","יורם כהן":"1960-10-15","חילי טרופר":"1978-04-22","עדי אלטשולר":"1986-11-23","אורית פרקש-הכהן":"1970-12-29","כמיל אבו רוקון":"1958-09-13","שאול מרידור":"1976-06-17","אושרת גני גונן":"1971-00-00","מתן כהנא":"1972-07-29","טלי גוטליב":"1975-11-03","אבי מעוז":"1956-07-06","תאיר איפרגן":"1979-10-05","לימור סון הר-מלך":"1979-07-30","אוהד טל":"1982-01-04","יצחק קרויזר":"1985-09-07"};/*BORN-END*/
+  function ageOf(name) {
+    const d = BORN[name];
+    if (!d) return null;
+    const p = d.split('-').map(Number), now = new Date();
+    let a = now.getFullYear() - p[0];
+    if (now.getMonth() + 1 < p[1] || (now.getMonth() + 1 === p[1] && now.getDate() < p[2])) a--;
+    return a;
+  }
+
+  /*ARMY-DATA*/const ARMY = {"רע\"מ":{"יואב סגלוביץ":{"s":"קצין מודיעין בצנחנים; משטרת ישראל, ניצב בדימוס (ראש אח\"מ, להב 433)","r":"ניצב בדימוס","u":"https://he.wikipedia.org/wiki/יואב_סגלוביץ","p":"סגן השר לביטחון הפנים לשעבר"},"מנסור עבאס":{"p":"יו\"ר מפלגת רע\"ם, רופא שיניים"},"וליד טאהא":{"p":"יו\"ר ועדת הפנים של הכנסת לשעבר"},"אימאן ח'טיב-יאסין":{"p":"עובדת סוציאלית וחברת הכנסת"},"יאסר חוג'יראת":{"p":"ראש המועצה המקומית ביר אל-מכסור לשעבר"},"ואליד אלהואשלה":{"p":"חבר הכנסת מטעם רע\"ם"}},"הרשימה המשותפת":{"עופר כסיף":{"s":"גרעין נח\"ל ונח\"ל מוצנח; סרבן שירות בשטחים באינתיפאדה הראשונה, נכלא","u":"https://he.wikipedia.org/wiki/עופר_כסיף","p":"מרצה ודוקטור לפילוסופיה פוליטית"},"איאס נאטור":{"s":"סרבן גיוס בצעירותו","u":"https://zoha.org.il/147896/"},"אחמד טיבי":{"p":"סגן יושב ראש הכנסת לשעבר, רופא"},"יוסף ג'בארין":{"p":"יו\"ר חד\"ש, פרופסור למשפטים"},"יוסף עטאונה":{"p":"חבר הכנסת לשעבר מטעם חד\"ש"},"סאמי אבו שחאדה":{"p":"יו\"ר מפלגת בל\"ד"},"אורלי נוי":{"p":"עיתונאית ויו\"ר הנהלת בצלם לשעבר"}},"עמך ישראל":{"עופר וינטר":{"s":"סיירת מטכ\"ל, מגלן, מח\"ט גבעתי, מפקד אוגדה 98, מזכיר צבאי לשר הביטחון; תא\"ל במיל'","r":"תא\"ל במיל'","u":"https://he.wikipedia.org/wiki/עופר_וינטר","p":"תת-אלוף, מפקד עוצבת האש לשעבר"},"יוסף חדאד":{"s":"גולני, גדוד 51, סמל מחלקה; נפצע קשה בלבנון 2006, נכה צה\"ל","r":"סמל","u":"https://he.wikipedia.org/wiki/יוסף_חדאד","p":"מנכ\"ל עמותת ביחד - ערבים זה לזה"},"נטעלי שם טוב":{"s":"דובר צה\"ל; השתחררה כסרן, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/נטעלי_שם_טוב","p":"עיתונאית ומגישה בחדשות 13"},"רונן בודנרו":{"s":"אגוז, לוחם ומפקד; רס\"ן במיל', יחידת הרפואה של אוגדה 98","r":"רס\"ן במיל'","u":"https://www.c14.co.il/article/1677262"},"דוד נחום בן ציון":{"s":"צנחנים, רס\"ן במיל'; מאות ימי מילואים מאז 7.10","r":"רס\"ן במיל'","u":"https://www.ynet.co.il/news/elections2026/article/s13ku7jdzg"},"אביב עזרא":{"s":"לוחם במילואים, מאות ימי מילואים מאז 7.10 (יחידה לא צוינה)","u":"https://www.c14.co.il/article/1677262"},"אלי ג'ינו":{"s":"מפקד סיירת גבעתי (צוק איתן), רמ\"ט חטיבה במיל'; אל\"מ במיל'","u":"https://www.ynet.co.il/news/elections2026/article/s13ku7jdzg"},"פלר חסן-נחום":{"p":"משנה לראש עיריית ירושלים לשעבר"}},"ביחד":{"נפתלי בנט":{"s":"סיירת מטכ\"ל ומגלן, מפקד פלוגה, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/נפתלי_בנט","p":"ראש ממשלת ישראל ה-13"},"יאיר לפיד":{"s":"כתב צבאי בעיתון \"במחנה\" (החל בשריון/נ\"מ, הועבר עקב אסתמה)","u":"https://he.wikipedia.org/wiki/יאיר_לפיד","p":"ראש ממשלת ישראל לשעבר"},"קרן טרנר":{"s":"יחידת מורן, מדריכה וקצינת הדרכה, סגן","r":"סגן","u":"https://he.wikipedia.org/wiki/קרן_טרנר","p":"מנכ\"לית משרד האוצר לשעבר"},"מירב בן ארי":{"s":"חיל החינוך, קצינת החינוך של חטיבת גולני","u":"https://he.wikipedia.org/wiki/מירב_בן_ארי","p":"יו\"ר סיעת יש עתיד ומרכזת האופוזיציה"},"לירן אבישר בן-חורין":{"s":"קצינה, מ\"פ בקורס קצינות יחידות שדה, סגן","r":"סגן","u":"https://he.wikipedia.org/wiki/לירן_אבישר_בן-חורין","p":"מנכ\"לית משרד התקשורת לשעבר"},"נעם תיבון":{"s":"סיירת מטכ\"ל וצנחנים, מפקד הגיס הצפוני, אלוף במיל'","r":"אלוף במיל'","u":"https://he.wikipedia.org/wiki/נעם_תיבון","p":"אלוף במילואים, מפקד הגיס הצפוני"},"מיכל הירש נגרי":{"s":"נח\"ל, במסגרת גרעין נח\"ל של תנועת הצופים","u":"https://info.org.il/wikipedia/%D7%9E%D7%99%D7%9B%D7%9C_%D7%94%D7%99%D7%A8%D7%A9-%D7%A0%D7%92%D7%A8%D7%99.html"},"איתן גינזבורג":{"s":"חיל המשטרה הצבאית, קצין, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/איתן_גינזבורג","p":"שר התקשורת לשעבר"},"מירב כהן":{"s":"גלי צה\"ל, מפיקה, עורכת וכתבת, סמל","r":"סמל","u":"https://he.wikipedia.org/wiki/מירב_כהן","p":"השרה לשוויון חברתי לשעבר"},"יונתן שלו":{"s":"יחידת מגלן, לוחם, רס\"ל במיל'","r":"רס\"ל במיל'","u":"https://he.wikipedia.org/wiki/יונתן_שלו","p":"מייסד ארגון כתף אל כתף"},"רם בן ברק":{"s":"סיירת מטכ\"ל, לוחם וקצין, סרן","r":"סרן","u":"https://he.wikipedia.org/wiki/רם_בן_ברק","p":"המשנה לראש המוסד לשעבר"},"אמיר סטרוגו":{"s":"יחידת מגלן, סגן מפקד גדוד במיל'","r":"סגן במיל'","u":"https://www.zman.co.il/live/697432/"},"נאור שירי":{"s":"יחידה מיוחדת בחיל הים (2003-2008)","u":"https://he.wikipedia.org/wiki/נאור_שירי","p":"סגן ראש עיריית הוד השרון לשעבר"},"ניסן זאבי":{"s":"צנחנים, גדוד 202; מילואים בכיתת הכוננות כפר גלעדי","u":"https://he.wikipedia.org/wiki/ניסן_זאבי","p":"יזם עסקי ומייסד לובי 1701"},"ולדימיר בליאק":{"s":"לא שירת (עלה לישראל בגיל 25)","u":"https://www.c14.co.il/article/784346","p":"רואה חשבון וחבר הכנסת"},"יוראי להב-הרצנו":{"s":"התנדב לצה\"ל למרות פטור רפואי, שירת כ-6 שנים, סרן","r":"סרן","u":"https://he.wikipedia.org/wiki/יוראי_להב-הרצנו","p":"חבר הכנסת מטעם יש עתיד"},"שחר ורון":{"s":"מגלן וצנחנים, לוחם ומפקד, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://news.walla.co.il/item/3849250"},"יסמין פרידמן":{"s":"יחידה 108","u":"https://he.wikipedia.org/wiki/יסמין_פרידמן","p":"יו\"ר הוועדה לטיפול בשורדי השואה"},"ג'רמי סלטן":{"s":"מפקד פלוגה במילואים (636 ימי מילואים מאז 7.10)","u":"https://www.jpost.com/israel-election-2026/article-906765"},"משה טור-פז":{"s":"צנחנים גדוד 101, מג\"ד סיור במיל', סא\"ל במיל'","r":"סא\"ל במיל'","u":"https://he.wikipedia.org/wiki/משה_טור-פז","p":"ראש מינהל חינוך ירושלים לשעבר"}},"כחול לבן":{"בני גנץ":{"s":"צנחנים, הרמטכ\"ל ה-20, רב-אלוף","r":"רב אלוף","u":"https://he.wikipedia.org/wiki/בני_גנץ","p":"הרמטכ\"ל ה-20 ושר הביטחון לשעבר"},"פנינה תמנו-שטה":{"s":"פיקוד העורף, סמלת מבצעים ולאחר מכן סולנית","u":"https://he.wikipedia.org/wiki/פנינה_תמנו-שטה"},"עליזה בלוך":{"s":"שירות לאומי, קומונרית בני עקיבא בערד ובטבריה","u":"https://he.wikipedia.org/wiki/עליזה_בלוך","p":"ראש עיריית בית שמש לשעבר"},"רועי קונקול":{"s":"לוחם מילואים (מאות ימי מילואים במלחמה)","u":"https://news.walla.co.il/item/3866411"},"אלון שוסטר":{"s":"נח\"ל מוצנח (גדוד 50), מ\"פ, סא\"ל במיל', נכה צה\"ל","r":"סא\"ל במיל'","u":"https://he.wikipedia.org/wiki/אלון_שוסטר","p":"שר החקלאות לשעבר"},"מופיד מרעי":{"s":"מג\"ד חרב, מח\"ט חרמון ומח\"ט עודד, אל\"ם במיל'","r":"אל\"ם במיל'","u":"https://he.wikipedia.org/wiki/מופיד_מרעי","p":"ראש המועצה המקומית חורפיש לשעבר"},"אריאל בזיז":{"s":"מילואים פעיל (436 ימי מילואים במלחמה)","u":"https://jerusalemnews.co.il/ariel-beziz-knesset-interview-benny-gantz/"}},"הדמוקרטים":{"יאיר גולן":{"s":"צנחנים; מח\"ט הנח\"ל, אלוף פיקוד הצפון, סגן הרמטכ\"ל; אלוף","r":"אלוף","u":"https://he.wikipedia.org/wiki/יאיר_גולן","p":"סגן הרמטכ\"ל לשעבר"},"נעמה לזימי":{"s":"קצינה במשרד הביטחון; סרן במיל' בפיקוד העורף","r":"סרן במיל'","u":"https://he.wikipedia.org/wiki/נעמה_לזימי","p":"יו\"ר הוועדה לענייני הצעירים"},"גלעד קריב":{"s":"יחידה 8200, קצין (5 שנות שירות)","u":"https://he.wikipedia.org/wiki/גלעד_קריב","p":"יו\"ר ועדת החוקה לשעבר, רב רפורמי"},"אפרת רייטן":{"s":"להקת פיקוד הדרום","u":"https://he.wikipedia.org/wiki/אפרת_רייטן","p":"יו\"ר ועדת העבודה והרווחה לשעבר"},"יאיא פינק":{"s":"קצין בחטיבת הצנחנים; רס\"ן במיל' (קצין אג\"ם חטיבתי)","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/יאיא_פינק","p":"ראש אגף צדק חברתי בהסתדרות"},"גבי לסקי":{"s":"קצינה בגדנ\"ע","u":"https://he.wikipedia.org/wiki/גבי_לסקי","p":"עורכת דין ופעילת זכויות אדם"},"עמרי רונן":{"s":"יחידת מגלן, קצין ומפקד צוות; מילואים פעיל","u":"https://he.wikipedia.org/wiki/עמרי_רונן_(פעיל_חברתי)"},"מיכל רוזין":{"s":"קצינת חינוך","u":"https://he.wikipedia.org/wiki/מיכל_רוזין","p":"יו\"ר סיעת מרצ בכנסת לשעבר"},"משה רדמן":{"s":"קצין איסוף במודיעין השדה, אח\"כ קצין מחקר באמ\"ן","u":"https://he.wikipedia.org/wiki/משה_רדמן"},"נמרוד שפר":{"s":"חיל האוויר, טייס קרב; ראש מטה ח\"א, ראש אג\"ת; אלוף","r":"אלוף","u":"https://he.wikipedia.org/wiki/נמרוד_שפר","p":"ראש אגף התכנון בצה\"ל לשעבר"},"מורן זר קצנשטיין":{"s":"קצינת שלישות, סגן","r":"סגן","u":"https://he.wikipedia.org/wiki/מורן_זר_קצנשטיין","p":"מייסדת תנועת בונות אלטרנטיבה"},"אבי דבוש":{"s":"שירת בצה\"ל (פרטים לא צוינו)","u":"https://br7news.co.il/he/news/news-1776938042","c":"low","p":"מנכ\"ל רבנים למען זכויות אדם"},"אמילי מואטי":{"s":"לא שירתה (עבדה לפרנסת המשפחה עקב מחלת אחיה)","u":"https://he.wikipedia.org/wiki/אמילי_מואטי","p":"סגנית יו\"ר הכנסת לשעבר"},"תומר אביטל":{"s":"חובש בחיל התותחנים","u":"https://he.wikipedia.org/wiki/תומר_אביטל","p":"עיתונאי ומייסד מיזם שקוף"},"נאוה רוזיליו":{"s":"חטיבת הבקעה, מש\"קית מודיעין וסמב\"צית; שירות קבע","u":"https://he.wikipedia.org/wiki/נאוה_רוזוליו","p":"עורכת דין ורואת חשבון"},"רם שפע":{"s":"יחידת שלדג, תומך לחימה","u":"https://he.wikipedia.org/wiki/רם_שפע","p":"יו\"ר ועדת החינוך של הכנסת לשעבר"},"עלי סלאלחה":{"s":"שירת בצה\"ל כ-3.5 שנים (התארך עקב מלחמת יום הכיפורים)","u":"https://he.wikipedia.org/wiki/עלי_סלאלחה","p":"מנהל התיכון המקיף בית ג'ן לשעבר"},"ערן עציון":{"s":"לוחם ביחידת שלדג","u":"https://he.wikipedia.org/wiki/ערן_עציון","p":"סגן ראש המל\"ל לשעבר"},"סומיה בשיר":{"p":"מטפלת באמנויות ופעילה חברתית"}},"ישראל ביתנו":{"אביגדור ליברמן":{"s":"מש\"ק הגמ\"ר בממשל הצבאי בחברון (שירות מקוצר); תותחנים במיל'","u":"https://he.wikipedia.org/wiki/אביגדור_ליברמן","p":"סגן ראש הממשלה ושר הביטחון לשעבר"},"רפי בן שטרית":{"s":"קצין קשר באגף המודיעין; רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/רפי_בן_שטרית","p":"ראש עיריית בית שאן לשעבר"},"טליה לנקרי":{"s":"חיל השריון וביה\"ס לקצינים; אל\"ם במיל' (1989–2019)","r":"אל\"ם במיל'","u":"https://he.wikipedia.org/wiki/טליה_לנקרי","p":"אלוף-משנה, ראש חטיבת העורף במל\"ל"},"עודד פורר":{"s":"חיל הים, מפקד סיירת דבורים בפלגה 916; רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/עודד_פורר","p":"שר החקלאות ופיתוח הכפר לשעבר"},"חמד עמאר":{"s":"שירת בצה\"ל 1982–1986","u":"https://he.wikipedia.org/wiki/חמד_עמאר","p":"שר בלי תיק במשרד האוצר לשעבר"},"יבגני סובה":{"s":"קצין בנציבות קבילות החיילים","u":"https://he.wikipedia.org/wiki/יבגני_סובה","p":"סגן יושב ראש הכנסת ה-25"},"דן אילוז":{"s":"חיל המודיעין (כעולה חדש); סרן במיל' בפרקליטות הצבאית (דבל\"א)","r":"סרן במיל'","u":"https://he.wikipedia.org/wiki/דן_אילוז","p":"עורך דין וחבר הכנסת לשעבר"},"לילי בן עמי":{"s":"מדריכת כושר קרבי בבסיס להב (בה\"ד הנדסה קרבית)","u":"https://he.wikipedia.org/wiki/לילי_בן_עמי","p":"מקימת פורום מיכל סלה"},"יוליה מלינובסקי":{"p":"חברת הכנסת מטעם ישראל ביתנו"}},"המילואימניקים":{"יועז הנדל":{"s":"שייטת 13, מפקד צוות ומ\"פ; סא\"ל במיל'","r":"סא\"ל במיל'","u":"https://he.wikipedia.org/wiki/יועז_הנדל","p":"שר התקשורת לשעבר"},"ירון זליכה":{"s":"חטיבת המחקר באמ\"ן","u":"https://he.wikipedia.org/wiki/ירון_זליכה","p":"החשב הכללי באוצר לשעבר"},"עינת וילף":{"s":"קצינה ביחידה 8200","u":"https://he.wikipedia.org/wiki/עינת_וילף","p":"דוקטור למדע המדינה וחברת כנסת לשעבר"},"יואב שלמה אדומי":{"s":"סמג\"ד 8111 בחטיבה 5; רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://www.davar1.co.il/684301/"}},"ש\"ס":{"אריה דרעי":{"s":"שירות מקוצר בצה\"ל, משגיח כשרות במחנה בית אל","u":"https://he.wikipedia.org/wiki/%D7%90%D7%A8%D7%99%D7%94_%D7%93%D7%A8%D7%A2%D7%99","p":"המשנה לראש הממשלה ושר הפנים לשעבר"},"ינון אזולאי":{"s":"לא שירת בצבא; התנדב לשנת שירות לאומי","u":"https://he.wikipedia.org/wiki/%D7%99%D7%A0%D7%95%D7%9F_%D7%90%D7%96%D7%95%D7%9C%D7%90%D7%99","p":"יו\"ר סיעת ש\"ס בכנסת"},"יואב בן-צור":{"s":"קצין חינוך בנח\"ל","u":"https://www.mako.co.il/pzm-soldiers/Article-c66b9a8f47bc381026.htm","p":"שר העבודה לשעבר"},"דרור עמוס":{"s":"חיל הלוגיסטיקה, רס\"ן במיל', כ-25 שנות שירות","r":"רס\"ן במיל'","u":"https://www.jdn.co.il/news/2725319/"},"משה אבוטבול":{"s":"נהג ביחידת גששים וברבנות הצבאית","u":"https://www.mako.co.il/pzm-soldiers/Article-c66b9a8f47bc381026.htm","p":"ראש עיריית בית שמש לשעבר"},"אוריאל בוסו":{"s":"השתחרר בדרגת סגן; מילואים ביחידת קצין העיר","r":"סגן במיל'","u":"https://www.mako.co.il/pzm-soldiers/Article-c66b9a8f47bc381026.htm","p":"שר הבריאות לשעבר"},"יוסי טייב":{"s":"מחלקת קשר בגבעתי","u":"https://www.mako.co.il/pzm-soldiers/Article-c66b9a8f47bc381026.htm","p":"יו\"ר ועדת החינוך בכנסת לשעבר"},"יונתן מישרקי":{"s":"שירות לאומי","u":"https://he.wikipedia.org/wiki/%D7%99%D7%95%D7%A0%D7%AA%D7%9F_%D7%9E%D7%99%D7%A9%D7%A8%D7%A7%D7%99","p":"יו\"ר ועדת הבריאות של הכנסת"},"סימיון מושיאשוילי":{"s":"חיל הים","u":"https://he.wikipedia.org/wiki/%D7%A1%D7%99%D7%9E%D7%99%D7%95%D7%9F_%D7%9E%D7%95%D7%A9%D7%99%D7%90%D7%A9%D7%95%D7%99%D7%9C%D7%99","p":"עורך דין"},"מיכאל מלכיאלי":{"p":"השר לשירותי דת לשעבר"},"חיים ביטון":{"p":"שר במשרד החינוך לשעבר"},"ארז מלול":{"p":"סגן יושב ראש הכנסת לשעבר"}},"יהדות התורה":{"יעקב אשר":{"s":"שירות מקוצר בצה\"ל במסגרת \"שלב ב'\"","u":"https://he.wikipedia.org/wiki/%D7%99%D7%A2%D7%A7%D7%91_%D7%90%D7%A9%D7%A8","p":"יו\"ר מפלגת דגל התורה"},"יצחק פינדרוס":{"s":"צה\"ל, חטיבת עציון, כשנה ותשעה חודשים, רב-טוראי","r":"טוראי","u":"https://he.wikipedia.org/wiki/%D7%99%D7%A6%D7%97%D7%A7_%D7%A4%D7%99%D7%A0%D7%93%D7%A8%D7%95%D7%A1","p":"ראש עיריית ביתר עילית לשעבר"},"מאיר פרוש":{"s":"\"שלב ב'\": ארבעה חודשים כמש\"ק דת במחנה שנלר","u":"https://he.wikipedia.org/wiki/%D7%9E%D7%90%D7%99%D7%A8_%D7%A4%D7%A8%D7%95%D7%A9","p":"שר ירושלים ומסורת ישראל לשעבר"},"יעקב טסלר":{"p":"סגן שר התרבות והספורט לשעבר"},"יצחק גולדקנופף":{"p":"שר הבינוי והשיכון לשעבר"},"יהודה וייספיש":{"p":"מייסד ארגון איחוד בני הישיבות"},"אליהו ברוכי":{"p":"חבר הכנסת לשעבר"},"משה רוט":{"p":"סגן יושב ראש הכנסת לשעבר"}},"הליכוד":{"בנימין נתניהו":{"s":"סיירת מטכ\"ל, מפקד צוות, סרן","r":"סרן","u":"https://he.wikipedia.org/wiki/בנימין_נתניהו","p":"ראש ממשלת ישראל"},"אלי כהן":{"s":"חיל האוויר, רס\"ן","r":"רס\"ן","u":"https://he.wikipedia.org/wiki/אלי_כהן_(פוליטיקאי,_1972)"},"אמיר אוחנה":{"s":"משטרה צבאית, קצין (מפקד בסיס מצ\"ח אילת), רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/אמיר_אוחנה","p":"יושב ראש הכנסת"},"יריב לוין":{"s":"חיל המודיעין, יחידה 8200, מתרגם ערבית ומפקד מגמה","u":"https://he.wikipedia.org/wiki/יריב_לוין","p":"סגן ראש ממשלת ישראל ושר המשפטים"},"מירי רגב":{"s":"דובר צה\"ל; דוברת צה\"ל וצנזורית ראשית, תא\"ל","r":"תא\"ל","u":"https://he.wikipedia.org/wiki/מירי_רגב","p":"שרת התחבורה והבטיחות בדרכים"},"ישראל כ\"ץ":{"s":"צנחנים, גדוד 890, מפקד מחלקה, סרן","r":"סרן","u":"https://he.wikipedia.org/wiki/ישראל_כ\"ץ_(הליכוד)"},"גדעון סער":{"s":"לוחם בגולני; לאחר פציעה מש\"ק מודיעין","u":"https://he.wikipedia.org/wiki/גדעון_סער","p":"שר החוץ"},"אופיר כץ":{"s":"פיקוד הצפון ופיקוד הדרום, סמ\"ר","r":"סמ\"ר","u":"https://he.wikipedia.org/wiki/אופיר_כץ","p":"יו\"ר הקואליציה"},"יואב קיש":{"s":"חיל האוויר, טייס קרב (F-16), סא\"ל במיל'","r":"סא\"ל במיל'","u":"https://he.wikipedia.org/wiki/יואב_קיש","p":"שר החינוך"},"יעקב ברדוגו":{"s":"חיל המודיעין (בין היתר יחידה 8200)","u":"https://he.wikipedia.org/wiki/יעקב_ברדוגו","p":"מנכ\"ל מפעל הפיס לשעבר"},"מיקי זוהר":{"s":"מפקד טירונים בבסיס ניצנים","u":"https://he.wikipedia.org/wiki/מיקי_זוהר","p":"שר התרבות והספורט"},"אלמוג כהן":{"s":"יחידת מודיעין מטרות (סדיר); אח\"כ 11 שנים במשטרה (יס\"מ)","u":"https://he.wikipedia.org/wiki/אלמוג_כהן_(חבר_הכנסת)"},"עמיחי שיקלי":{"s":"סיירת גולני, מפקד צוות; מפקד פלגה באגוז, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/עמיחי_שיקלי","p":"שר התפוצות והמאבק באנטישמיות"},"אלישע מדן":{"s":"לוחם מילואים, גדוד 697 בחטיבה 551; נפצע אנושות בבית חאנון","u":"https://www.ynet.co.il/health/article/h1ubvv11ua"},"משה סעדה":{"s":"לוחם בחטיבת הנח\"ל","u":"https://he.wikipedia.org/wiki/משה_סעדה","p":"סגן מנהל המחלקה לחקירות שוטרים"},"חיים כץ":{"s":"שירת בצה\"ל, השתחרר בדרגת רס\"ר","r":"רס\"ר","u":"https://he.wikipedia.org/wiki/חיים_כץ","p":"שר התיירות"},"דודי אמסלם":{"s":"חיל השריון, מפקד טנק בחטיבה 500","u":"https://he.wikipedia.org/wiki/דודי_אמסלם","p":"השר לשיתוף פעולה אזורי"},"בועז ביסמוט":{"s":"חיל הים, סגן ראש מרכז מידע ותיעוד במח' אמל\"ח, קמ\"א","r":"סגן","u":"https://he.wikipedia.org/wiki/בועז_ביסמוט","p":"יו\"ר ועדת החוץ והביטחון של הכנסת"},"דוד ביטן":{"s":"חובש קרבי","u":"https://he.wikipedia.org/wiki/דוד_ביטן","p":"יו\"ר ועדת הכלכלה של הכנסת"},"שלמה קרעי":{"s":"הנח\"ל החרדי (2001-2004); מילואים בחטיבת הגפן","u":"https://he.wikipedia.org/wiki/שלמה_קרעי","p":"שר התקשורת"},"ניר ברקת":{"s":"צנחנים, גדוד 890, קצין, רס\"ן במיל'","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/ניר_ברקת","p":"שר הכלכלה והתעשייה"},"גילה גמליאל":{"s":"חיל האוויר, ראש צוות חוקרות עבודה","u":"https://he.wikipedia.org/wiki/גילה_גמליאל","p":"שרת החדשנות, המדע והטכנולוגיה"},"אלי גולדשמידט":{"s":"חיל הים, קורס חובלים; במילואים סרן בפרקליטות הצבאית","r":"סרן במיל'","u":"https://he.wikipedia.org/wiki/אלי_גולדשמידט","p":"חבר הכנסת לשעבר מטעם העבודה"},"ארז תדמור":{"s":"חיל ההנדסה, סמל מחלקת טירונים","r":"סמל","u":"https://he.wikipedia.org/wiki/ארז_תדמור_(איש_תקשורת)"},"שלמה יוסף לרנר":{"s":"לוחם מילואים בחטיבת גבעתי; מעל 400 ימי מילואים בחרבות ברזל","u":"https://www.inn.co.il/news/703799"},"אתי עטייה":{"p":"יו\"ר הוועדה המיוחדת לעובדים זרים"}},"הציונות הדתית":{"בצלאל סמוטריץ'":{"s":"צה\"ל, סמב\"ץ בחטיבת המבצעים במטכ\"ל","u":"https://he.wikipedia.org/wiki/בצלאל_סמוטריץ'","p":"שר האוצר"},"משה פייגלין":{"s":"קצין ולוחם במערך הגנ\"כ (חיל ההנדסה), סרן","r":"סרן","u":"https://he.wikipedia.org/wiki/משה_פייגלין","p":"מייסד מפלגת זהות"},"אורית סטרוק":{"s":"שירות לאומי (ביה\"ח ביקור חולים ובי\"ס במגדל העמק)","u":"https://he.wikipedia.org/wiki/אורית_סטרוק","p":"שרת ההתיישבות והמשימות הלאומיות"},"שמחה רוטמן":{"s":"פטור רפואי; התנדב 13 חודשים כמש\"ק דת בביה\"ס להנדסה צבאית","u":"https://he.wikipedia.org/wiki/שמחה_רוטמן","p":"יו\"ר ועדת החוקה, חוק ומשפט"},"צביקה מור":{"s":"חטיבת הצנחנים במסגרת ההסדר; מילואים בחטיבה 55","u":"https://he.wikipedia.org/wiki/צביקה_מור","p":"יו\"ר פורום תקווה"},"איתמר איתם":{"s":"סא\"ל מיל', מג\"ד גדס\"ר 6828 (עוצבת בשלח)","r":"סא\"ל במיל'","u":"https://www.ynet.co.il/news/elections2026/article/hytc0wadmx"},"צבי סוכות":{"s":"לא שירת בצה\"ל; קיבל פטור, ובהמשך ניסה להתגייס ונדחה","u":"https://he.wikipedia.org/wiki/צבי_סוכות","p":"יו\"ר ועדת החינוך של הכנסת"},"יצחק זאגא":{"s":"שירת בצה\"ל במילואים בחטיבת גבעתי","u":"http://www.info.org.il/wikipedia/יצחק_זאגא.html"},"עומר פציניאש ולדמן":{"s":"קצינת מילואים, קצינת שת\"פ/תיאום ארטילרי","u":"https://zehut.org.il/candidates/omer-patziniach-waldman"},"אוהד טל":{"s":"מפקד טנק בחיל השריון","u":"https://he.wikipedia.org/wiki/אוהד_טל","p":"יו\"ר סיעת הציונות הדתית"}},"עוצמה יהודית":{"איתמר בן גביר":{"s":"לא גויס לצה\"ל (לטענתו הצבא סירב בשל עברו ב\"כך\")","u":"https://he.wikipedia.org/wiki/איתמר_בן_גביר","p":"השר לביטחון לאומי"},"טלי גוטליב":{"s":"צה\"ל, מדריכת תותחנים","u":"https://he.wikipedia.org/wiki/טלי_גוטליב","p":"עורכת דין"},"יצחק וסרלאוף":{"s":"לוחם בחטיבת גולני, פלוגה ב' בגדוד 12","u":"https://he.wikipedia.org/wiki/יצחק_וסרלאוף","p":"שר הנגב, הגליל והחוסן הלאומי"},"עמיחי אליהו":{"s":"לוחם בגדוד 202 של חטיבת הצנחנים","u":"https://he.wikipedia.org/wiki/עמיחי_אליהו","p":"שר המורשת"},"לימור סון הר-מלך":{"s":"שירות לאומי (קומונרית בסניף בני עקיבא)","u":"https://he.wikipedia.org/wiki/לימור_סון_הר-מלך","p":"סגנית יושב ראש הכנסת"},"יצחק קרויזר":{"s":"לוחם ביחידת אורב נחש; מילואים בחטיבת אלון","u":"https://he.wikipedia.org/wiki/יצחק_קרויזר","p":"יו\"ר ועדת הפנים והגנת הסביבה"},"ישי פליישר":{"s":"חטיבת הצנחנים; נפצע בלבנון ב-1997","u":"https://he.wikipedia.org/wiki/ישי_פליישר","p":"דובר היישוב היהודי בחברון"}},"נעם לישראל":{"אבי מעוז":{"s":"התגייס ב-1975 ושירת בנח\"ל המוצנח","u":"https://he.wikipedia.org/wiki/אבי_מעוז","p":"סגן שר במשרד ראש הממשלה לשעבר"},"שמעון טובול":{"s":"לוחם גבעתי; מילואים בעזה ובאזור חברון אחרי 7.10","u":"https://www.kikar.co.il/kikarfm/shimon-tovul-givati-fighter-noam-party"},"אליהו ליבמן":{"s":"סיירת גולני, קורס קצינים; סא\"ל","r":"סא\"ל","u":"https://he.wikipedia.org/wiki/אליהו_ליבמן","p":"ראש מועצת קריית ארבע לשעבר"}},"ישר!":{"גדי איזנקוט":{"s":"גולני; מח\"ט גולני, אלוף פיקוד צפון, הרמטכ\"ל ה-21, רב-אלוף","r":"רב אלוף","u":"https://he.wikipedia.org/wiki/גדי_איזנקוט","p":"הרמטכ\"ל ה-21"},"יורם כהן":{"s":"לוחם בסיירת גולני (1979–1982); בהמשך ראש השב\"כ","u":"https://he.wikipedia.org/wiki/יורם_כהן","p":"ראש השב\"כ ה-12"},"אורית פרקש-הכהן":{"s":"שירות לאומי בבית החולים שערי צדק","u":"https://he.wikipedia.org/wiki/אורית_פרקש-הכהן","p":"שרת החדשנות והטכנולוגיה לשעבר"},"מתן כהנא":{"s":"סיירת מטכ\"ל; טייס קרב ומפקד טייסת F-16, אל\"ם","r":"אל\"ם","u":"https://he.wikipedia.org/wiki/מתן_כהנא","p":"השר לשירותי דת לשעבר"},"חילי טרופר":{"s":"לוחם ומפקד ביחידת דובדבן","u":"https://he.wikipedia.org/wiki/חילי_טרופר","p":"שר התרבות והספורט לשעבר"},"שאול מרידור":{"s":"שריון, חטיבה 7, קצין (סגן); רס\"ן במיל', קמב\"ץ גדוד","r":"רס\"ן במיל'","u":"https://he.wikipedia.org/wiki/שאול_מרידור","p":"ראש אגף התקציבים באוצר לשעבר"},"תאיר איפרגן":{"s":"מפקדת פלוגת טירונים","u":"https://he.wikipedia.org/wiki/תאיר_איפרגן","p":"מנכ\"לית משרד העבודה לשעבר"},"אושרת גני גונן":{"s":"קצינת חינוך, סגן","r":"סגן","u":"https://he.wikipedia.org/wiki/אושרת_גני_גונן","p":"ראש המועצה האזורית דרום השרון"},"ענבר הרוש גיטי":{"s":"חיל החינוך, מפקדת; השתחררה בתפקיד מ\"פ","u":"https://www.ynet.co.il/yedioth/article/yokra14572018"},"אלעזר שטרן":{"s":"צנחנים (גדוד 890, מג\"ד 202); ראש אכ\"א, אלוף","r":"אלוף","u":"https://he.wikipedia.org/wiki/אלעזר_שטרן","p":"שר המודיעין"},"כמיל אבו רוקון":{"s":"מנהל אזרחי/מתפ\"ש; מתאם פעולות הממשלה בשטחים, אלוף","r":"אלוף","u":"https://he.wikipedia.org/wiki/כמיל_אבו_רוקון","p":"מתאם פעולות הממשלה בשטחים לשעבר"},"דבורה שריפיאן בכר":{"s":"תפקידי פיקוד והדרכה בצה\"ל, סרן; בהמשך שב\"כ ומוסד","r":"סרן","u":"https://yasharwitheisenkot.com/team-member/%d7%93%d7%91%d7%95%d7%a8%d7%94-%d7%a9%d7%a8%d7%99%d7%a4%d7%99%d7%90%d7%9f-%d7%91%d7%9b%d7%a8/"},"אלקס ריף":{"s":"קצינה בחיל המודיעין","u":"https://he.wikipedia.org/wiki/אלקס_ריף"},"רועי פולקמן":{"s":"חובש קרבי בנח\"ל; מילואים בגדוד חי\"ר בפיקוד דרום","u":"https://he.wikipedia.org/wiki/רועי_פולקמן"},"ישראל זרי":{"s":"התגייס לצה\"ל (פרטים לא צוינו)","u":"https://he.wikipedia.org/wiki/ישראל_זרי","c":"low"},"טל אוחנה":{"s":"מפקדת צוות בבסיס חוות השומר","u":"https://he.wikipedia.org/wiki/טל_אוחנה"},"אליסף פרץ":{"s":"לוחם בסיירת גולני; מילואים בחטיבת עודד","u":"https://yasharwitheisenkot.com/team-member/elisaf-peretz/"},"ניר חג'בי":{"s":"קצין לוחם בגולני 26 שנים, אל\"ם (מיל')","r":"אל\"ם במיל'","u":"https://yasharwitheisenkot.com/team-member/nir-hagbi/"},"שי אנדראה פישר":{"s":"פראמדיקית קרבית (גם במילואים)","u":"https://yasharwitheisenkot.com/team-member/shai-fisher/"},"ליאן פולק":{"s":"אגף המודיעין, קצינה; צוות המו\"מ המטכ\"לי","u":"https://yasharwitheisenkot.com/team-member/lianne-pollak-david/"},"רועי כהן":{"s":"חיל התחזוקה, סמ\"ר (השתחרר 1998)","r":"סמ\"ר","u":"https://he.wikipedia.org/wiki/רועי_כהן"},"ג'וסלין באש":{"s":"מזכירת הפיקוד העליון (סא\"ל); ראש מערך הנפגעים, אל\"ם","r":"אל\"ם","u":"https://yasharwitheisenkot.com/team-member/joslin-bash/"},"אלון פוטרמן":{"s":"לוחם ומפקד בחטיבת הנח\"ל","u":"https://yasharwitheisenkot.com/team-member/alon-futterman/"},"טלי מולנר":{"s":"השתחררה מצה\"ל בדרגת סרן","r":"סרן","u":"https://yasharwitheisenkot.com/team-member/tali-molner/"},"עדי אלטשולר":{"p":"יזמת חברתית, כלת פרס ישראל"}},"הציבור החרדי":{"מרים נחמה יפה":{"p":"חוקרת פסיכולוגיה פוליטית וחברתית"}}};/*ARMY-END*/
+
+  /* ---------- אייקונים ---------- */
+  const ICO = {
+    doc: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 1h7l3 3v11H3zM9.5 1.8V4.5h2.7z"/><path stroke="#fff" stroke-width="1.2" d="M5 7.5h6M5 10h6M5 12.5h4"/></svg>',
+    // מפת הארץ: גליל למעלה, חוף מערבי נטוי, הנגב מתחדד לאילת
+    mapFull: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 .5h3l.6 2.6-1 2 1 2.4-1 2.6-1 5.4L7 9.6 5.4 8l2-4.4z"/></svg>',
+    mapHollow: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2 1.2" d="M8 1h2.7l.5 2.2-1 1.9 1 2.4-1 2.5-.8 4L7.3 9.3 6 8l1.8-4z"/></svg>',
+    venus: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.6" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 9.8v5.2M5.6 12.6h4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    shield: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l6 2.2v4.3c0 3.5-2.4 6.3-6 7.5-3.6-1.2-6-4-6-7.5V3.2z"/><path fill="#fff" d="M7.2 10.6L4.6 8l1-1 1.6 1.6L11 4.8l1 1z"/></svg>',
+    // יונה = ליברלים, עמוד קלאסי = שמרנים
+    dove: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M1 6.5l3-.8C5 3.5 7 2.5 9 3c-1 .8-1.4 1.8-1.2 3 1.6-2 4-3 7.2-3-.6 2.6-2 4.6-4.4 5.8.2 1.6-.6 3-2.4 4.2l.2-2.6c-2.4.4-4.2-.8-5-3.4z"/></svg>',
+    column: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 1.5h12v2.2H2zM3.6 4.6h1.9v6.8H3.6zm3.45 0h1.9v6.8h-1.9zm3.45 0h1.9v6.8h-1.9zM2 12.3h12v2.2H2z"/></svg>',
+  };
+  function icoSpan(cls, svg, title) { return '<span class="ico ' + cls + '" title="' + title + '">' + svg + '</span>'; }
+  function partyIcons(p) {
+    const d = PD[p.n] || {};
+    let h = d.link ? icoSpan('ok', ICO.doc, 'יש מצע') : icoSpan('no', ICO.doc, 'אין מצע');
+    if (d.z === true) h += icoSpan('zion', ICO.mapFull, 'ציונית'); else if (d.z === false) h += icoSpan('nonzion', ICO.mapHollow, 'לא ציונית');
+    if (d.bloc === 'lib') h += icoSpan('lib', ICO.dove, 'ליברלים'); else if (d.bloc === 'con') h += icoSpan('con', ICO.column, 'שמרנים');
+    return h;
+  }
+  function slipIcons(p) { return '<div class="ico-row">' + partyIcons(p) + '</div>'; }
+
+  /* ---------- שיעור השירות המתועד ----------
+     זה לא אחוז המתגייסים בציבור, שאין לו נתון ברמת מפלגה. זה מה שיש לנו:
+     כמה ממועמדי הרשימה שבדקנו נמצא להם שירות צבאי מתועד במקור פומבי. הכיסוי
+     חלקי ולא אחיד בין הרשימות, ולכן המספר מוצג עם הסתייגות ולא כעובדה. */
+  function serveStat(partyName) {
+    const cands = (PD[partyName] && PD[partyName].cands) || [];
+    if (!cands.length) return null;
+    const a = ARMY[partyName] || {};
+    const withSvc = cands.filter(function (n) { return a[n] && a[n].s; }).length;
+    return { n: cands.length, s: withSvc, pct: Math.round(withSvc / cands.length * 100) };
+  }
+
+  // כמה מ-15 המקומות הראשונים ברשימה הם נשים
+  function topWindow() { return 20; }      // נשים נספרות ב-20 המקומות הראשונים
+  function womenTop(partyName, top) {
+    const cands = (PD[partyName] && PD[partyName].cands) || [];
+    if (!cands.length) return null;
+    const head = cands.slice(0, top || topWindow(partyName));
+    let f = 0, known = 0;
+    head.forEach(function (n) {
+      const g = genderOf(n);
+      if (g) known++;
+      if (g === 'f') f++;
+    });
+    return { f: f, n: head.length, known: known };
+  }
+
+  // קצינים בכירים: סא"ל ומעלה, או המקבילה המשטרתית. נספרים באותם 20 מקומות כמו הנשים
+  const SENIOR = ['רב אלוף', 'רא"ל', 'אלוף', 'תת אלוף', 'תא"ל', 'אלוף משנה', 'אל"ם', 'סגן אלוף', 'סא"ל',
+                  'רב ניצב', 'ניצב', 'תת ניצב', 'תנ"צ', 'ניצב משנה', 'נצ"מ', 'סגן ניצב', 'סנ"צ'];
+  function isSenior(rank) {
+    const r = String(rank || '').replace(" במיל'", '').replace(' בדימוס', '').trim();
+    return SENIOR.indexOf(r) >= 0;
+  }
+  function seniorTop(partyName) {
+    const head = ((PD[partyName] && PD[partyName].cands) || []).slice(0, topWindow());
+    if (!head.length) return null;
+    const a = ARMY[partyName] || {};
+    const who = head.filter(function (n) { return a[n] && isSenior(a[n].r); });
+    return { n: head.length, k: who.length, who: who };
+  }
+
+  /* ---------- סינון ---------- */
+  const SERVE_HIGH = 50;
+  const FILTERS = { plat: 0, zion: 0, bloc: 0, women: 0 };   // women = מינימום נשים בראש הרשימה
+  const FDEF = {
+    plat: [['מצע: הכול', '', 'doc'], ['יש מצע', 'ok', 'doc'], ['אין מצע', 'no', 'doc']],
+    zion: [['ציונות: הכול', '', 'mapFull'], ['ציונית', 'zion', 'mapFull'], ['לא ציונית', 'nonzion', 'mapHollow']],
+    bloc: [['גוש: הכול', '', 'dove'], ['ליברלים', 'lib', 'dove'], ['שמרנים', 'con', 'column']],
+  };
+  function passesFilters(p) {
+    const d = PD[p.n] || {};
+    if (FILTERS.plat === 1 && !d.link) return false;
+    if (FILTERS.plat === 2 && d.link) return false;
+    if (FILTERS.zion === 1 && d.z !== true) return false;
+    if (FILTERS.zion === 2 && d.z !== false) return false;
+    if (FILTERS.bloc === 1 && d.bloc !== 'lib') return false;
+    if (FILTERS.bloc === 2 && d.bloc !== 'con') return false;
+    if (FILTERS.women > 0) {
+      const w = womenTop(p.n);
+      if (!w || w.f < FILTERS.women) return false;
+    }
+    return true;
+  }
+  function filtersOn() { return FILTERS.plat || FILTERS.zion || FILTERS.bloc || FILTERS.women; }
+  function paintFilters() {
+    Object.keys(FDEF).forEach(function (k) {
+      const st = FDEF[k][FILTERS[k]], b = document.getElementById('f_' + k);
+      b.innerHTML = icoSpan(st[1], ICO[st[2]], '') + '<span>' + st[0] + '</span>';
+      b.classList.toggle('on', FILTERS[k] > 0);
+      b.setAttribute('aria-label', 'סינון ' + st[0] + '. לחיצה מחליפה מצב');
+    });
+    const wv = document.getElementById('fWomenVal'), wr = document.getElementById('f_womenRange');
+    if (wv) wv.textContent = FILTERS.women + '+';
+    if (wr && +wr.value !== FILTERS.women) wr.value = FILTERS.women;
+    const wl = wr && wr.closest('.fslider');
+    if (wl) wl.classList.toggle('on', FILTERS.women > 0);
+    document.getElementById('fClear').hidden = !filtersOn();
+  }
+  (function filterBar() {
+    const bar = document.createElement('div');
+    bar.className = 'filters';
+    bar.innerHTML = '<span class="flab">סנן לפי</span>' +
+      '<button type="button" class="fbtn" id="f_plat"></button>' +
+      '<button type="button" class="fbtn" id="f_zion"></button>' +
+      '<button type="button" class="fbtn" id="f_bloc"></button>' +
+      '<label class="fslider"><span class="ico fem">' + ICO.venus + '</span>' +
+      '<span class="fs-lab">נשים ב-20 המקומות הראשונים: <b id="fWomenVal">0+</b></span>' +
+      '<input type="range" id="f_womenRange" min="0" max="10" step="1" value="0" aria-label="מינימום נשים ב-20 המקומות הראשונים"></label>' +
+      '<button type="button" class="fclear" id="fClear" hidden>נקה סינון</button>' +
+      '<span class="fcount" id="fCount"></span>';
+    document.getElementById('board').before(bar);
+    bar.addEventListener('click', function (e) {
+      const b = e.target.closest('.fbtn');
+      if (e.target.id === 'f_womenRange') return;
+      if (b) {
+        const k = b.id.slice(2);
+        FILTERS[k] = (FILTERS[k] + 1) % 3;
+        paintFilters(); render();
+        return;
+      }
+      if (e.target.closest('#fClear')) {
+        FILTERS.plat = FILTERS.zion = FILTERS.bloc = 0;
+        FILTERS.women = 0;
+        paintFilters(); render();
+      }
+    });
+    bar.addEventListener('input', function (e) {
+      if (e.target.id !== 'f_womenRange') return;
+      FILTERS.women = +e.target.value;
+      paintFilters(); render();
+    });
+    paintFilters();
+  })();
+  (function credits() {
+    const el = document.createElement('p');
+    el.id = 'credits';
+    el.style.cssText = 'font-size:11.5px;line-height:1.5;color:var(--muted);margin:14px 0 0;opacity:.85';
+    el.textContent = 'תמונות המועמדים: ויקיפדיה העברית וויקישיתוף, ברישיונות חופשיים. ';
+    document.getElementById('board').after(el);
+  })();
+
+  (function legend() {
+    const el = document.createElement('div');
+    el.className = 'legend';
+    el.innerHTML =
+      '<span>' + icoSpan('ok', ICO.doc, '') + 'יש מצע</span><span>' + icoSpan('no', ICO.doc, '') + 'אין מצע</span>' +
+      '<span>' + icoSpan('zion', ICO.mapFull, '') + 'ציונית</span><span>' + icoSpan('nonzion', ICO.mapHollow, '') + 'לא ציונית</span>' +
+      '<span>' + icoSpan('lib', ICO.dove, '') + 'ליברלים</span><span>' + icoSpan('con', ICO.column, '') + 'שמרנים</span>';
+    document.getElementById('board').after(el);
+  })();
+
+  /* ---------- פאנל המפלגה ---------- */
+  const partyDlg = document.getElementById('partyDlg');
+  const pdSeats = document.getElementById('pdSeats'), pdHint = document.getElementById('pdHint');
+  const pdCands = document.getElementById('pdCands');
+  let pdCur = -1, pdMode = 'board';
+
+  function openParty(i, mode) {
+    const p = slots[i], d = PD[p.n] || {};
+    pdCur = i; pdMode = mode;
+    const hd = headOf(p);
+    document.getElementById('pdLetters').textContent = p.l;
+    document.getElementById('pdName').textContent = p.f || p.n;
+    document.getElementById('pdHead').textContent = hd.h ? 'בראשות ' + hd.h : '';
+    document.getElementById('pdAvatar').innerHTML = faceHTML(hd.h || '', false);
+
+    document.getElementById('pdTags').innerHTML =
+      '<span class="tag">' + (d.link ? icoSpan('ok', ICO.doc, '') + 'יש מצע' : icoSpan('no', ICO.doc, '') + 'אין מצע') + '</span>' +
+      (d.z === true ? '<span class="tag">' + icoSpan('zion', ICO.mapFull, '') + 'ציונית</span>' : d.z === false ? '<span class="tag">' + icoSpan('nonzion', ICO.mapHollow, '') + 'לא ציונית</span>' : '') +
+      (d.bloc === 'lib' ? '<span class="tag">' + icoSpan('lib', ICO.dove, '') + 'ליברלים</span>' : d.bloc === 'con' ? '<span class="tag">' + icoSpan('con', ICO.column, '') + 'שמרנים</span>' : '') +
+      (function () {
+        const w = womenTop(p.n);
+        if (!w) return '';
+        return '<span class="tag" title="נשים ב-' + w.n + ' המקומות הראשונים' +
+          (w.known < w.n ? '. מגדר ידוע ל-' + w.known + ' מתוך ' + w.n : '') + '">' +
+          icoSpan('fem', ICO.venus, '') + w.f + ' מתוך ' + w.n + '</span>';
+      })() +
+      (function () {
+        const so = seniorTop(p.n);
+        if (!so) return '';
+        return '<span class="tag" title="קצינים מדרגת סא\"ל ומעלה ב-' + so.n + ' המקומות הראשונים' +
+          (so.k ? ': ' + so.who.join(', ') : '') + '">' +
+          icoSpan('zion', ICO.shield, '') + 'סא"ל ומעלה ' + so.k + '</span>';
+      })();
+
+    // כפתור רשימת המתמודדים ולצדו המצע
+    let top = '';
+    if (d.cands) top += '<button type="button" id="pdCandsBtn" aria-expanded="false">לרשימת המתמודדים</button>';
+    else if (d.pdf) top += '<a href="' + IDI_MEDIA + encodeURI(d.pdf) + '" target="_blank" rel="noopener">לרשימת המתמודדים (PDF)</a>';
+    top += d.link ? '<a href="' + esc(d.link) + '" target="_blank" rel="noopener">למצע</a>' : '<span class="noplat">אין מצע</span>';
+    document.getElementById('pdTop').innerHTML = top;
+    pdCands.hidden = true;
+    document.getElementById('pdCandsNote').hidden = true;
+    const army = ARMY[p.n] || {};
+    pdCands.innerHTML = (d.cands || []).slice(0, 30).map((n, k) => {
+      const a = army[n];
+      const bits = [];
+      if (a && a.r) bits.push(a.r);                  // דרגה צבאית
+      if (a && a.p) bits.push(a.p);                  // התפקיד הבכיר ביותר
+      if (!bits.length && a && a.s) bits.push(a.s);  // אין דרגה: מה שידוע על השירות
+      const line = bits.length
+        ? '<span class="army' + (a.c === 'low' ? ' low' : '') + '"' + (a.s ? ' title="' + esc(a.s) + '"' : '') + '>' + esc(bits.join(' · ')) + (a.c === 'low' ? ' (לא ודאי)' : '') + (a.u ? '<a href="' + esc(a.u) + '" target="_blank" rel="noopener">מקור</a>' : '') + '</span>'
+        : '<span class="army none">לא נמצא מידע</span>';
+      const ag = ageOf(n);
+      return '<li' + (k < (p.seats || 0) ? ' class="in"' : '') + '><span>' + (k + 1) + '</span>' +
+        '<div class="cand-face">' + faceHTML(n, true) + '</div>' +
+        '<div><span class="cn-name">' + esc(n) + '</span>' +
+        (ag ? '<span class="cn-age">' + ag + '</span>' : '') + line + '</div></li>';
+    }).join('');
+    const cb = document.getElementById('pdCandsBtn');
+    if (cb) cb.addEventListener('click', () => {
+      pdCands.hidden = !pdCands.hidden;
+      cb.setAttribute('aria-expanded', String(!pdCands.hidden));
+      cb.textContent = pdCands.hidden ? 'לרשימת המתמודדים' : 'סגור את רשימת המתמודדים';
+      document.getElementById('pdCandsNote').hidden = pdCands.hidden;
+    });
+
+    let rest = '';
+    if (d.partners && d.partners.length) {
+      rest += '<section><h3>שותפים טבעיים</h3><div class="partner-chips">' + d.partners.map(n => {
+        const o = slots.find(s => s.n === n);
+        return '<span>' + (o ? '<b>' + esc(o.l) + '</b>' : '') + esc(n) + (o && o.seats ? ' · ' + o.seats : '') + '</span>';
+      }).join('') + '</div></section>';
+    }
+    if (d.points) rest += '<section style="margin-top:16px"><h3>עמדות עיקריות</h3><ul>' + d.points.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul><p class="note">תקציר לא רשמי.</p></section>';
+    document.getElementById('pdRest').innerHTML = rest;
+
+    const isBoard = mode === 'board';
+    document.getElementById('pdSeatsMode').hidden = !isBoard;
+    document.getElementById('pdBlocMode').hidden = isBoard;
+    if (isBoard) { pdSeats.value = p.seats || 0; pdUpdateHint(); }
+    else {
+      document.getElementById('pdLocked').textContent = p.seats + ' מנדטים. החלוקה נעולה, לשינוי חזרו לקלפי. לאן לשבץ?';
+      const z = zoneOf(i);
+      [['pdZa', 'a', 0], ['pdZs', 's', 2], ['pdZb', 'b', 1]].forEach(([id, key, ni]) => {
+        const b = document.getElementById(id);
+        b.textContent = gov.names[ni] || DEFAULT_NAMES[ni];
+        b.classList.toggle('on', z === key);
+      });
+    }
+    partyDlg.showModal();
+    partyDlg.querySelector('.sheet-body').scrollTop = 0;
+    document.getElementById('pdClose').focus();
+  }
+
+  function pdVal() { return Math.floor(Number(pdSeats.value) || 0); }
+  function pdUpdateHint() {
+    const v = pdVal(), m = TOTAL - used() + (slots[pdCur].seats || 0);
+    if (v > 0 && v < MIN_SEATS) { pdHint.textContent = 'מתחת לאחוז החסימה: או 0 או לפחות ' + MIN_SEATS; pdHint.className = 'hint bad'; }
+    else if (v > m) { pdHint.textContent = 'חריגה של ' + (v - m) + ' מעל 120. אפשר לשמור, אבל אי אפשר להמשיך עד שמתקנים'; pdHint.className = 'hint bad'; }
+    else if (m <= 0) { pdHint.textContent = 'הקלפי כבר מלאה, כל מנדט כאן הוא חריגה'; pdHint.className = 'hint'; }
+    else { pdHint.textContent = '0, או ' + MIN_SEATS + ' ומעלה. נותרו ' + m + ' לחלוקה'; pdHint.className = 'hint'; }
+    [...pdCands.children].forEach((li, k) => li.classList.toggle('in', k < v));
+  }
+  function pdCommit(markOut) {
+    const p = slots[pdCur];
+    const v = Math.max(0, Math.min(TOTAL, pdVal()));
+    if (v > 0 && v < MIN_SEATS) { pdUpdateHint(); pdSeats.focus(); return; }
+    const grew = v > (p.seats || 0);
+    p.seats = v;
+    p.out = markOut && v === 0;
+    save(); partyDlg.close(); render();
+    if (grew) flyToKalpi(pdCur, p.l);
+  }
+  pdSeats.addEventListener('input', pdUpdateHint);
+  // לחיצה על המספר בוחרת אותו, כך שהקלדה מחליפה את האפס במקום להתווסף אליו
+  pdSeats.addEventListener('focus', function () { setTimeout(function () { pdSeats.select(); }, 0); });
+  pdSeats.addEventListener('click', function () { pdSeats.select(); });
+  document.getElementById('pdPlus').addEventListener('click', () => { const v = pdVal(); pdSeats.value = v < MIN_SEATS ? MIN_SEATS : Math.min(TOTAL, v + 1); pdUpdateHint(); });
+  document.getElementById('pdMinus').addEventListener('click', () => { const v = pdVal(); pdSeats.value = v <= MIN_SEATS ? 0 : v - 1; pdUpdateHint(); });
+  document.getElementById('pdZero').addEventListener('click', () => { pdSeats.value = 0; pdCommit(true); });
+  document.getElementById('pdFoot').addEventListener('submit', e => { e.preventDefault(); if (pdMode === 'board') pdCommit(false); });
+  document.getElementById('pdClose').addEventListener('click', () => partyDlg.close());
+  partyDlg.addEventListener('click', e => { if (e.target === partyDlg) partyDlg.close(); });
+  document.querySelectorAll('#pdBlocMode .zone-btns button').forEach(b => b.addEventListener('click', () => {
+    const z = b.dataset.z;
+    place(pdCur, zoneOf(pdCur) === z ? 'pool' : z);
+    partyDlg.close();
+  }));
+
+  /* ---------- הרכבת הממשלה ---------- */
+  const FOLIOS = [
+    ['def', 'הביטחון'], ['fin', 'האוצר'], ['for', 'החוץ'], ['jus', 'המשפטים'], ['edu', 'החינוך'], ['int', 'הפנים'],
+    ['hea', 'הבריאות'], ['nsec', 'הביטחון הלאומי'], ['tra', 'התחבורה'], ['hou', 'השיכון'], ['eco', 'הכלכלה'], ['ene', 'האנרגיה'],
+    ['agr', 'החקלאות'], ['wel', 'הרווחה'], ['com', 'התקשורת'], ['cul', 'התרבות והספורט'], ['rel', 'הדתות'], ['ali', 'הקליטה'],
+  ];
+  const MIN_MINISTERS = 5;   // כדי לסיים צריך לפחות חמישה שרים, לא משנה אילו תיקים
+  const BASE_FOLIOS = 6;     // שישה תיקים קבועים, השאר נוספים לפי בחירה
+  function folioName(key) {
+    if (key.indexOf('x:') === 0) return key.slice(2);          // תיק שהומצא כאן
+    const f = FOLIOS.find(function (x) { return x[0] === key; });
+    return f ? f[1] : key;
+  }
+  function activeFolios() {
+    return FOLIOS.slice(0, BASE_FOLIOS).map(f => f[0]).concat(gov.extra || []);
+  }
+  // התיקים המשובצים, לפי סדר הבכירות שבו הם מופיעים על המסך
+  function assigned() { return activeFolios().filter(k => gov.min[k]); }
+  // בתוך claude.ai הקישור הוא הארטיפקט. באתר עצמאי הוא הכתובת שממנה הדף נטען, כך שאותו קובץ עובד בכל מקום.
+  const APP_URL = window.claude
+    ? 'https://claude.ai/artifact/HcVvZ442yXsnTrZZZdChiE'
+    : (location.origin + location.pathname).replace(/index[.]html$/, '');
+  const CASE_SVG = '<svg viewBox="0 0 120 86" aria-hidden="true"><defs><linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d98a"/><stop offset=".55" stop-color="#d2a24a"/><stop offset="1" stop-color="#a9772a"/></linearGradient></defs>' +
+    '<rect x="41" y="4" width="38" height="18" rx="5" fill="none" stroke="url(#gGold)" stroke-width="7"/>' +
+    '<rect x="2" y="16" width="116" height="68" rx="9" fill="url(#gGold)"/>' +
+    '<path d="M2 30 Q60 50 118 30" fill="none" stroke="#0a1a44" stroke-width="3.5"/><rect x="52" y="33" width="16" height="11" rx="1.5" fill="#0a1a44"/></svg>';
+
+  function membersOf(i) {
+    const p = slots[i], names = (PD[p.n] && PD[p.n].cands) || [], hd = headOf(p);
+    return Array.from({ length: p.seats || 0 }, (_, k) => names[k] || (k === 0 && hd.h ? hd.h : 'מקום ' + (k + 1) + ' ברשימה'));
+  }
+  function portraitHTML(name) {
+    return '<div class="portrait">' + faceHTML(name, true) + '</div>';
+  }
+  function blocList() {                      // הרשימות של הגוש שהגיע ל-61
+    const wb = winningBloc();
+    return wb ? elected().filter(({ i }) => zoneOf(i) === wb) : [];
+  }
+  function sanitizeGov() {
+    if (!Array.isArray(gov.coal)) gov.coal = [];
+    if (!gov.min || typeof gov.min !== 'object') gov.min = {};
+    gov.coal = blocList().map(x => x.i);          // כל הגוש המנצח הוא הקואליציה
+    if (gov.pm != null && !gov.coal.includes(gov.pm)) gov.pm = null;
+    const base = FOLIOS.slice(0, BASE_FOLIOS).map(f => f[0]);
+    if (!Array.isArray(gov.extra)) gov.extra = [];
+    gov.extra = gov.extra.filter((k, i) => k && base.indexOf(k) < 0 && gov.extra.indexOf(k) === i);
+    const live = new Set(activeFolios());
+    Object.keys(gov.min).forEach(k => { if (!live.has(k)) delete gov.min[k]; });
+    Object.keys(gov.min).forEach(key => {
+      const m = gov.min[key];
+      if (!m || !gov.coal.includes(m.party) || m.idx >= slots[m.party].seats) delete gov.min[key];
+    });
+  }
+  function coalSeats() { return gov.coal.reduce((a, i) => a + slots[i].seats, 0); }
+  function folioCount(i) { return Object.values(gov.min).filter(m => m.party === i).length; }
+
+  function renderGov() {
+    sanitizeGov(); saveGov();
+    const list = blocList();
+    const wb = winningBloc();
+    const bn = wb ? blocName(wb) : '';
+    const bsum = list.reduce((a, x) => a + x.p.seats, 0);
+    document.getElementById('govBloc').innerHTML =
+      'הגוש המרכיב: <b>' + esc(bn) + '</b> · ' + bsum + ' מנדטים · ' + list.length + ' רשימות';
+    // שלב 1: מי מרכיב
+    document.getElementById('pmGrid').innerHTML = list.map(({ p, i }) => {
+      const hd = headOf(p);
+      return '<button type="button" class="pm-card' + (gov.pm === i ? ' on' : '') + '" data-i="' + i + '" aria-pressed="' + (gov.pm === i) + '">' +
+        '<span class="n">' + p.seats + '</span>' + portraitHTML(membersOf(i)[0]) +
+        '<div class="plate">' + esc(hd.h || 'ראש הרשימה') + '<small>' + esc(p.n) + '</small></div></button>';
+    }).join('');
+    const banner = document.getElementById('pmBanner');
+    if (gov.pm != null) {
+      const p = slots[gov.pm];
+      banner.hidden = false;
+      banner.innerHTML = portraitHTML(membersOf(gov.pm)[0]) + '<div class="who"><small>ראש הממשלה</small><b class="gold-text">' + esc(membersOf(gov.pm)[0]) + '</b><span>' + esc(p.f || p.n) + ' · ' + p.seats + ' מנדטים</span></div>';
+    } else banner.hidden = true;
+
+    // חלוקת התיקים נפתחת ברגע שיש ראש ממשלה. הקואליציה היא כל הגוש.
+    const open3 = gov.pm != null;
+    document.getElementById('step3').classList.toggle('locked', !open3);
+
+    // שלב 3: תיקים
+    const filled = assigned().length;
+    const need = Math.max(0, MIN_MINISTERS - filled);
+    const act = activeFolios();
+    document.getElementById('folioProgress').textContent =
+      'שובצו ' + filled + ' מתוך ' + act.length + ' תיקים. צריך לפחות ' + MIN_MINISTERS + ' שרים כדי לסיים, לא משנה אילו תיקים.';
+    document.getElementById('addFolio').disabled = !open3;
+    document.getElementById('folioGrid').innerHTML = act.map(key => {
+      const name = folioName(key), m = gov.min[key];
+      const person = m
+        ? '<div class="person">' + portraitHTML(membersOf(m.party)[m.idx]) + '<div class="plate">' + esc(membersOf(m.party)[m.idx]) + '<small>' + esc(slots[m.party].n) + '</small></div></div>'
+        : '<div class="person vacant"><div class="portrait">התיק מחכה</div><div class="plate">טרם שובץ</div></div>';
+      return '<button type="button" class="folio' + (m ? ' done' : '') + '" data-key="' + esc(key) + '"' + (open3 ? '' : ' disabled') + ' aria-label="תיק ' + esc(name) + (m ? ', ' + esc(membersOf(m.party)[m.idx]) : ', טרם שובץ') + '">' +
+        person + '<div class="case">' + CASE_SVG + '<span>' + esc(name) + '</span></div></button>';
+    }).join('');
+
+    const fb = document.getElementById('finishBtn');
+    fb.disabled = !open3 || need > 0;
+    document.getElementById('finishTxt').textContent = !open3 ? 'קודם בוחרים מי מרכיב את הממשלה.'
+      : need ? 'צריך עוד ' + need + ' ' + (need === 1 ? 'שר' : 'שרים') + ' כדי לסיים.'
+      : 'אפשר לדלג על שאר התיקים ולסיים.';
+  }
+
+  function blocSums() {
+    const sum = { pool: 0, a: 0, s: 0, b: 0 };
+    elected().forEach(({ p, i }) => sum[zoneOf(i)] += p.seats);
+    return sum;
+  }
+
+  document.getElementById('pmGrid').addEventListener('click', e => {
+    const b = e.target.closest('.pm-card'); if (!b) return;
+    gov.pm = +b.dataset.i;
+    renderGov();
+  });
+
+  // שיבוץ תיק: קודם רשימה, ואז חבר כנסת מתוך מספר המנדטים שלה
+  const assignDlg = document.getElementById('assignDlg');
+  let asKey = null, asParty = null;
+  function openAssign(key) {
+    asKey = key;
+    const m = gov.min[key];
+    asParty = m ? m.party : (gov.coal.length === 1 ? gov.coal[0] : null);
+    document.getElementById('asTitle').textContent = 'תיק ' + folioName(key);
+    document.getElementById('asDrop').hidden = key.indexOf('x:') !== 0 && FOLIOS.slice(0, BASE_FOLIOS).some(f => f[0] === key);
+    document.getElementById('asClear').hidden = !m;
+    renderAssign();
+    assignDlg.showModal();
+  }
+  function renderAssign() {
+    document.getElementById('asParties').innerHTML = gov.coal.map(i => {
+      const p = slots[i];
+      return '<button type="button" data-i="' + i + '" class="slipbtn' + (asParty === i ? ' on' : '') + '">' +
+        '<span class="sb-name">' + esc(p.n) + '</span><span class="sb-seats">' + p.seats + '</span></button>';
+    }).join('');
+    const t = document.getElementById('asMembersTitle'), box = document.getElementById('asMembers');
+    if (asParty == null) { t.hidden = true; box.innerHTML = ''; return; }
+    t.hidden = false;
+    const cur = gov.min[asKey];
+    box.innerHTML = membersOf(asParty).map((n, k) => {
+      const heldKey = Object.keys(gov.min).find(x => gov.min[x].party === asParty && gov.min[x].idx === k && x !== asKey);
+      const held = heldKey ? 'שר/ת ' + folioName(heldKey) : (asParty === gov.pm && k === 0 ? 'ראש הממשלה' : '');
+      const on = cur && cur.party === asParty && cur.idx === k;
+      return '<button type="button" data-k="' + k + '" class="' + (on ? 'on' : '') + '"' + (heldKey ? ' disabled' : '') + '><span>' + (k + 1) + '</span>' + esc(n) + (held ? '<small>' + held + '</small>' : '') + '</button>';
+    }).join('');
+  }
+  document.getElementById('folioGrid').addEventListener('click', e => { const b = e.target.closest('.folio'); if (b && !b.disabled) openAssign(b.dataset.key); });
+  document.getElementById('asParties').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; asParty = +b.dataset.i; renderAssign(); });
+  document.getElementById('asMembers').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    gov.min[asKey] = { party: asParty, idx: +b.dataset.k };
+    assignDlg.close(); renderGov();
+  });
+  document.getElementById('asClear').addEventListener('click', () => { delete gov.min[asKey]; assignDlg.close(); renderGov(); });
+  document.getElementById('asDrop').addEventListener('click', () => {
+    delete gov.min[asKey];
+    gov.extra = (gov.extra || []).filter(k => k !== asKey);
+    assignDlg.close(); renderGov();
+  });
+
+  // הוספת תיק: מהקטלוג לפי א"ב, או תיק שהמשתמש ממציא
+  const addDlg = document.getElementById('addDlg');
+  function renderAdd() {
+    const taken = new Set(activeFolios());
+    const rest = FOLIOS.filter(f => !taken.has(f[0]))
+      .sort((a, b) => a[1].localeCompare(b[1], 'he'));
+    document.getElementById('afList').innerHTML = rest.length
+      ? rest.map(([k, n]) => '<button type="button" data-k="' + k + '">' + esc(n) + '</button>').join('')
+      : '<div class="hint">כל התיקים המוכרים כבר על השולחן.</div>';
+  }
+  function addFolio(key) {
+    if (!key || activeFolios().indexOf(key) >= 0) return false;
+    gov.extra = (gov.extra || []).concat([key]);
+    saveGov(); renderGov();
+    return true;
+  }
+  document.getElementById('addFolio').addEventListener('click', () => {
+    document.getElementById('afName').value = '';
+    document.getElementById('afHint').textContent = '';
+    renderAdd(); addDlg.showModal();
+  });
+  document.getElementById('afList').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    addFolio(b.dataset.k); addDlg.close();
+  });
+  document.getElementById('afForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = document.getElementById('afName').value.trim();
+    const hint = document.getElementById('afHint');
+    if (!v) { hint.textContent = 'צריך שם לתיק.'; hint.className = 'hint bad'; return; }
+    const known = FOLIOS.find(f => f[1] === v || f[1] === 'ה' + v);
+    const key = known ? known[0] : 'x:' + v;
+    if (!addFolio(key)) { hint.textContent = 'התיק הזה כבר קיים.'; hint.className = 'hint bad'; return; }
+    addDlg.close();
+  });
+  document.getElementById('afClose').addEventListener('click', () => addDlg.close());
+  addDlg.addEventListener('click', e => { if (e.target === addDlg) addDlg.close(); });
+  document.getElementById('asClose').addEventListener('click', () => assignDlg.close());
+  assignDlg.addEventListener('click', e => { if (e.target === assignDlg) assignDlg.close(); });
+  document.getElementById('govReset').addEventListener('click', () => { gov.pm = null; gov.min = {}; renderGov(); });
+
+  /* ---------- תמונת שיתוף ---------- */
+  const shareDlg = document.getElementById('shareDlg');
+  const SW = 1080, SH = 1350;
+
+  function fitFont(ctx, text, max, weight, family, start, min) {
+    let px = start;
+    for (;;) {
+      ctx.font = weight + ' ' + px + 'px ' + family;
+      if (px <= min || ctx.measureText(text).width <= max) break;
+      px -= 1;
+    }
+    return ctx.font;
+  }
+  function rrect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
+    else {
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+  }
+  function drawPortrait(ctx, x, y, w, h, img, name) {
+    ctx.save();
+    rrect(ctx, x, y, w, h, 6); ctx.clip();
+    const g = ctx.createLinearGradient(0, y, 0, y + h);
+    g.addColorStop(0, '#2a4fae'); g.addColorStop(1, '#16307a');
+    ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+    if (img) {
+      // חיתוך יחס-שומר עם מסגרת גבוהה, כדי שהראש לא ייחתך
+      const sc = Math.max(w / img.width, h / img.height);
+      const dw = img.width * sc, dh = img.height * sc;
+      ctx.drawImage(img, x + (w - dw) / 2, y - (dh - h) * 0.12, dw, dh);
+    }
+    else {
+      const g2 = name ? (genderOf(name) || 'u') : 'u';
+      ctx.fillStyle = g2 === 'f' ? '#f2a0c2' : g2 === 'm' ? '#74c4ef' : '#9fb1c2';
+      const cx = x + w / 2, r = w * 0.2, cy = y + h * 0.36;
+      if (g2 === 'f') {   // שיער סביב הפנים
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + r * 0.25, r * 1.42, r * 1.55, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(x + w * 0.1, y + h);
+      ctx.bezierCurveTo(x + w * 0.1, y + h * 0.62, x + w * 0.9, y + h * 0.62, x + w * 0.9, y + h);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    ctx.strokeStyle = '#0038B8'; ctx.lineWidth = 2.5; rrect(ctx, x, y, w, h, 6); ctx.stroke();
+  }
+  function drawPlate(ctx, cx, y, w, h, name, sub, nameSize) {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(cx - w / 2, y, w, h);
+    ctx.strokeStyle = '#0038B8'; ctx.lineWidth = 2; ctx.strokeRect(cx - w / 2 + 1, y + 1, w - 2, h - 2);
+    ctx.fillStyle = '#0a1a44'; ctx.textAlign = 'center';
+    ctx.font = fitFont(ctx, name, w - 16, '700', '"Heebo", sans-serif', nameSize, 12);
+    ctx.fillText(name, cx, y + (sub ? h * 0.38 : h / 2));
+    if (sub) {
+      ctx.fillStyle = '#4a5a86';
+      ctx.font = fitFont(ctx, sub, w - 16, '500', '"Heebo", sans-serif', Math.round(nameSize * 0.6), 10);
+      ctx.fillText(sub, cx, y + h * 0.74);
+    }
+  }
+  function drawGoldPill(ctx, cx, y, w, h, text) {
+    const g = ctx.createLinearGradient(0, y, 0, y + h);
+    g.addColorStop(0, '#f3d98a'); g.addColorStop(1, '#a9772a');
+    ctx.fillStyle = g; rrect(ctx, cx - w / 2, y, w, h, h / 2); ctx.fill();
+    ctx.fillStyle = '#2b1d00'; ctx.textAlign = 'center';
+    ctx.font = fitFont(ctx, text, w - 16, '700', '"Heebo", sans-serif', Math.round(h * 0.55), 10);
+    ctx.fillText(text, cx, y + h / 2 + 1);
+  }
+
+  function loadImg(src) {
+    return new Promise(function (res) {
+      if (!src) return res(null);
+      const im = new Image();
+      im.onload = function () { res(im); };
+      im.onerror = function () { res(null); };
+      im.src = src;
+    });
+  }
+
+  function ministerTitle(key, who) {
+    const g = genderOf(who);
+    return (g === 'f' ? 'שרת ' : g === 'm' ? 'שר ' : 'שר/ת ') + folioName(key);
+  }
+  function blocParties(z) {
+    return elected().filter(function (x) { return zoneOf(x.i) === z; })
+      .sort(function (a, b) { return b.p.seats - a.p.seats; });
+  }
+
+  async function buildShareImage(withFooter) {
+    const c = document.createElement('canvas');
+    c.width = SW; c.height = SH;
+    const ctx = c.getContext('2d');
+    ctx.direction = 'rtl'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
+    try { await document.fonts.ready; } catch (e) {}
+
+    const show = assigned().slice(0, MIN_MINISTERS);
+    const pmP = slots[gov.pm], pmName = membersOf(gov.pm)[0];
+    const need = [pmName].concat(show.map(function (key) {
+      const m = gov.min[key];
+      return membersOf(m.party)[m.idx];
+    }));
+    const faces = {};
+    (await Promise.all(need.map(function (nm) { return loadImg(nm ? PHOTO[nm] : null); })))
+      .forEach(function (im, idx) { if (im) faces[need[idx]] = im; });
+
+    // חצי עליון: הדגל. שדה לבן, שני פסים כחולים, מגן דוד עדין מאחורי ראש הממשלה
+    const FLAG = '#0038B8', SPLIT = 994;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, SW, SPLIT);
+    ctx.fillStyle = FLAG; ctx.fillRect(0, 14, SW, 22); ctx.fillRect(0, SPLIT - 22, SW, 22);
+    (function star(cx, cy, R) {
+      ctx.save(); ctx.strokeStyle = FLAG; ctx.globalAlpha = 0.09; ctx.lineWidth = 26; ctx.lineJoin = 'round';
+      [Math.PI / 2, -Math.PI / 2].forEach(function (a0) {
+        ctx.beginPath();
+        for (let k = 0; k < 3; k++) {
+          const a = a0 + k * 2 * Math.PI / 3, x = cx + R * Math.cos(a), y = cy - R * Math.sin(a);
+          if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+        }
+        ctx.closePath(); ctx.stroke();
+      });
+      ctx.restore();
+    })(SW / 2, 301, 240);   // ממורכז בין שני הפסים הכחולים
+    // חצי תחתון: שמי לילה למפת הגושים
+    const bg = ctx.createLinearGradient(0, SPLIT, 0, SH);
+    bg.addColorStop(0, '#0f2b70'); bg.addColorStop(1, '#060f2b');
+    ctx.fillStyle = bg; ctx.fillRect(0, SPLIT, SW, SH - SPLIT);
+    ctx.fillStyle = 'rgba(255,255,255,.5)';
+    for (let i = 0; i < 60; i++) {
+      const x = (i * 197) % SW, y = SPLIT + 10 + (i * 83) % (SH - SPLIT - 100), r = (i % 3) * 0.6 + 0.6;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+
+    ctx.fillStyle = '#3b4a6b'; ctx.font = '500 26px "Heebo", sans-serif';
+    ctx.fillText('הכנסת ה-26 · בחירות 2026', SW / 2, 70);
+    ctx.fillStyle = FLAG; ctx.font = '900 76px "Frank Ruhl Libre", serif';
+    ctx.fillText('הממשלה שלי', SW / 2, 132);
+
+    // ראש הממשלה
+    ctx.fillStyle = FLAG; ctx.font = '700 28px "Heebo", sans-serif';
+    ctx.fillText('ראש הממשלה', SW / 2, 196);
+    drawPortrait(ctx, SW / 2 - 104, 218, 208, 242, faces[pmName], pmName);
+    // "גדי איזנקוט - ישר!" בשורה אחת: השם גדול, המפלגה קטנה יותר, על בסיס משותף
+    (function pmLine() {
+      const nameFont = fitFont(ctx, pmName, 520, '900', '"Frank Ruhl Libre", serif', 48, 28);
+      const wn = ctx.measureText(pmName).width;
+      const tail = ' - ' + pmP.n;
+      const tailFont = fitFont(ctx, tail, 300, '700', '"Heebo", sans-serif', 28, 16);
+      const wt = ctx.measureText(tail).width;
+      const right = SW / 2 + (wn + wt) / 2;            // ממורכז כמקשה אחת, השם מימין
+      ctx.save();
+      ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = '#1b2a4a';
+      ctx.font = nameFont; ctx.fillText(pmName, right, 520);
+      ctx.font = tailFont; ctx.fillText(tail, right - wn, 520);
+      ctx.restore();
+    })();
+    ctx.fillStyle = FLAG; ctx.fillRect(0, 566, SW, 22);   // פס כחול נוסף, בין ראש הממשלה לשרים
+
+    // חמשת השרים
+    // השרים גדולים יותר: הבלוק מתחיל מוקדם יותר כי תג המנדטים של ראש הממשלה ירד
+    const n = Math.max(show.length, 1), cw = 204, gap = 12;
+    const x0 = (SW - (n * cw + (n - 1) * gap)) / 2;
+    show.forEach(function (key, k) {
+      const m = gov.min[key], who = membersOf(m.party)[m.idx];
+      const cx2 = SW - (x0 + k * (cw + gap) + cw / 2);   // מימין לשמאל
+      drawPortrait(ctx, cx2 - 88, 616, 176, 196, faces[who], who);
+      drawPlate(ctx, cx2, 820, cw, 70, who, slots[m.party].n, 26);
+      drawGoldPill(ctx, cx2, 898, cw, 46, ministerTitle(key, who));
+    });
+
+    // חצי עיגול הגושים
+    const sum = blocSums(), cx = SW / 2, cy = 1182, r = 140, lw = 34;
+    const nA = gov.names[0] || DEFAULT_NAMES[0], nB = gov.names[1] || DEFAULT_NAMES[1], nS = gov.names[2] || DEFAULT_NAMES[2];
+    const ang = function (u) { return Math.PI * 2 - (u / TOTAL) * Math.PI; };
+    const seg = function (from, to, color) {
+      if (to - from <= 0) return;
+      ctx.strokeStyle = color; ctx.lineWidth = lw;
+      ctx.beginPath(); ctx.arc(cx, cy, r, ang(from), ang(to), true); ctx.stroke();
+    };
+    seg(0, TOTAL, 'rgba(255,255,255,.12)');
+    seg(0, sum.a, '#e5443d');
+    const sStart = sum.a + (TOTAL - sum.a - sum.b - sum.s) / 2;
+    seg(sStart, sStart + sum.s, '#c4ccd3');
+    seg(TOTAL - sum.b, TOTAL, '#3f9bf5');
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.setLineDash([6, 5]);
+    ctx.beginPath(); ctx.moveTo(cx, cy - r - lw / 2 - 7); ctx.lineTo(cx, cy - r + lw / 2 + 7); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#fff'; ctx.font = '700 21px "Heebo", sans-serif';
+    ctx.fillText('61', cx, cy - r - lw / 2 - 24);
+
+    // מתנדנדים במרכז
+    ctx.fillStyle = '#c4ccd3'; ctx.font = '900 34px "Frank Ruhl Libre", serif';
+    ctx.fillText(String(sum.s), cx, cy - 88);
+    ctx.font = fitFont(ctx, nS, 175, '500', '"Heebo", sans-serif', 19, 12);
+    ctx.fillText(nS, cx, cy - 57);
+
+    // הסכומים בתחתית התרשים
+    ctx.fillStyle = '#ff8d87'; ctx.font = '900 56px "Frank Ruhl Libre", serif';
+    ctx.fillText(String(sum.a), cx + 150, cy + 36);
+    ctx.fillStyle = '#fff'; ctx.font = fitFont(ctx, nA, 150, '700', '"Heebo", sans-serif', 24, 12);
+    ctx.fillText(nA, cx + 150, cy + 80);
+    ctx.fillStyle = '#8cc6ff'; ctx.font = '900 56px "Frank Ruhl Libre", serif';
+    ctx.fillText(String(sum.b), cx - 150, cy + 36);
+    ctx.fillStyle = '#fff'; ctx.font = fitFont(ctx, nB, 150, '700', '"Heebo", sans-serif', 24, 12);
+    ctx.fillText(nB, cx - 150, cy + 80);
+
+    // הרשימות של כל גוש, משני הצדדים
+    const drawList = function (arr, x, color) {
+      arr.slice(0, 6).forEach(function (it, k) {
+        const t = it.p.n + '  ' + it.p.seats;
+        ctx.fillStyle = color;
+        ctx.font = fitFont(ctx, t, 220, '500', '"Heebo", sans-serif', 22, 13);
+        ctx.fillText(t, x, 1036 + k * 33);
+      });
+      if (arr.length > 6) {
+        ctx.fillStyle = '#9fb1c2'; ctx.font = '500 18px "Heebo", sans-serif';
+        ctx.fillText('ועוד ' + (arr.length - 6), x, 1036 + 6 * 33);
+      }
+    };
+    drawList(blocParties('a'), SW - 125, '#ffc9c6');
+    drawList(blocParties('b'), 125, '#bfe0ff');
+
+    if (withFooter) {
+      ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(0, SH - 70, SW, 70);
+      ctx.fillStyle = '#fff'; ctx.font = '700 25px "Heebo", sans-serif';
+      ctx.fillText('הרכיבו ממשלה משלכם', SW / 2, SH - 46);
+      ctx.fillStyle = '#b9c6e6'; ctx.font = '500 20px "Heebo", sans-serif';
+      ctx.direction = 'ltr';
+      ctx.fillText(APP_URL.replace('https://', ''), SW / 2, SH - 20);
+      ctx.direction = 'rtl';
+    }
+    return c;
+  }
+
+  let shareBlob = null, shareFiles = false;
+  const SHARE_TEXT = 'הרכבתי ממשלה. נסו גם אתם:';
+  document.getElementById('finishBtn').addEventListener('click', async function () {
+    const btn = document.getElementById('finishBtn');
+    btn.disabled = true;
+    try {
+      const preview = await buildShareImage(false);          // בלי הקריאה לפעולה
+      document.getElementById('shareImg').src = preview.toDataURL('image/png');
+      const full = await buildShareImage(true);              // מה שנשלח, עם הקישור
+      shareBlob = await new Promise(function (res) { full.toBlob(res, 'image/png'); });
+      document.getElementById('shareSaid').hidden = true;
+      dlCap().then(function (dl) {                              // בלי היכולת בתוך הצופה, הכפתור מוסתר
+        document.getElementById('shSave').hidden = !dl && !!window.claude;
+      });
+      shareFiles = false;
+      try {
+        const file = new File([shareBlob], 'my-government.png', { type: 'image/png' });
+        shareFiles = !!(navigator.canShare && navigator.canShare({ files: [file] }));
+      } catch (e) {}
+      document.getElementById('shShare').hidden = !navigator.share;
+      document.getElementById('shShare').title = shareFiles ? 'שיתוף התמונה לאפליקציות' : 'שיתוף הקישור';
+      const msg = encodeURIComponent(SHARE_TEXT + ' ' + APP_URL), u = encodeURIComponent(APP_URL);
+      document.getElementById('shWa').href = 'https://wa.me/?text=' + msg;
+      document.getElementById('shTg').href = 'https://t.me/share/url?url=' + u + '&text=' + encodeURIComponent(SHARE_TEXT);
+      document.getElementById('shFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+      shareDlg.showModal();
+    } catch (e) {
+      document.getElementById('finishTxt').textContent = 'לא הצלחתי לבנות את התמונה בדפדפן הזה.';
+    }
+    btn.disabled = false;
+  });
+  document.getElementById('shShare').addEventListener('click', async function () {
+    try {
+      if (shareFiles) {
+        const file = new File([shareBlob], 'my-government.png', { type: 'image/png' });
+        await navigator.share({ files: [file], text: SHARE_TEXT + ' ' + APP_URL });
+      } else {
+        const ok = await copyImageToClipboard();
+        await navigator.share({ title: '120 מנדטים', text: SHARE_TEXT, url: APP_URL });
+        if (ok) said('התמונה הועתקה ללוח, הדביקו אותה בשיחה');
+      }
+    } catch (e) {}
+  });
+  function said(t) {
+    const el = document.getElementById('shareSaid');
+    el.textContent = t; el.hidden = false;
+  }
+  document.getElementById('shCopy').addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText(APP_URL); said('הקישור הועתק'); }
+    catch (err) { said(APP_URL); }
+  });
+  // תמונה קודם: אם הדפדפן יודע לשתף קבצים, כל כפתור אפליקציה פותח את חלון השיתוף של המכשיר עם התמונה והקישור.
+  // אם לא, התמונה מועתקת ללוח והקישור נפתח באפליקציה, ואז מדביקים.
+  async function copyImageToClipboard() {
+    try {
+      if (!shareBlob || !navigator.clipboard || !window.ClipboardItem) return false;
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': shareBlob })]);
+      return true;
+    } catch (e) { return false; }
+  }
+  document.querySelectorAll('.app-btn').forEach(function (a) {
+    a.addEventListener('click', async function (e) {
+      if (shareFiles) {
+        e.preventDefault();
+        try {
+          const file = new File([shareBlob], 'my-government.png', { type: 'image/png' });
+          await navigator.share({ files: [file], text: SHARE_TEXT + ' ' + APP_URL });
+        } catch (err) {}
+        return;
+      }
+      const ok = await copyImageToClipboard();      // the link opens in the app; the picture waits in the clipboard
+      said(ok ? 'הקישור נפתח. התמונה הועתקה, הדביקו אותה בשיחה' : 'הקישור נפתח. את התמונה צרפו מהגלריה');
+    });
+  });
+  // שמירה. בתוך claude.ai הדף לא רשאי להוריד קובץ בעצמו: הוא מבקש מהצופה דרך יכולת ה-downloads,
+  // שמציגה אישור ושומרת רק אם הצופה מסכים. מחוץ ל-claude.ai נשארות הדרכים הרגילות.
+  let dlPromise = null;
+  function dlCap() {
+    if (!dlPromise) {
+      dlPromise = (window.claude && typeof window.claude.use === 'function')
+        ? window.claude.use('downloads').catch(function () { return null; })
+        : Promise.resolve(null);
+    }
+    return dlPromise;
+  }
+  document.getElementById('shSave').addEventListener('click', async function () {
+    if (!shareBlob) return;
+    const dl = await dlCap();
+    if (dl) {
+      try {
+        await dl.save({ filename: 'my-government.png', data: shareBlob });
+        said('התמונה נשמרה');
+      } catch (e) {
+        const code = e && e.code;
+        if (code === 'declined') return;                       // הצופה סירב, לא מנסים שוב
+        if (code === 'rate_limited') { said('בקשת שמירה קודמת עדיין פתוחה'); return; }
+        const ok = await copyImageToClipboard();
+        said(ok ? 'השמירה לא זמינה כאן. התמונה הועתקה ללוח' : 'השמירה לא זמינה כאן. לחיצה ארוכה על התמונה שומרת אותה');
+      }
+      return;
+    }
+    if (window.claude) {                                        // בתוך הצופה אבל בלי היכולת: אין הורדה, יש לוח
+      const ok = await copyImageToClipboard();
+      said(ok ? 'התמונה הועתקה ללוח, אפשר להדביק אותה בכל מקום' : 'לחיצה ארוכה על התמונה שומרת אותה');
+      return;
+    }
+    if (window.showSaveFilePicker) {
+      try {
+        const h = await window.showSaveFilePicker({ suggestedName: 'my-government.png',
+          types: [{ description: 'PNG', accept: { 'image/png': ['.png'] } }] });
+        const w = await h.createWritable(); await w.write(shareBlob); await w.close();
+        said('התמונה נשמרה'); return;
+      } catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    try {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(shareBlob); a.download = 'my-government.png';
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch (e) {}
+    const ok = await copyImageToClipboard();
+    said(ok ? 'אם לא נפתחה הורדה: התמונה הועתקה ללוח, אפשר להדביק אותה בכל מקום'
+            : 'אם לא נפתחה הורדה: לחיצה ארוכה על התמונה שומרת אותה');
+  });
+  document.getElementById('shClose').addEventListener('click', function () { shareDlg.close(); });
+  shareDlg.addEventListener('click', function (e) { if (e.target === shareDlg) shareDlg.close(); });
+
+  // עכשיו שהכול מוגדר: רינדור מחדש עם האייקונים, ומעבר למסך הנכון
+  render();
+  showView();
+</script>
+<!--PANEL-END-->
+
+</body></html>
