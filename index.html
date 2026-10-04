@@ -1153,6 +1153,12 @@
   .share-body { padding: 14px; overflow-y: auto; }
   .share-img { width: 100%; border-radius: 8px; display: block; box-shadow: 0 6px 18px rgba(0,0,0,.25); background: #0a1a44; }
   .share-actions { display: flex; justify-content: center; gap: 14px; margin-top: 14px; }
+  .svy-note { font-size: 13px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 12px; }
+  .svy-q { margin-bottom: 10px; }
+  .svy-q b { display: block; font-size: 14px; margin-bottom: 6px; }
+  .svy-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .svy-opts button { padding: 6px 11px; border-radius: 999px; border: 1px solid var(--paper-edge); background: #fff; color: var(--ink); font: 600 13px "Heebo", sans-serif; cursor: pointer; }
+  .svy-opts button.on { background: var(--kalpi-panel-a); border-color: var(--kalpi-panel-a); color: #fff; }
   .ico-btn { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--paper-edge); background: #fff; color: var(--kalpi-panel-a); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
   .ico-btn svg { width: 26px; height: 26px; stroke: currentColor; fill: currentColor; }
   .ico-btn svg [fill="none"] { fill: none; }
@@ -1264,6 +1270,20 @@
       <button type="button" class="zero" id="asDrop" hidden>מחק תיק</button>
       <button type="button" class="zero" id="asClear">פנה את התיק</button>
       <button type="button" id="asClose">סגור</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="surveyDlg" aria-labelledby="svyTitle">
+  <div class="dlg svy">
+    <h2 id="svyTitle" style="font:900 22px/1.2 'Frank Ruhl Libre',serif;margin:0 0 6px">רגע לפני השיתוף</h2>
+    <p class="svy-note">התוצאה שלכם (חלוקת המנדטים, הגושים והממשלה) נשמרת אצלנו באופן אנונימי, לצורך סטטיסטיקה בלבד: בלי שם, בלי כתובת ובלי פרטים מזהים. שלוש השאלות הבאות הן רשות.</p>
+    <div class="svy-q"><b>טווח גיל</b><div class="svy-opts" data-q="age"></div></div>
+    <div class="svy-q"><b>מחוז מגורים</b><div class="svy-opts" data-q="dist"></div></div>
+    <div class="svy-q"><b>הצבעתם בבחירות הקודמות (2022)?</b><div class="svy-opts" data-q="voted"></div></div>
+    <div class="actions">
+      <button type="button" id="svySkip">סיים בלי לשמור</button>
+      <button type="button" class="save" id="svySave">שמירה והמשך</button>
     </div>
   </div>
 </dialog>
@@ -2136,7 +2156,104 @@
 
   let shareBlob = null, shareFiles = false;
   const SHARE_TEXT = 'הרכבתי ממשלה. נסו גם אתם:';
-  document.getElementById('finishBtn').addEventListener('click', async function () {
+
+  // איסוף תוצאות אנונימי. ריק = לא שומרים כלום ולא שואלים כלום.
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwSevSnJAMhIbi98Abw5rxKlcKBeK-QtOt3opBxGCiwh2L1FkCHekYt-NsbNSLppWdF/exec';
+  const APP_VERSION = '2026-10-04';
+  const SURVEY = {
+    age:   ['עד 17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
+    dist:  ['ירושלים', 'הצפון', 'חיפה', 'המרכז', 'תל אביב', 'הדרום', 'יהודה ושומרון', 'חו"ל'],
+    voted: ['כן', 'לא', 'לא הייתה לי זכות הצבעה']
+  };
+  const SURVEY_COL = { age: 'טווח גיל', dist: 'מחוז', voted: 'הצביע בבחירות הקודמות' };
+  const surveyDlg = document.getElementById('surveyDlg');
+  let svyAns = {};
+  try { svyAns = JSON.parse(localStorage.getItem('mandates-survey') || '{}') || {}; } catch (e) { svyAns = {}; }
+  Object.keys(SURVEY).forEach(function (q) {
+    const box = surveyDlg.querySelector('[data-q="' + q + '"]');
+    box.innerHTML = SURVEY[q].map(function (o) { return '<button type="button" data-v="' + esc(o) + '">' + esc(o) + '</button>'; }).join('');
+    box.addEventListener('click', function (ev) {
+      const b = ev.target.closest('button'); if (!b) return;
+      const on = b.classList.contains('on');
+      box.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
+      if (on) delete svyAns[q]; else { b.classList.add('on'); svyAns[q] = b.dataset.v; }
+    });
+  });
+  function paintSurvey() {
+    Object.keys(SURVEY).forEach(function (q) {
+      surveyDlg.querySelectorAll('[data-q="' + q + '"] button').forEach(function (b) { b.classList.toggle('on', svyAns[q] === b.dataset.v); });
+    });
+  }
+  // מה נשמר: מנדטים לכל רשימה, הגושים, ראש הממשלה והשרים. בלי שום דבר על המשתמש.
+  function resultPayload() {
+    const win = winningBloc(), zoneName = { a: 'א', b: 'ב', s: 'מתלבטים', pool: '' };
+    const sum = { a: 0, b: 0, s: 0, pool: 0 };
+    elected().forEach(function (x) { sum[zoneOf(x.i)] += x.p.seats; });
+    const folios = {};
+    assigned().forEach(function (key) {
+      const m = gov.min[key], p = slots[m.party];
+      folios[folioName(key)] = membersOf(m.party)[m.idx] + ' · ' + p.n;
+    });
+    const pay = {
+      'גרסה': APP_VERSION,
+      'רשימות שעברו': elected().length,
+      'שם גוש א': gov.names[0] || DEFAULT_NAMES[0],
+      'שם גוש ב': gov.names[1] || DEFAULT_NAMES[1],
+      'מנדטים גוש א': sum.a, 'מנדטים גוש ב': sum.b, 'מנדטים מתלבטים': sum.s,
+      'גוש מנצח': win ? zoneName[win] : '',
+      'ראש הממשלה': gov.pm != null ? membersOf(gov.pm)[0] : '',
+      'מפלגת ראש הממשלה': gov.pm != null ? slots[gov.pm].n : '',
+      'מספר שרים': assigned().length,
+      'תיקים': folios
+    };
+    const others = [];
+    slots.forEach(function (p, i) {
+      if (!p.n) return;                                           // תא ריק בלוח
+      const known = DEFAULT.some(function (d) { return d.n === p.n; });
+      if (known) {
+        pay['מנדטים · ' + p.n] = p.seats || 0;
+        pay['גוש · ' + p.n] = p.seats > 0 ? zoneName[zoneOf(i)] : '';
+      } else if (p.seats > 0) {
+        others.push({ n: p.n, seats: p.seats, bloc: zoneName[zoneOf(i)] });
+      }
+    });
+    pay['רשימות אחרות'] = others;
+    return pay;
+  }
+  function payloadKey(pay) {          // אותה תוצאה לא נשלחת פעמיים
+    const str = JSON.stringify(pay); let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
+    return String(h);
+  }
+  function sendResult(pay) {
+    try {
+      fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, body: JSON.stringify(pay) }).catch(function () {});
+    } catch (e) {}
+  }
+  let pendingPay = null;
+  function openSurvey(pay) {
+    pendingPay = pay; paintSurvey();
+    surveyDlg.showModal();
+  }
+  document.getElementById('svySkip').addEventListener('click', function () { surveyDlg.close(); openShare(); });
+  document.getElementById('svySave').addEventListener('click', function () {
+    const pay = pendingPay || resultPayload();
+    Object.keys(SURVEY_COL).forEach(function (q) { pay[SURVEY_COL[q]] = svyAns[q] || ''; });
+    try { localStorage.setItem('mandates-survey', JSON.stringify(svyAns)); } catch (e) {}
+    try { localStorage.setItem('mandates-sent', payloadKey(pendingPay || {})); } catch (e) {}
+    sendResult(pay);
+    surveyDlg.close(); openShare();
+  });
+
+  document.getElementById('finishBtn').addEventListener('click', function () {
+    if (!SHEET_ENDPOINT) { openShare(); return; }
+    const pay = resultPayload();
+    let sent = null;
+    try { sent = localStorage.getItem('mandates-sent'); } catch (e) {}
+    if (sent === payloadKey(pay)) { openShare(); return; }
+    openSurvey(pay);
+  });
+  async function openShare() {
     const btn = document.getElementById('finishBtn');
     btn.disabled = true;
     try {
@@ -2164,7 +2281,7 @@
       document.getElementById('finishTxt').textContent = 'לא הצלחתי לבנות את התמונה בדפדפן הזה.';
     }
     btn.disabled = false;
-  });
+  }
   document.getElementById('shShare').addEventListener('click', async function () {
     try {
       if (shareFiles) {
