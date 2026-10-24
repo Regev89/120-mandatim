@@ -1207,6 +1207,17 @@
   .slipbtn .sb-name { font: 700 14px/1.2 "Heebo", sans-serif; color: var(--ink); max-width: 128px; overflow-wrap: anywhere; }
   .slipbtn .sb-seats { min-width: 22px; height: 22px; padding-inline: 5px; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font: 700 12px/22px "Heebo", sans-serif; text-align: center; font-variant-numeric: tabular-nums; }
   .slipbtn.on { outline: 2px solid var(--kalpi-panel-a); outline-offset: 1px; }
+  .pick-star { display: grid; gap: 6px; }
+  .pick-star button { display: flex; align-items: center; gap: 10px; text-align: right; background: #fff; border: 1px solid var(--paper-edge); border-radius: 8px; padding: 6px 8px; font: 500 14px/1.25 "Heebo", sans-serif; color: var(--ink); cursor: pointer; }
+  .pick-star button:hover:not(:disabled) { border-color: var(--kalpi-front); }
+  .pick-star button.on { border: 2px solid #a9772a; background: #fbf3dc; }
+  .pick-star button:disabled { opacity: .5; cursor: not-allowed; }
+  .pick-star .st-face { flex: 0 0 42px; width: 42px; height: 42px; border-radius: 50%; overflow: hidden; background: #e6e9ef; }
+  .pick-star .st-face img, .pick-star .st-face svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pick-star b { display: block; font-weight: 700; }
+  .pick-star small { display: block; color: var(--ink-soft); font-size: 12px; }
+  .pick-star small.held { color: #8a1c13; }
+  .star-note { font-size: 11.5px; color: var(--ink-soft); margin: 6px 0 0; }
   .pick-member { display: grid; gap: 4px; }
   .pick-member button { display: flex; gap: 8px; align-items: baseline; text-align: right; background: #fff; border: 1px solid var(--paper-edge); border-radius: 6px; padding: 8px 10px; font: 500 14px "Heebo", sans-serif; color: var(--ink); cursor: pointer; }
   .pick-member button span { flex: 0 0 22px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
@@ -1279,6 +1290,11 @@
   <div class="assign">
     <h2 id="asTitle"></h2>
     <div class="sub">קודם בוחרים רשימה מהקואליציה, ואז חבר כנסת מתוכה.</div>
+    <div id="asStars" hidden>
+      <h3>מועמדים מובילים לתיק</h3>
+      <div class="pick-star" id="asStarList"></div>
+      <p class="star-note">לפי הצהרות ודיווחים לפני הבחירות. רק מי שנבחר לכנסת מרשימה בקואליציה מופיע כאן.</p>
+    </div>
     <h3>1. איזו רשימה מקבלת את התיק?</h3>
     <div class="pick-party" id="asParties"></div>
     <h3 id="asMembersTitle" hidden>2. מי השר או השרה?</h3>
@@ -1293,11 +1309,11 @@
 
 <dialog id="surveyDlg" aria-labelledby="svyTitle">
   <div class="dlg svy">
-    <h2 id="svyTitle" style="font:900 22px/1.2 'Frank Ruhl Libre',serif;margin:0 0 6px">רגע לפני השיתוף</h2>
+    <h2 id="svyTitle" style="font:900 22px/1.2 'Frank Ruhl Libre',serif;margin:0 0 6px">רגע לפני שמסיימים</h2>
     <p class="svy-note">התוצאה שלכם (חלוקת המנדטים, הגושים והממשלה) נשמרת אצלנו באופן אנונימי, לצורך סטטיסטיקה בלבד: בלי שם, בלי כתובת ובלי פרטים מזהים. שלוש השאלות הבאות הן רשות.</p>
+    <div class="svy-q"><b>מגדר</b><div class="svy-opts" data-q="sex"></div></div>
     <div class="svy-q"><b>טווח גיל</b><div class="svy-opts" data-q="age"></div></div>
-    <div class="svy-q"><b>מחוז מגורים</b><div class="svy-opts" data-q="dist"></div></div>
-    <div class="svy-q"><b>הצבעתם בבחירות הקודמות (2022)?</b><div class="svy-opts" data-q="voted"></div></div>
+    <div class="svy-q"><b>אזור מגורים</b><div class="svy-opts" data-q="dist"></div></div>
     <div class="actions">
       <button type="button" id="svySkip">סיים בלי לשמור</button>
       <button type="button" class="save" id="svySave">שמירה והמשך</button>
@@ -1855,6 +1871,60 @@
     renderGov();
   });
 
+  // מי מכוון לאיזה תיק, לפי הצהרות ודיווחים שפורסמו לפני הבחירות (אוקטובר 2026)
+  const WANTS = {
+    def: [
+      ['ישראל כ"ץ', 'הליכוד', 'שר הביטחון המכהן. נתניהו: "משרד הביטחון יישאר בליכוד"'],
+      ['גדי איזנקוט', 'ישר!', 'רמטכ"ל לשעבר, המועמד הטבעי לתיק אם לא יעמוד בראש הממשלה'],
+      ['יאיר גולן', 'הדמוקרטים', 'הצהיר שידרוש את תיק הביטחון'],
+      ['אביגדור ליברמן', 'ישראל ביתנו', 'שר ביטחון לשעבר'],
+      ['עופר וינטר', 'עמך ישראל', 'השם שעולה לתיק בגוש הימין'],
+      ['איתמר בן גביר', 'עוצמה יהודית', 'דורש את תיק הביטחון. נתניהו מסרב'],
+    ],
+    fin: [
+      ['בצלאל סמוטריץ\'', 'הציונות הדתית', 'שר האוצר המכהן, מתכוון לדרוש את התיק שוב'],
+      ['אלי כהן', 'הליכוד', 'מספר 2 בליכוד, מכוון לאוצר'],
+      ['ירון זליכה', 'המילואימניקים', 'כלכלן, מכוון לאוצר'],
+      ['אביגדור ליברמן', 'ישראל ביתנו', 'שר אוצר לשעבר'],
+    ],
+    for: [
+      ['יאיר לפיד', 'ביחד', 'שר חוץ לשעבר, מכוון לתיק החוץ'],
+      ['גדעון סער', 'הליכוד', 'שר החוץ המכהן'],
+      ['אביגדור ליברמן', 'ישראל ביתנו', 'שר חוץ לשעבר'],
+    ],
+    jus: [
+      ['יריב לוין', 'הליכוד', 'שר המשפטים המכהן'],
+      ['טלי גוטליב', 'עוצמה יהודית', 'בן גביר דורש עבורה את תיק המשפטים'],
+      ['גלעד קריב', 'הדמוקרטים', 'הדמוקרטים דורשים את תיק המשפטים'],
+    ],
+    edu: [
+      ['נעמה לזימי', 'הדמוקרטים', 'מספר 2 בדמוקרטים, מכוונת לחינוך'],
+      ['יואב קיש', 'הליכוד', 'שר החינוך המכהן'],
+    ],
+    int: [
+      ['אריה דרעי', 'ש"ס', 'ש"ס מבקשת את הפנים, דרעי כיהן כשר הפנים'],
+      ['מנסור עבאס', 'רע"מ', 'דווח על אפשרות שייכנס למשרד הפנים'],
+    ],
+    nsec: [
+      ['איתמר בן גביר', 'עוצמה יהודית', 'השר לביטחון לאומי המכהן'],
+      ['יורם כהן', 'ישר!', 'ראש השב"כ לשעבר, מספר 2 בישר!'],
+      ['יאיר גולן', 'הדמוקרטים', 'הדמוקרטים דורשים את ביטחון הפנים'],
+    ],
+  };
+  // המועמדים המובילים שאפשר לשבץ עכשיו: מרשימה בקואליציה, נבחרו לכנסת, ולא ראש הממשלה
+  function starsFor(key) {
+    const out = [];
+    (WANTS[key] || []).forEach(([name, party, why]) => {
+      const i = gov.coal.find(j => slots[j].n === party);
+      if (i == null) return;
+      const k = membersOf(i).indexOf(name);
+      if (k < 0) return;
+      if (i === gov.pm && k === 0) return;
+      out.push({ name, party, why, i, k });
+    });
+    return out;
+  }
+
   // שיבוץ תיק: קודם רשימה, ואז חבר כנסת מתוך מספר המנדטים שלה
   const assignDlg = document.getElementById('assignDlg');
   let asKey = null, asParty = null;
@@ -1869,6 +1939,15 @@
     assignDlg.showModal();
   }
   function renderAssign() {
+    const stars = starsFor(asKey), curStar = gov.min[asKey];
+    document.getElementById('asStars').hidden = !stars.length;
+    document.getElementById('asStarList').innerHTML = stars.map(st => {
+      const heldKey = Object.keys(gov.min).find(x => gov.min[x].party === st.i && gov.min[x].idx === st.k && x !== asKey);
+      const on = curStar && curStar.party === st.i && curStar.idx === st.k;
+      return '<button type="button" data-i="' + st.i + '" data-k="' + st.k + '" class="' + (on ? 'on' : '') + '"' + (heldKey ? ' disabled' : '') + '>' +
+        '<div class="st-face">' + faceHTML(st.name, true) + '</div><div><b>' + esc(st.name) + ' · ' + esc(st.party) + '</b>' +
+        (heldKey ? '<small class="held">כבר שר/ת ' + esc(folioName(heldKey)) + '</small>' : '<small>' + esc(st.why) + '</small>') + '</div></button>';
+    }).join('');
     document.getElementById('asParties').innerHTML = gov.coal.map(i => {
       const p = slots[i];
       return '<button type="button" data-i="' + i + '" class="slipbtn' + (asParty === i ? ' on' : '') + '">' +
@@ -1887,6 +1966,11 @@
   }
   document.getElementById('folioGrid').addEventListener('click', e => { const b = e.target.closest('.folio'); if (b && !b.disabled) openAssign(b.dataset.key); });
   document.getElementById('asParties').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; asParty = +b.dataset.i; renderAssign(); });
+  document.getElementById('asStarList').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    gov.min[asKey] = { party: +b.dataset.i, idx: +b.dataset.k };
+    assignDlg.close(); renderGov();
+  });
   document.getElementById('asMembers').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     gov.min[asKey] = { party: asParty, idx: +b.dataset.k };
@@ -2183,11 +2267,11 @@
   const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwSevSnJAMhIbi98Abw5rxKlcKBeK-QtOt3opBxGCiwh2L1FkCHekYt-NsbNSLppWdF/exec';
   const APP_VERSION = '2026-10-04';
   const SURVEY = {
-    age:   ['עד 17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
-    dist:  ['ירושלים', 'הצפון', 'חיפה', 'המרכז', 'תל אביב', 'הדרום', 'יהודה ושומרון', 'חו"ל'],
-    voted: ['כן', 'לא', 'לא הייתה לי זכות הצבעה']
+    sex:  ['גבר', 'אישה'],
+    age:  ['עד 17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
+    dist: ['ירושלים', 'רמת הגולן והגליל', 'חיפה והקריות', 'השרון', 'גוש דן', 'השפלה', 'יהודה ושומרון', 'הבקעה', 'הדרום', 'חו"ל']
   };
-  const SURVEY_COL = { age: 'טווח גיל', dist: 'מחוז', voted: 'הצביע בבחירות הקודמות' };
+  const SURVEY_COL = { sex: 'מגדר', age: 'טווח גיל', dist: 'מחוז' };
   const surveyDlg = document.getElementById('surveyDlg');
   let svyAns = {};
   try { svyAns = JSON.parse(localStorage.getItem('mandates-survey') || '{}') || {}; } catch (e) { svyAns = {}; }
