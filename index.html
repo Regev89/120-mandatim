@@ -156,7 +156,9 @@
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
   }
   .seats.out { background: var(--out); color: #fff; font-size: 14px; }
-  .cell.is-out .slip { opacity: .55; filter: grayscale(1); }
+  .cell.is-out .slip, .cell.is-w .slip { opacity: .55; filter: grayscale(1); }
+  .cell .seats.stamp { width: auto; height: auto; min-width: 0; padding: 2px 7px; border-radius: 6px; font: 800 11px/1.3 "Heebo", sans-serif; white-space: nowrap; }
+  .cell .seats.stamp.soft { background: #5b6473; color: #fff; }
   .cell.empty { align-items: center; justify-content: center; }
   .cell.empty .plus { font: 400 30cqw/1 "Heebo", sans-serif; color: #fff; opacity: .45; }
   .cell.empty:hover .plus { opacity: .9; }
@@ -464,12 +466,13 @@
     { n: 'רע"מ', l: 'עם', f: 'רע"ם - הרשימה הערבית המאוחדת' },
     { n: 'המילואימניקים', l: 'די', f: 'המילואימניקים והכלכלית בראשות יועז הנדל וירון זליכה' },
     { n: 'עמך ישראל', l: 'ך', f: 'עמך ישראל בראשות עופר וינטר' },
-    { n: 'כחול לבן', l: 'כן', f: 'כחול לבן בראשות בני גנץ' },
     { n: 'נעם לישראל', l: 'ני', f: 'נעם לישראל למען עתיד הילדים בראשות אבי מעוז' },
     { n: 'הציבור החרדי', l: 'זך', f: 'הציבור החרדי בראשות מוטי לייטנר' },
     { n: '', l: '' },
     { n: '', l: '' },
-    { n: 'אורות השחר', l: 'בקר', f: 'אורות השחר בראשות ניסים לוק' },
+    { n: '', l: '' },
+    { n: 'אורות השחר', l: 'בקר', f: 'אורות השחר בראשות ניסים לוק',
+      note: 'ראש הרשימה ניסים לוק פרש מהמרוץ ב-20.10.2026 וקרא להצביע לעמך ישראל. הרשימה עצמה עדיין רשומה בוועדת הבחירות.' },
     { n: 'אני ואתה', l: 'פה', f: 'אני ואתה - מפלגת העם הישראלית' },
     { n: 'בטח', l: 'ז', f: 'בטח - ביטחון חברתי בראשות סמיון גרפמן' },
     { n: 'ביחד נצליח', l: 'בד', f: 'ביחד נצליח - רשימה משותפת ערבית יהודית בראשות אבי שקד' },
@@ -477,7 +480,7 @@
     { n: 'ברית עולם', l: 'זץ', f: 'ברית עולם לגאולת ישראל' },
     { n: 'גן עדן', l: 'ה', f: 'גן עדן בראשות ישוע ישראל בן דוד' },
     { n: 'הפיראטים', l: 'צף', f: 'הפיראטים - צפים לטוב' },
-    { n: 'הקהל', l: 'רץ', f: 'הקהל - מפלגה כלל-חרדית בראשות הרב שלמה אלבוים' },
+    { n: 'הקהל', l: 'רץ', f: 'הקהל - מפלגה כלל-חרדית בראשות הרב שלמה אלבוים', w: 'פרשה מהמרוץ ב-22.10.2026' },
     { n: 'השותפות לכולם', l: 'ד', f: 'השותפות לכולם' },
     { n: 'התיקון', l: 'נקי', f: 'התיקון לשיטת הבחירות והממשל' },
     { n: 'ישראל תחילה', l: 'י', f: 'ישראל תחילה בראשות שרן השכל' },
@@ -490,7 +493,7 @@
     { n: 'צומת בית ישראל', l: 'בי', f: 'צומת בית ישראל' },
     { n: 'קול הנשים', l: 'קה', f: 'קול הנשים' },
     { n: 'שרשר', l: 'צדק', f: 'שרשר לאהבה ואחדות העם' },
-    { n: 'תנועת אחי', l: 'צבי', f: 'תנועת אחי, תנועתו של הרב יורם אברג\'ל' },
+    { n: 'תנועת אחי', l: 'צבי', f: 'תנועת אחי, תנועתו של הרב יורם אברג\'ל', w: 'פרשה מהמרוץ ב-23.10.2026' },
     { n: '', l: '' },
     { n: '', l: '' },
   ];
@@ -513,6 +516,8 @@
     'שמע': { h: 'נפתלי גולדמן' },
   };
 
+  // רשימות שוועדת הבחירות הסירה מהבחירות: יורדות מהלוח גם בשמירות ישנות
+  const GONE = ['כחול לבן'];
   let slots = load();
   function load() {
     const fresh = DEFAULT.map(p => ({ ...p, seats: 0 }));
@@ -523,9 +528,14 @@
         while (cleaned.length < SLOTS) cleaned.push({ n: '', l: '' });
         const cat = {};
         DEFAULT.forEach(d => { if (d.n) cat[d.n] = d; });
-        cleaned.forEach(p => {                            // האותיות והכינוי הם נתון רשמי, לא של המשתמש
+        cleaned.forEach((p, k) => {                       // האותיות והכינוי הם נתון רשמי, לא של המשתמש
+          if (p.n && GONE.includes(p.n)) { cleaned[k] = { n: '', l: '' }; return; }   // הוסרה מהבחירות
           const d = p.n && cat[p.n];
-          if (d) { p.l = d.l; if (d.f) p.f = d.f; else delete p.f; }
+          if (d) {
+            p.l = d.l; if (d.f) p.f = d.f; else delete p.f;
+            if (d.w) { p.w = d.w; p.seats = 0; p.out = false; } else delete p.w;
+            if (d.note) p.note = d.note; else delete p.note;
+          }
         });
         return cleaned;
       }
@@ -535,7 +545,7 @@
         old.forEach(o => { if (o && o.n) byName[o.n] = o; });
         fresh.forEach(p => {
           const o = p.n && byName[p.n];
-          if (o) { p.seats = o.seats || 0; p.out = !!o.out; }
+          if (o && !p.w) { p.seats = o.seats || 0; p.out = !!o.out; }
         });
         const extras = old.filter(o => o && o.n && !o.blank && !fresh.some(p => p.n === o.n));
         fresh.forEach(p => {
@@ -578,9 +588,9 @@
       b.type = 'button';
       b.setAttribute('role', 'listitem');
       const empty = isEmpty(p);
-      b.className = 'cell' + (empty ? ' empty' : '') + (p.seats ? ' has' : '') + (p.out ? ' is-out' : '');
+      b.className = 'cell' + (empty ? ' empty' : '') + (p.seats ? ' has' : '') + (p.out ? ' is-out' : '') + (p.w ? ' is-w' : '');
       if (!empty && typeof passesFilters === 'function' && !passesFilters(p)) b.className += ' off';
-      b.setAttribute('aria-label', empty ? 'תא ריק, לחצו להוספת רשימה' : p.n + (p.seats ? ', ' + p.seats + ' מנדטים' : p.out ? ', לא עוברת את אחוז החסימה' : ''));
+      b.setAttribute('aria-label', empty ? 'תא ריק, לחצו להוספת רשימה' : p.n + (p.w ? ', ' + p.w : p.seats ? ', ' + p.seats + ' מנדטים' : p.out ? ', לא עוברת את אחוז החסימה' : ''));
       if (!empty) b.title = p.f || p.n;
       if (empty) {
         b.innerHTML = '<span class="plus">+</span>';
@@ -596,7 +606,8 @@
           '<div class="slip" style="--r:' + t.r + 'deg;--x:' + t.x + 'px;--y:' + t.y + 'px">' +
           '<div class="letters' + l3 + '">' + letters + '</div>' + name +
           (typeof slipIcons === 'function' ? slipIcons(p) : '') + '</div>' +
-          (p.seats ? '<div class="seats">' + p.seats + '</div>' : p.out ? '<div class="seats out">✕</div>' : '');
+          (p.w ? '<div class="seats out stamp">פרשה</div>' : p.note ? '<div class="seats stamp soft">ראש הרשימה פרש</div>' :
+           p.seats ? '<div class="seats">' + p.seats + '</div>' : p.out ? '<div class="seats out">✕</div>' : '');
       }
       b.addEventListener('click', () => empty ? open(i) : openParty(i, 'board'));
       if (i === MAJOR_SLOTS) {
@@ -708,6 +719,7 @@
       if (!n) { fName.focus(); return; }
       p.n = n; p.l = l || n.slice(0, 2);
     }
+    if (p.w) { dlg.close(); return; }                 // רשימה שפרשה לא מקבלת מנדטים
     const v = Math.max(0, Math.min(TOTAL, val()));   // מותר לחרוג מ-120 בסך הכול, הקלפי תיצבע באדום
     if (v > 0 && v < MIN_SEATS) { updateHint(); input.focus(); return; }   // אחוז חסימה
     const grew = v > (p.seats || 0);
@@ -1029,6 +1041,8 @@
   .sheet-body li { font-size: 14px; line-height: 1.5; }
   .sheet-body ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; }
   .sheet-body .note { font-size: 12px; color: var(--ink-soft); margin: 8px 0 0; }
+  .pd-withdrawn { margin: 0 0 10px; padding: 8px 10px; border-radius: 8px; background: #fde8e6; color: #8a1c13; font: 600 13px/1.45 "Heebo", sans-serif; }
+  .pd-withdrawn.soft { background: #eef1f5; color: #3b4453; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
   .tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; border: 1px solid var(--paper-edge); background: #fff; border-radius: 12px; padding: 3px 10px 3px 8px; }
   .tag .ico { width: 14px; height: 14px; }
@@ -1209,6 +1223,7 @@
     <div class="avatar" id="pdAvatar"></div>
   </div>
   <div class="sheet-body">
+    <p class="pd-withdrawn" id="pdWithdrawn" hidden></p>
     <div class="tags" id="pdTags"></div>
     <div class="top-actions" id="pdTop"></div>
     <ol class="cand-list" id="pdCands" hidden></ol>
@@ -1322,7 +1337,7 @@
   const IDI_MEDIA = 'https://www.idi.org.il/media/';
   const PD = {
     'ישר!': { z: true, bloc: 'lib', link: 'https://yasharwitheisenkot.com/agenda_point/', pdf: '32324/ישר.pdf',
-      partners: ['ביחד', 'ישראל ביתנו', 'כחול לבן'],
+      partners: ['ביחד', 'ישראל ביתנו'],
       points: ['ישראל יהודית ודמוקרטית ברוח מגילת העצמאות, וקידום חוקה.', 'חיזוק הביטחון הלאומי והסכמי שלום אזוריים מתוך עוצמה.', 'חוק "שירות לכל": שירות צבאי או לאומי לכל אזרח.', 'חינוך ממלכתי, טיפוח הפריפריה וצמצום פערים.'],
       cands: ['גדי איזנקוט', 'יורם כהן', 'אורית פרקש-הכהן', 'עדי אלטשולר', 'מתן כהנא', 'חילי טרופר', 'שאול מרידור', 'תאיר איפרגן', 'אושרת גני גונן', 'שירה שפירא', 'ענבר הרוש גיטי', 'אלעזר שטרן', 'כמיל אבו רוקון', 'דבורה שריפיאן בכר', 'אלקס ריף', 'ענבר יחזקאלי בליליוס', 'רועי פולקמן', 'ישראל זרי', 'טל אוחנה', 'אליסף פרץ', 'יפה טבג\'ה', 'ניר חג\'בי', 'רון ברקאי', 'שי אנדראה פישר', 'ליאן פולק', 'רועי כהן', 'זיו רוזן', 'ג\'וסלין באש', 'אלון פוטרמן', 'טלי מולנר'] },
     'הליכוד': { z: true, bloc: 'con', pdf: '32314/הליכוד.pdf',
@@ -1664,7 +1679,11 @@
     document.getElementById('pdRest').innerHTML = rest;
 
     const isBoard = mode === 'board';
-    document.getElementById('pdSeatsMode').hidden = !isBoard;
+    const wn = document.getElementById('pdWithdrawn');
+    wn.hidden = !(p.w || p.note);
+    wn.textContent = p.w ? 'הרשימה ' + p.w + ', ואי אפשר להצביע לה.' : (p.note || '');
+    wn.className = 'pd-withdrawn' + (p.w ? '' : ' soft');
+    document.getElementById('pdSeatsMode').hidden = !isBoard || !!p.w;
     document.getElementById('pdBlocMode').hidden = isBoard;
     if (isBoard) { pdSeats.value = p.seats || 0; pdUpdateHint(); }
     else {
@@ -1692,6 +1711,7 @@
   }
   function pdCommit(markOut) {
     const p = slots[pdCur];
+    if (p.w) { partyDlg.close(); return; }                       // רשימה שפרשה לא מקבלת מנדטים
     const v = Math.max(0, Math.min(TOTAL, pdVal()));
     if (v > 0 && v < MIN_SEATS) { pdUpdateHint(); pdSeats.focus(); return; }
     const grew = v > (p.seats || 0);
