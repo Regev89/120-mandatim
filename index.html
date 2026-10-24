@@ -466,9 +466,9 @@
     { n: 'רע"מ', l: 'עם', f: 'רע"ם - הרשימה הערבית המאוחדת' },
     { n: 'המילואימניקים', l: 'די', f: 'המילואימניקים והכלכלית בראשות יועז הנדל וירון זליכה' },
     { n: 'עמך ישראל', l: 'ך', f: 'עמך ישראל בראשות עופר וינטר' },
+    { n: 'כחול לבן', l: 'כן', f: 'כחול לבן בראשות בני גנץ', w: 'פרשה מהמרוץ ב-19.10.2026, והוסרה מהבחירות על ידי ועדת הבחירות ב-21.10.2026' },
     { n: 'נעם לישראל', l: 'ני', f: 'נעם לישראל למען עתיד הילדים בראשות אבי מעוז' },
     { n: 'הציבור החרדי', l: 'זך', f: 'הציבור החרדי בראשות מוטי לייטנר' },
-    { n: '', l: '' },
     { n: '', l: '' },
     { n: '', l: '' },
     { n: 'אורות השחר', l: 'בקר', f: 'אורות השחר בראשות ניסים לוק',
@@ -516,8 +516,6 @@
     'שמע': { h: 'נפתלי גולדמן' },
   };
 
-  // רשימות שוועדת הבחירות הסירה מהבחירות: יורדות מהלוח גם בשמירות ישנות
-  const GONE = ['כחול לבן'];
   let slots = load();
   function load() {
     const fresh = DEFAULT.map(p => ({ ...p, seats: 0 }));
@@ -528,14 +526,18 @@
         while (cleaned.length < SLOTS) cleaned.push({ n: '', l: '' });
         const cat = {};
         DEFAULT.forEach(d => { if (d.n) cat[d.n] = d; });
-        cleaned.forEach((p, k) => {                       // האותיות והכינוי הם נתון רשמי, לא של המשתמש
-          if (p.n && GONE.includes(p.n)) { cleaned[k] = { n: '', l: '' }; return; }   // הוסרה מהבחירות
+        cleaned.forEach(p => {                            // האותיות והכינוי הם נתון רשמי, לא של המשתמש
           const d = p.n && cat[p.n];
           if (d) {
             p.l = d.l; if (d.f) p.f = d.f; else delete p.f;
             if (d.w) { p.w = d.w; p.seats = 0; p.out = false; } else delete p.w;
             if (d.note) p.note = d.note; else delete p.note;
           }
+        });
+        DEFAULT.forEach(d => {                            // רשימה רשמית שחסרה בשמירה חוזרת לתא ריק
+          if (!d.n || cleaned.some(p => p.n === d.n)) return;
+          const k = cleaned.findIndex(p => !p.n);
+          if (k >= 0) cleaned[k] = { ...d, seats: 0 };
         });
         return cleaned;
       }
